@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  QRReader
+
+  Created by devonly on 2025/07/08.
+  
+*/
+
+"NSCameraUsageDescription" = "QRコードを読み取るためにカメラを使います";
