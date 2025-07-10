@@ -9,7 +9,6 @@ import SwiftUI
 import UIKit
 
 struct ActivityView: UIViewControllerRepresentable {
-
     let activityItems: [Any]
     let applicationActivities: [UIActivity]?
 
@@ -18,6 +17,5 @@ struct ActivityView: UIViewControllerRepresentable {
         return controller
     }
 
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
-    }
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }

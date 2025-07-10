@@ -12,7 +12,7 @@ struct ScanView: View {
     @State private var isPresented: Bool = false
     @State private var isURL: Bool = false
     @State private var result: String = ""
-    
+
     var body: some View {
         QRCodeView()
             .onReceive(NotificationCenter.default.publisher(for: .AVCaptureMetadataOoutputDetected), perform: { notification in

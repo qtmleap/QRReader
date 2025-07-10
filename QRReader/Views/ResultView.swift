@@ -10,7 +10,7 @@ import SwiftUI
 struct ResultView: View {
     let result: String
     @State private var isPresented: Bool = false
-    
+
     var body: some View {
         VStack(content: {
             ScrollView(content: {

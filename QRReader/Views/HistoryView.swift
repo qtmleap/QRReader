@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HistoryView: View {
     @AppStorage("QR_HISTORY") var items: [HistoryItem] = []
-    
+
     var body: some View {
         NavigationView(content: {
             List(items, id: \.id) { item in

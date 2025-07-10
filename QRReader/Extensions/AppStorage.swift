@@ -33,11 +33,11 @@ extension Array: @retroactive RawRepresentable where Element: Codable {
 
 extension Date: @retroactive RawRepresentable {
     private static let formatter = ISO8601DateFormatter()
-    
+
     public var rawValue: String {
         Date.formatter.string(from: self)
     }
-    
+
     public init?(rawValue: String) {
         self = Date.formatter.date(from: rawValue) ?? Date()
     }
