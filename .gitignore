@@ -169,3 +169,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/swift,swiftpm,swiftpackagemanager,linux,macos,windows
+
+# Local configuration files
+GoogleService-Info.plist
