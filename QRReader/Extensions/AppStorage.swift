@@ -8,7 +8,35 @@
 
 import Foundation
 
+/**
+ Array<:Codable>型やDate型をUserDefaultsなどの永続化ストレージで保存・復元できるようにするためのRawRepresentable拡張。
+
+ ## 概要
+ - Array<:Codable>型をJSON文字列として保存・復元できるようにします。
+ - Date型をISO8601形式の文字列として保存・復元できるようにします。
+ - Swiftの@AppStorageやUserDefaultsなど、RawRepresentableに準拠した型であればシームレスに利用可能です。
+
+ ## 使い方
+ ```swift
+ // 例: UserDefaultsでArrayやDateを保存・取得
+ @AppStorage("history") var history: [HistoryItem] = []
+ @AppStorage("lastAccess") var lastAccess: Date = Date()
+ ```
+
+ ## 注意点
+ - DateのISO8601DateFormatterはスレッドセーフではないため、毎回インスタンスを生成しています。
+ - ArrayのElementはCodableに準拠している必要があります。
+*/
+
+import Foundation
+
+/// Array<:Codable>型をRawRepresentableに拡張し、UserDefaultsや@AppStorageで配列を直接保存・復元できるようにします。
+/// - Note: ElementはCodableに準拠している必要があります。
+/// - SeeAlso: [Swift RawRepresentable](https://developer.apple.com/documentation/swift/rawrepresentable)
 extension Array: @retroactive RawRepresentable where Element: Codable {
+    /// JSON文字列からArrayを復元します。
+    /// - Parameter rawValue: JSON文字列
+    /// - Returns: 復元されたArray、失敗時はnil
     public init?(rawValue: String) {
         guard let data = rawValue.data(using: .utf8) else {
             return nil
@@ -22,6 +50,8 @@ extension Array: @retroactive RawRepresentable where Element: Codable {
         }
     }
 
+    /// ArrayをJSON文字列に変換します。
+    /// - Returns: JSON文字列
     public var rawValue: String {
         guard let data = try? JSONEncoder().encode(self),
               let result = String(data: data, encoding: .utf8)
@@ -32,14 +62,20 @@ extension Array: @retroactive RawRepresentable where Element: Codable {
     }
 }
 
+/// Date型をRawRepresentableに拡張し、UserDefaultsや@AppStorageでISO8601文字列として保存・復元できるようにします。
+/// - Note: ISO8601DateFormatterはスレッドセーフではないため、毎回インスタンスを生成しています。
+/// - SeeAlso: [ISO8601DateFormatter](https://developer.apple.com/documentation/foundation/iso8601dateformatter)
 extension Date: @retroactive RawRepresentable {
-    private static let formatter = ISO8601DateFormatter()
-
+    /// DateをISO8601形式の文字列に変換します。
+    /// - Returns: ISO8601形式の文字列
     public var rawValue: String {
-        Date.formatter.string(from: self)
+        ISO8601DateFormatter().string(from: self)
     }
 
+    /// ISO8601形式の文字列からDateを復元します。
+    /// - Parameter rawValue: ISO8601形式の文字列
+    /// - Returns: 復元されたDate、失敗時は現在時刻
     public init?(rawValue: String) {
-        self = Date.formatter.date(from: rawValue) ?? Date()
+        self = ISO8601DateFormatter().date(from: rawValue) ?? Date()
     }
 }
