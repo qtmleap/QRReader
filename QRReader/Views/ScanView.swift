@@ -8,6 +8,30 @@
 
 import SwiftUI
 
+#if targetEnvironment(simulator)
+struct ScanView: View {
+    @State private var isPresented: Bool = true
+    var body: some View {
+        Image("Dummy")
+            .alert("このURLを開きますか？", isPresented: $isPresented, actions: {
+                Button(role: .cancel, action: {
+                    NotificationCenter.default.post(name: .AVCaptureResumeScan, object: nil)
+                }, label: {
+                    Text("いいえ")
+                })
+                Button(action: {
+                    if let url: URL = .init(string: "https://qleap.jp") {
+                        UIApplication.shared.open(url)
+                    }
+                }, label: {
+                    Text("はい")
+                })
+            }, message: {
+                Text("https://qleap.jp")
+            })
+    }
+}
+#else
 struct ScanView: View {
     @AppStorage("QR_HISTORY") var items: [HistoryItem] = []
     @State private var isPresented: Bool = false
@@ -64,6 +88,7 @@ struct ScanView: View {
             })
     }
 }
+#endif
 
 #Preview {
     ContentView()

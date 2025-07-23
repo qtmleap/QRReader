@@ -23,8 +23,11 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         NotificationCenter.default.addObserver(self, selector: #selector(resumeScanning), name: .AVCaptureResumeScan, object: nil)
+        #if targetEnvironment(simulator)
+        #else
+        #endif
         guard let device = AVCaptureDevice.default(for: .video) else {
             return
         }
@@ -35,7 +38,7 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
             session.addInput(input)
         }
         let metadata: AVCaptureMetadataOutput = .init()
-
+        
         if session.canAddOutput(metadata) {
             session.addOutput(metadata)
             metadata.setMetadataObjectsDelegate(self, queue: .main)
@@ -45,8 +48,11 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
         preview.frame = view.bounds
         preview.videoGravity = .resizeAspectFill
         view.layer.addSublayer(preview)
-
+        
+        #if targetEnvironment(simulator)
+        #else
         session.startRunning()
+        #endif
     }
 
     override func viewDidLayoutSubviews() {
@@ -67,28 +73,37 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        #if targetEnvironment(simulator)
+        #else
         if !session.isRunning {
             DispatchQueue.global(qos: .default).async { [self] in
                 session.startRunning()
             }
         }
+        #endif
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        #if targetEnvironment(simulator)
+        #else
         if session.isRunning {
             DispatchQueue.global(qos: .default).async { [self] in
                 session.stopRunning()
             }
         }
+        #endif
     }
 
     @objc private func resumeScanning() {
+        #if targetEnvironment(simulator)
+        #else
         if !session.isRunning {
             DispatchQueue.global(qos: .default).async { [self] in
                 session.startRunning()
             }
         }
+        #endif
     }
 }
 
