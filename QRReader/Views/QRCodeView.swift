@@ -68,20 +68,26 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if !session.isRunning {
-            session.startRunning()
+            DispatchQueue.global(qos: .default).async { [self] in
+                session.startRunning()
+            }
         }
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if session.isRunning {
-            session.stopRunning()
+            DispatchQueue.global(qos: .default).async { [self] in
+                session.stopRunning()
+            }
         }
     }
 
     @objc private func resumeScanning() {
         if !session.isRunning {
-            session.startRunning()
+            DispatchQueue.global(qos: .default).async { [self] in
+                session.startRunning()
+            }
         }
     }
 }

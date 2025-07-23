@@ -26,13 +26,8 @@ import Foundation
  ## 注意点
  - DateのISO8601DateFormatterはスレッドセーフではないため、毎回インスタンスを生成しています。
  - ArrayのElementはCodableに準拠している必要があります。
-*/
+ */
 
-import Foundation
-
-/// Array<:Codable>型をRawRepresentableに拡張し、UserDefaultsや@AppStorageで配列を直接保存・復元できるようにします。
-/// - Note: ElementはCodableに準拠している必要があります。
-/// - SeeAlso: [Swift RawRepresentable](https://developer.apple.com/documentation/swift/rawrepresentable)
 extension Array: @retroactive RawRepresentable where Element: Codable {
     /// JSON文字列からArrayを復元します。
     /// - Parameter rawValue: JSON文字列

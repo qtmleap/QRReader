@@ -26,6 +26,15 @@ struct HistoryView: View {
                     })
                 })
             }
+            .toolbar(content: {
+                ToolbarItem(placement: .topBarTrailing, content: {
+                    NavigationLink(destination: {
+                        SettingView()
+                    }, label: {
+                        Image(systemName: "gearshape")
+                    })
+                })
+            })
             .listStyle(.plain)
             .navigationBarTitleDisplayMode(.inline)
             .navigationTitle("履歴")
