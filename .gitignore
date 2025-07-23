@@ -172,3 +172,8 @@ $RECYCLE.BIN/
 
 # Local configuration files
 GoogleService-Info.plist
+
+# Environment Varialbes
+.env
+.env.*
+!.env.example
