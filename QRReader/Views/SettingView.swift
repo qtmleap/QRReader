@@ -7,14 +7,32 @@
 //
 
 import LicenseList
+import StoreKit
 import SwiftUI
 
 struct SettingView: View {
+    @AppStorage("IS_FIRST_LAUNCH") private var isFirstLaunch: Bool = true
     private let version: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "0.0.1"
     private let build: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "1"
 
     var body: some View {
         Form(content: {
+            Section(content: {
+                Button(action: {
+                    if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                        SKStoreReviewController.requestReview(in: scene)
+                    }
+                }, label: {
+                    Text("アプリを評価する")
+                })
+                Button(action: {
+                    isFirstLaunch.toggle()
+                }, label: {
+                    Text("アプリの使い方")
+                })
+            }, header: {
+                Text("サポート")
+            })
             Section(content: {
                 Link(destination: URL(string: "https://qleap.jp/term/eula")!, label: {
                     Text("利用規約")
@@ -29,6 +47,10 @@ struct SettingView: View {
                 }, label: {
                     Text("ライセンス")
                 })
+            }, header: {
+                Text("ポリシー")
+            })
+            Section(content: {
                 HStack(content: {
                     Text("バージョン")
                     Spacer()
@@ -42,7 +64,7 @@ struct SettingView: View {
                         .foregroundStyle(.secondary)
                 })
             }, header: {
-                Text("アプリ情報")
+                Text("バージョン情報")
             })
         })
         .navigationBarTitleDisplayMode(.inline)

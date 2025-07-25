@@ -2,7 +2,20 @@
   "sourceLanguage" : "en",
   "strings" : {
     "https://qleap.jp" : {
-
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://qleap.jp"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://qleap.jp"
+          }
+        }
+      }
     },
     "LICENSE" : {
       "localizations" : {
@@ -20,18 +33,82 @@
         }
       }
     },
-    "アプリ情報" : {
+    "QRコードにかざすだけ" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "App"
+            "value" : "Just hold it over a QR code"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "アプリ情報"
+            "value" : "QRコードにかざすだけ"
+          }
+        }
+      }
+    },
+    "QRコードの情報がすぐに表示されます" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The QR code information is displayed immediately"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "QRコードの情報がすぐに表示されます"
+          }
+        }
+      }
+    },
+    "QRコードの情報を簡単に取得できます" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can easily get information from QR codes"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "QRコードの情報を簡単に取得できます"
+          }
+        }
+      }
+    },
+    "アプリの使い方" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How to use the app"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリの使い方"
+          }
+        }
+      }
+    },
+    "アプリを評価する" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "アプリを評価する"
           }
         }
       }
@@ -100,6 +177,22 @@
         }
       }
     },
+    "サポート" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "サポート"
+          }
+        }
+      }
+    },
     "シェア" : {
       "localizations" : {
         "en" : {
@@ -148,6 +241,22 @@
         }
       }
     },
+    "バージョン情報" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バージョン情報"
+          }
+        }
+      }
+    },
     "はい" : {
       "localizations" : {
         "en" : {
@@ -180,6 +289,22 @@
         }
       }
     },
+    "ピントが合うと自動で読み取りが始まります" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scanning starts automatically when it’s in focus"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ピントが合うと自動で読み取りが始まります"
+          }
+        }
+      }
+    },
     "プライバシーポリシー" : {
       "localizations" : {
         "en" : {
@@ -192,6 +317,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "プライバシーポリシー"
+          }
+        }
+      }
+    },
+    "ポリシー" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Policy"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ポリシー"
           }
         }
       }
@@ -212,6 +353,22 @@
         }
       }
     },
+    "内容をその場で確認" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instantly check the content"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "内容をその場で確認"
+          }
+        }
+      }
+    },
     "利用規約" : {
       "localizations" : {
         "en" : {
@@ -224,6 +381,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "利用規約"
+          }
+        }
+      }
+    },
+    "家族や友人と情報を共有できます" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can share information with family and friends"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "家族や友人と情報を共有できます"
           }
         }
       }
@@ -256,6 +429,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "設定"
+          }
+        }
+      }
+    },
+    "読み取った内容は簡単にシェアできます" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The scanned content can be easily shared"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "読み取った内容は簡単にシェアできます"
           }
         }
       }

@@ -9,8 +9,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("IS_FIRST_LAUNCH") private var isFirstLaunch: Bool = true
+
     var body: some View {
-        TabView {
+        TabView(content: {
             ScanView()
                 .tag(0)
                 .tabItem {
@@ -21,7 +23,11 @@ struct ContentView: View {
                 .tabItem {
                     Label("履歴", systemImage: "clock")
                 }
-        }
+        })
+        .sheet(isPresented: $isFirstLaunch, content: {
+            FirstLaunchView()
+                .interactiveDismissDisabled(true)
+        })
     }
 }
 

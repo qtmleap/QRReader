@@ -1,9 +1,9 @@
 {
-  "name": "Swift",
+  "name": "QR Reader",
   "dockerComposeFile": [
     "docker-compose.yaml"
   ],
-  "service": "swift",
+  "service": "app",
   "workspaceFolder": "/home/vscode/app",
   "remoteUser": "vscode",
   "features": {

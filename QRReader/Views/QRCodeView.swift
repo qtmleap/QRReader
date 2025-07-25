@@ -23,7 +23,7 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(resumeScanning), name: .AVCaptureResumeScan, object: nil)
         #if targetEnvironment(simulator)
         #else
@@ -38,7 +38,7 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
             session.addInput(input)
         }
         let metadata: AVCaptureMetadataOutput = .init()
-        
+
         if session.canAddOutput(metadata) {
             session.addOutput(metadata)
             metadata.setMetadataObjectsDelegate(self, queue: .main)
@@ -48,7 +48,7 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
         preview.frame = view.bounds
         preview.videoGravity = .resizeAspectFill
         view.layer.addSublayer(preview)
-        
+
         #if targetEnvironment(simulator)
         #else
         session.startRunning()

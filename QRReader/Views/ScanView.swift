@@ -10,7 +10,8 @@ import SwiftUI
 
 #if targetEnvironment(simulator)
 struct ScanView: View {
-    @State private var isPresented: Bool = true
+    @State private var isPresented: Bool = false
+
     var body: some View {
         Image("Dummy")
             .alert("このURLを開きますか？", isPresented: $isPresented, actions: {
