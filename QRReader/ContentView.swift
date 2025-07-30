@@ -6,12 +6,12 @@
 //  Copyright © 2025 QuantumLeap. All rights reserved.
 //
 
-import SwiftUI
 import QuantumLeap
+import SwiftUI
 
 struct ContentView: View {
     @Environment(\.isFirstLaunch) private var isFirstLaunch: Binding<Bool>
-    
+
     var body: some View {
         TabView(content: {
             ScanView()

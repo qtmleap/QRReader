@@ -7,9 +7,9 @@
 //
 
 import LicenseList
+import QuantumLeap
 import StoreKit
 import SwiftUI
-import QuantumLeap
 
 struct SettingView: View {
     var body: some View {

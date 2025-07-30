@@ -6,13 +6,13 @@
 //  Copyright © 2025 QuantumLeap. All rights reserved.
 //
 
-import SwiftUI
 import CodeScanner
+import SwiftUI
 
 #if targetEnvironment(simulator)
 struct ScanView: View {
     @State private var isPresented: Bool = false
-    
+
     var body: some View {
         Image("Dummy")
             .alert("このURLを開きますか？", isPresented: $isPresented, actions: {
@@ -40,19 +40,19 @@ struct ScanView: View {
     @State private var isURL: Bool = false
     @State private var isPresented: Bool = false
     @State private var isPaused: Bool = false
-    
+
     var body: some View {
         CodeScannerView(codeTypes: [.qr], scanMode: .continuous, isPaused: isPaused, completion: { result in
             isPaused = true
             switch result {
-            case .success(let result):
-                let isURL: Bool = result.string.isURL
-                self.result = result.string
-                self.isURL = isURL
-                self.isPresented = !isURL
-                items.append(.init(value: result.string, date: .now))
-            case .failure(let error):
-                print(error)
+                case let .success(result):
+                    let isURL: Bool = result.string.isURL
+                    self.result = result.string
+                    self.isURL = isURL
+                    isPresented = !isURL
+                    items.append(.init(value: result.string, date: .now))
+                case let .failure(error):
+                    print(error)
             }
         })
         .edgesIgnoringSafeArea(.top)
