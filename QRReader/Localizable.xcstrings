@@ -1,38 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "https://qleap.jp" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://qleap.jp"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "https://qleap.jp"
-          }
-        }
-      }
-    },
-    "LICENSE" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "License"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ライセンス"
-          }
-        }
-      }
-    },
     "QRコードにかざすだけ" : {
       "localizations" : {
         "en" : {
@@ -93,22 +61,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "アプリの使い方"
-          }
-        }
-      }
-    },
-    "アプリを評価する" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Review"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "アプリを評価する"
           }
         }
       }
@@ -177,22 +129,6 @@
         }
       }
     },
-    "サポート" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Support"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "サポート"
-          }
-        }
-      }
-    },
     "シェア" : {
       "localizations" : {
         "en" : {
@@ -225,38 +161,6 @@
         }
       }
     },
-    "バージョン" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Version"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バージョン"
-          }
-        }
-      }
-    },
-    "バージョン情報" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Version"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "バージョン情報"
-          }
-        }
-      }
-    },
     "はい" : {
       "localizations" : {
         "en" : {
@@ -269,22 +173,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "はい"
-          }
-        }
-      }
-    },
-    "ビルド" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Build"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ビルド"
           }
         }
       }
@@ -305,54 +193,6 @@
         }
       }
     },
-    "プライバシーポリシー" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Privacy Policy"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "プライバシーポリシー"
-          }
-        }
-      }
-    },
-    "ポリシー" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Policy"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ポリシー"
-          }
-        }
-      }
-    },
-    "ライセンス" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "License"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ライセンス"
-          }
-        }
-      }
-    },
     "内容をその場で確認" : {
       "localizations" : {
         "en" : {
@@ -365,22 +205,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "内容をその場で確認"
-          }
-        }
-      }
-    },
-    "利用規約" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Terms"
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "利用規約"
           }
         }
       }

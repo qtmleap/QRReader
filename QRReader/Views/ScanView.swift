@@ -7,11 +7,12 @@
 //
 
 import SwiftUI
+import CodeScanner
 
 #if targetEnvironment(simulator)
 struct ScanView: View {
     @State private var isPresented: Bool = false
-
+    
     var body: some View {
         Image("Dummy")
             .alert("このURLを開きますか？", isPresented: $isPresented, actions: {
@@ -35,61 +36,70 @@ struct ScanView: View {
 #else
 struct ScanView: View {
     @AppStorage("QR_HISTORY") var items: [HistoryItem] = []
-    @State private var isPresented: Bool = false
-    @State private var isURL: Bool = false
     @State private var result: String = ""
-
+    @State private var isURL: Bool = false
+    @State private var isPresented: Bool = false
+    @State private var isPaused: Bool = false
+    
     var body: some View {
-        QRCodeView()
-            .onReceive(NotificationCenter.default.publisher(for: .AVCaptureMetadataOoutputDetected), perform: { notification in
-                if let stringValue: String = notification.object as? String {
-                    result = stringValue
-                    items.append(.init(value: stringValue, date: .now))
+        CodeScannerView(codeTypes: [.qr], scanMode: .continuous, isPaused: isPaused, completion: { result in
+            isPaused = true
+            switch result {
+            case .success(let result):
+                let isURL: Bool = result.string.isURL
+                self.result = result.string
+                self.isURL = isURL
+                self.isPresented = !isURL
+                items.append(.init(value: result.string, date: .now))
+            case .failure(let error):
+                print(error)
+            }
+        })
+        .edgesIgnoringSafeArea(.top)
+        .sheet(isPresented: $isPresented, onDismiss: {
+            isPaused = false
+        }, content: {
+            NavigationView(content: {
+                ResultView(result: result)
+            })
+        })
+        .onAppear(perform: {
+            isPaused = false
+        })
+        .onDisappear(perform: {
+            isPaused = true
+        })
+        .alert("このURLを開きますか？", isPresented: $isURL, actions: {
+            Button(role: .cancel, action: {
+                isPaused = false
+            }, label: {
+                Text("いいえ")
+                    .foregroundColor(.primary)
+            })
+            Button(action: {
+                // 失敗することはないと思うけれど、一応念の為
+                if let resultURL: URL = .init(string: result) {
+                    UIApplication.shared.open(resultURL)
                 }
-                if let stringValue: String = notification.object as? String,
-                   let url: URL = .init(string: stringValue)
-                {
-                    isURL = UIApplication.shared.canOpenURL(url)
-                } else {
-                    isPresented.toggle()
-                }
+            }, label: {
+                Text("はい")
+                    .foregroundColor(.primary)
             })
-            .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification), perform: { _ in
-                // アラートが表示されていない状態であればカメラを再起動
-                if !isURL {
-                    NotificationCenter.default.post(name: .AVCaptureResumeScan, object: nil)
-                }
-            })
-            .sheet(isPresented: $isPresented, onDismiss: {
-                NotificationCenter.default.post(name: .AVCaptureResumeScan, object: nil)
-            }, content: {
-                NavigationView(content: {
-                    ResultView(result: result)
-                })
-            })
-            .onAppear(perform: {
-                // 初めて表示されたときにカメラを再起動(多分不要)
-                NotificationCenter.default.post(name: .AVCaptureResumeScan, object: nil)
-            })
-            .alert("このURLを開きますか？", isPresented: $isURL, actions: {
-                Button(role: .cancel, action: {
-                    NotificationCenter.default.post(name: .AVCaptureResumeScan, object: nil)
-                }, label: {
-                    Text("いいえ")
-                })
-                Button(action: {
-                    if let url: URL = .init(string: result) {
-                        UIApplication.shared.open(url)
-                    }
-                }, label: {
-                    Text("はい")
-                })
-            }, message: {
-                Text(result)
-            })
+        }, message: {
+            Text(result)
+        })
     }
 }
 #endif
+
+extension String {
+    var isURL: Bool {
+        guard let url: URL = .init(string: self) else {
+            return false
+        }
+        return UIApplication.shared.canOpenURL(url)
+    }
+}
 
 #Preview {
     ContentView()

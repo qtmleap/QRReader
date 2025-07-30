@@ -45,19 +45,23 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
             metadata.metadataObjectTypes = [.qr]
         }
         preview.session = session
-        preview.frame = view.bounds
+//        preview.frame = view.bounds
+        preview.frame = UIScreen.main.bounds
         preview.videoGravity = .resizeAspectFill
         view.layer.addSublayer(preview)
 
         #if targetEnvironment(simulator)
         #else
-        session.startRunning()
+        DispatchQueue.global(qos: .default).async { [self] in
+            session.startRunning()
+        }
         #endif
     }
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        preview.frame = view.safeAreaLayoutGuide.layoutFrame
+        //        preview.frame = view.safeAreaLayoutGuide.layoutFrame
+        preview.frame = UIScreen.main.bounds
     }
 
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {

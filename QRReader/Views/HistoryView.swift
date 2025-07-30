@@ -51,6 +51,13 @@ struct HistoryView: View {
                         Image(systemName: "gearshape")
                     })
                 })
+                ToolbarItem(placement: .topBarLeading, content: {
+                    Button(action: {
+                        items.removeAll()
+                    }, label: {
+                        Image(systemName: "xmark.circle")
+                    })
+                })
             })
             .listStyle(.plain)
             .navigationBarTitleDisplayMode(.inline)

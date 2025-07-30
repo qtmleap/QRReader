@@ -7,10 +7,11 @@
 //
 
 import SwiftUI
+import QuantumLeap
 
 struct ContentView: View {
-    @AppStorage("IS_FIRST_LAUNCH") private var isFirstLaunch: Bool = true
-
+    @Environment(\.isFirstLaunch) private var isFirstLaunch: Binding<Bool>
+    
     var body: some View {
         TabView(content: {
             ScanView()
@@ -24,7 +25,7 @@ struct ContentView: View {
                     Label("履歴", systemImage: "clock")
                 }
         })
-        .sheet(isPresented: $isFirstLaunch, content: {
+        .sheet(isPresented: isFirstLaunch, content: {
             FirstLaunchView()
                 .interactiveDismissDisabled(true)
         })
