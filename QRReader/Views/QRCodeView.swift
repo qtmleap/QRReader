@@ -67,7 +67,8 @@ class QRCodeViewController: UIViewController, AVCaptureMetadataOutputObjectsDele
     func metadataOutput(_ output: AVCaptureMetadataOutput, didOutput metadataObjects: [AVMetadataObject], from connection: AVCaptureConnection) {
         session.stopRunning()
         if let metadata = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
-           let stringValue = metadata.stringValue {
+           let stringValue = metadata.stringValue
+        {
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             NotificationCenter.default.post(name: .AVCaptureMetadataOoutputDetected, object: stringValue)
             print(stringValue)

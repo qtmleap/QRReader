@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "https://qleap.jp" : {
+
+    },
     "QRコードにかざすだけ" : {
       "localizations" : {
         "en" : {
