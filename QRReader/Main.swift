@@ -6,12 +6,16 @@
 //  Copyright © 2025 QuantumLeap. All rights reserved.
 //
 
-import FirebaseCore
 import QuantumLeap
 import SwiftUI
+import Firebase
+import FirebaseAppCheck
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+#if DEBUG || targetEnvironment(simulator)
+        AppCheck.setAppCheckProviderFactory(AppCheckDebugProviderFactory())
+#endif
         FirebaseApp.configure()
         return true
     }
