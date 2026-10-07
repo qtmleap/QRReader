@@ -45,7 +45,7 @@ end
   config.build_settings["IPHONEOS_DEPLOYMENT_TARGET"] = "16.0"
 end
 app.build_configurations.each do |config|
-  config.build_settings["MARKETING_VERSION"] = "1.0.3"
+  config.build_settings["MARKETING_VERSION"] = "1.0.4"
   config.build_settings["CODE_SIGN_ENTITLEMENTS"] = "QRReader/QRReader.entitlements"
   config.build_settings["OTHER_LDFLAGS"] = "$(inherited) -ObjC"
 end
