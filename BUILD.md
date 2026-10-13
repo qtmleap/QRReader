@@ -3,7 +3,7 @@
 Project/workspace/shared scheme restored from `7cfb432^`, retaining the actual
 QRReader app/unit/UI target IDs and synchronized folders. Current filenames and
 resources belong to those folders. Team is `5Q94QJ7G98`, bundle
-`jp.qleap.qrreader`, minimum iOS 16, marketing version 1.0.3.
+`jp.qleap.qrreader`, minimum iOS 17, marketing version 1.0.4.
 
 ```sh
 bundle exec ruby build-support/reconcile-project.rb
@@ -25,8 +25,8 @@ It is not read or printed by project generation or checks.
 
 The project and build-support locks now contain the complete native Xcode 27
 resolver result. The unsigned simulator build passed. QuantumLeap uses the
-immutable published 0.0.8 revision. Marketing version 1.0.3 matches the latest
-App Store Connect TestFlight version.
+immutable 1.0.1 tag commit 4070b87 (revision pin). Marketing version 1.0.4
+is the next App Store version after 1.0.3.
 
 Signing, simulator UI execution and TestFlight upload have not been run locally.
 Uploads remain restricted to authorized merge CI.
