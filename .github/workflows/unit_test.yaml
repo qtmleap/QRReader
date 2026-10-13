@@ -1,20 +1,88 @@
-name: Unit Test 
+name: Unit Test
+
 on:
-  - push
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: unit-test-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build 
-    runs-on: macos-latest 
+  test:
+    name: Build and Test
+    # Fork PRs cannot reach the self-hosted runner or secrets; only same-repository PRs run.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, macos, arm64, xcode-27]
+    timeout-minutes: 45
+    env:
+      DERIVED_DATA: ${{ runner.temp }}/DerivedData
+      SOURCE_PACKAGES: ${{ runner.temp }}/SourcePackages
+      SIMULATOR_PREFIX: QRReader-CI
+      SIMULATOR_MIN_IOS: "17.0"
     steps:
-      - uses: swift-actions/setup-swift@v2
-        with:
-          swift-version: 5.10.1 
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Get swift version
-        run: swift --version
-      - name: Build
-        run: swift build
-      - name: Run tests
-        run: swift test
+        with:
+          persist-credentials: false
+      - name: Require selected Xcode 27
+        run: |
+          xcode-select -p
+          xcodebuild -version
+          if ! xcodebuild -version | grep -q '^Xcode 27\.'; then
+            echo "::error title=Wrong Xcode::This workflow requires Xcode 27 to be the selected Xcode on the runner."
+            exit 1
+          fi
+      - name: Authorize private QuantumLeap dependency
+        env:
+          QUANTUMLEAP_READ_TOKEN: ${{ secrets.QUANTUMLEAP_READ_TOKEN }}
+        run: scripts/ci-quantumleap-auth.sh
+      - name: Prepare Firebase config
+        env:
+          GOOGLE_SERVICE_INFO_PLIST_BASE64: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}
+        run: python3 scripts/google-service.py --from-env --bundle-id jp.qleap.qrreader --path QRReader/GoogleService-Info.plist
+      - name: Resolve packages
+        run: |
+          strict=$(python3 scripts/resolved-pins.py QRReader.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved)
+          args=()
+          if [ "$strict" = yes ]; then
+            # QuantumLeap is locked to a committed release tag, so the lock must be honoured exactly.
+            args+=(-onlyUsePackageVersionsFromResolvedFile)
+          else
+            echo "::notice::Package.resolved does not pin a released QuantumLeap tag; resolving without the strict pin flag."
+          fi
+          echo "PACKAGE_RESOLUTION_ARGS=${args[*]:-}" >> "$GITHUB_ENV"
+          xcodebuild -resolvePackageDependencies \
+            -project QRReader.xcodeproj \
+            -scheme QRReader \
+            -clonedSourcePackagesDirPath "$SOURCE_PACKAGES" \
+            ${args[@]+"${args[@]}"}
+      - name: Create simulator
+        id: sim
+        run: |
+          udid=$(scripts/simulator.sh create)
+          echo "udid=$udid" >> "$GITHUB_OUTPUT"
+      - name: Build and test
+        run: |
+          set -o pipefail
+          # shellcheck disable=SC2086
+          xcodebuild test \
+            -project QRReader.xcodeproj \
+            -scheme QRReader \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -derivedDataPath "$DERIVED_DATA" \
+            -clonedSourcePackagesDirPath "$SOURCE_PACKAGES" \
+            -only-testing:QRReaderTests \
+            $PACKAGE_RESOLUTION_ARGS \
+            CODE_SIGNING_ALLOWED=NO
+      - name: Delete simulator
+        if: always() && steps.sim.outputs.udid != ''
+        run: scripts/simulator.sh delete "${{ steps.sim.outputs.udid }}"
+      - name: Remove injected config
+        if: always()
+        run: rm -f QRReader/GoogleService-Info.plist
+      - name: Remove build products
+        if: always()
+        run: rm -rf "$DERIVED_DATA" "$SOURCE_PACKAGES"

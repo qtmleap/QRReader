@@ -7,8 +7,9 @@
 //
 
 import QuantumLeap
+import QuantumLeapUpdates
 import SwiftUI
-import Firebase
+import FirebaseCore
 import FirebaseAppCheck
 
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -29,6 +30,7 @@ struct Main: App {
         WindowGroup {
             ContentView()
                 .environmentIsFirstLaunch()
+                .quantumLeapUpdates(countryCode: "JP")
         }
     }
 }
