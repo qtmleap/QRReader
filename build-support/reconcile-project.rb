@@ -20,7 +20,7 @@ products.each do |identity, names|
   package = project.root_object.package_references.find { |entry| entry.repositoryURL == pin.fetch("location") }
   package ||= project.new(Xcodeproj::Project::Object::XCRemoteSwiftPackageReference)
   package.repositoryURL = pin.fetch("location")
-  # Pin the published 0.0.8 code by revision; its tag has a conflicting cached fingerprint.
+  # Pin the published 1.0.1 tag commit by revision; its tag has a conflicting cached fingerprint.
   package.requirement = if identity == "quantumleap"
     { "kind" => "revision", "revision" => pin.fetch("state").fetch("revision") }
   else
@@ -42,7 +42,7 @@ products.each do |identity, names|
 end
 (project.build_configurations + project.targets.flat_map(&:build_configurations)).each do |config|
   config.build_settings["DEVELOPMENT_TEAM"] = "5Q94QJ7G98"
-  config.build_settings["IPHONEOS_DEPLOYMENT_TARGET"] = "16.0"
+  config.build_settings["IPHONEOS_DEPLOYMENT_TARGET"] = "17.0"
 end
 app.build_configurations.each do |config|
   config.build_settings["MARKETING_VERSION"] = "1.0.4"
