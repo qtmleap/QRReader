@@ -1,6 +1,6 @@
 # QRReader
 
-SwiftUIで作成された広告フリーなQRコードリーダーアプリです
+SwiftUI で作成された、広告フリーな iOS 向け QR コードリーダーアプリです。
 
 ## Requirements
 
