@@ -8,24 +8,20 @@
 import XCTest
 
 final class QRReaderUITestsLaunchTests: XCTestCase {
-    override class var runsForEachTargetApplicationUIConfiguration: Bool {
-        true
-    }
-
     override func setUpWithError() throws {
         continueAfterFailure = false
     }
 
+    /// Launches into the isolated, seeded test configuration and attaches a screenshot.
     @MainActor
     func testLaunch() throws {
         let app = XCUIApplication()
+        app.launchArguments = ["-ui-testing", "-reset-state", "-skip-onboarding", "-ui-seed-history"]
         app.launch()
-
-        // Insert steps here to perform after app launch but before taking a screenshot,
-        // such as logging into a test account or navigating somewhere in the app
+        XCTAssertTrue(app.descendants(matching: .any).matching(identifier: "scan.camera").firstMatch.waitForExistence(timeout: 10))
 
         let attachment = XCTAttachment(screenshot: app.screenshot())
-        attachment.name = "Launch Screen"
+        attachment.name = "Scan"
         attachment.lifetime = .keepAlways
         add(attachment)
     }

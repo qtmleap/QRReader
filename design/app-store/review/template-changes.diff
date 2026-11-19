@@ -1,0 +1,124 @@
+--- template/src/lib/constants.ts
++++ editor/src/lib/constants.ts
+@@ -38,13 +38,9 @@
+ export const EXPORT_SIZES: Record<Device, ExportSize[]> = {
+   iphone: [
+     { label: '6.9"', w: 1320, h: 2868 },
+-    { label: '6.5"', w: 1284, h: 2778 },
+-    { label: '6.3"', w: 1206, h: 2622 },
+-    { label: '6.1"', w: 1125, h: 2436 },
+   ],
+   ipad: [
+     { label: '13" iPad',       w: 2064, h: 2752 },
+-    { label: '12.9" iPad Pro', w: 2048, h: 2732 },
+   ],
+   // App Store Connect lists exactly one size per Duo display and orientation.
+   "duo-outer":           [{ label: "Outer portrait",  w: 1398, h: 2034 }],
+@@ -177,7 +173,9 @@
+ export const MK_RATIO    = 1022 / 2082; // iPhone PNG mockup
+ export const TAB_P_RATIO = 0.667;        // tablet portrait
+ export const TAB_L_RATIO = 1.5;          // tablet landscape
+-export const IPAD_RATIO  = 0.770;        // iPad
++// iPad: frame drawn around a screen of exactly 1640 x 2360 (the native iPad capture),
++// with an even 4%-of-width bezel: 1 / (0.92 * 2360 / 1640 + 0.08).
++export const IPAD_RATIO  = 0.7123;
+ export const TV_RATIO    = 16 / 9;       // Apple TV - landscape only
+ export const WATCH_RATIO = 422 / 514;    // Apple Watch Ultra, the largest accepted slot
+ // CarPlay head units vary by vehicle and Apple ships five presets in CarPlay
+@@ -258,7 +256,7 @@
+   "template-default": { name: "Inter (default)", family: "inherit" },
+   "system-sans": {
+     name: "System Sans",
+-    family: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
++    family: 'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans CJK JP", "Noto Sans JP", sans-serif',
+   },
+   "template-serif": { name: "Georgia", family: "Georgia, 'Times New Roman', serif" },
+   // Named system fonts ship with macOS; elsewhere they fall back to the listed
+@@ -513,6 +511,29 @@
+     accent: "#C8321E",
+     accentAlt: "#E8836F",
+     muted: "#4E4B46",
++  },
++  // QR Reader: dark, flat #0B1013 on every screen, teal accent from the app.
++  "qrreader-light": {
++    id: "qrreader-light",
++    name: "QR Reader Light",
++    bg: "#EAF3F0",
++    bgAlt: "#EAF3F0",
++    fg: "#112E2B",
++    fgAlt: "#112E2B",
++    accent: "#00796B",
++    accentAlt: "#00796B",
++    muted: "#43645D",
++  },
++  "qrreader-teal": {
++    id: "qrreader-teal",
++    name: "QR Reader Teal",
++    bg: "#0B1013",
++    bgAlt: "#0B1013",
++    fg: "#F4F8F7",
++    fgAlt: "#F4F8F7",
++    accent: "#4FD6BF",
++    accentAlt: "#4FD6BF",
++    muted: "#9AA8A6",
+   },
+   "vintage-travel-poster": {
+     id: "vintage-travel-poster",
+--- template/src/lib/types.ts
++++ editor/src/lib/types.ts
+@@ -142,7 +142,9 @@
+   | "bento-keynote-grid"
+   | "toybox-primary"
+   | "quiet-japandi"
+-  | "vintage-travel-poster";
++  | "vintage-travel-poster"
++  | "qrreader-teal"
++  | "qrreader-light";
+ 
+ export type ScreenshotFontId =
+   | "template-default"
+--- template/src/components/editor/device-frames.tsx
++++ editor/src/components/editor/device-frames.tsx
+@@ -293,12 +293,12 @@
+ export function IPad({ src, alt = "", style, hideEmpty }: FrameProps) {
+   const resolved = img(src);
+   return (
+-    <div style={{ position: "relative", aspectRatio: "770 / 1000", ...style }}>
++    <div style={{ position: "relative", aspectRatio: "7123 / 10000", ...style }}>
+       <div
+         style={{
+           width: "100%",
+           height: "100%",
+-          borderRadius: "5% / 3.6%",
++          borderRadius: "5% / 3.56%",
+           background: "linear-gradient(180deg, #2C2C2E 0%, #1C1C1E 100%)",
+           position: "relative",
+           overflow: "hidden",
+@@ -308,11 +308,11 @@
+         <div
+           style={{
+             position: "absolute",
+-            top: "1.2%",
++            top: "1%",
+             left: "50%",
+             transform: "translateX(-50%)",
+             width: "0.9%",
+-            height: "0.65%",
++            height: "0.64%",
+             borderRadius: "50%",
+             background: "#111113",
+             zIndex: 20,
+@@ -322,10 +322,10 @@
+           style={{
+             position: "absolute",
+             left: "4%",
+-            top: "2.8%",
++            top: "2.85%",
+             width: "92%",
+-            height: "94.4%",
+-            borderRadius: "2.2% / 1.6%",
++            height: "94.3%",
++            borderRadius: "2.2% / 1.53%",
+             overflow: "hidden",
+             background: "#000",
+           }}

@@ -6,25 +6,30 @@
 //  Copyright © 2025 QuantumLeap. All rights reserved.
 //
 
-import LicenseList
 import QuantumLeap
-import StoreKit
 import SwiftUI
 
+/// Settings presented as a sheet from either tab.
 struct SettingView: View {
-    var body: some View {
-        Form(content: {
-            QuantumLeap.Support()
-            QuantumLeap.Policy()
-            QuantumLeap.Version()
-        })
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("設定")
-    }
-}
+    @Environment(\.dismiss) private var dismiss
 
-#Preview {
-    NavigationView(content: {
-        SettingView()
-    })
+    var body: some View {
+        NavigationStack {
+            Form {
+                QuantumLeap.Support()
+                QuantumLeap.Policy()
+                QuantumLeap.Version()
+            }
+            .accessibilityIdentifier("settings.form")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("settings.title")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("common.close") { dismiss() }
+                        .frame(minWidth: AppMetrics.minTarget, minHeight: AppMetrics.minTarget)
+                        .accessibilityIdentifier("settings.close")
+                }
+            }
+        }
+    }
 }

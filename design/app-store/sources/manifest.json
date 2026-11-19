@@ -1,0 +1,418 @@
+[
+  {
+    "device": "iphone",
+    "appearance": "light",
+    "slide": 1,
+    "source": "/Users/devonly/Developer/QRReader/design/screenshots/2026-10-14-camera-ui/01-scan.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/light/ja/01.png",
+    "sha256": "58b122d9ea0f72c7a8b50c40c94d0b71e5c055b62fb0fbbeb94de0a10097d4b5",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "iphone",
+    "appearance": "light",
+    "slide": 2,
+    "source": "/Users/devonly/Developer/QRReader/design/screenshots/2026-10-14-camera-ui/02-result-url.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/light/ja/02.png",
+    "sha256": "ff7cb0460066d4cd7ba5be61e3b75b898c90f87a5aa37b991e2f5b60168fde6c",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "iphone",
+    "appearance": "light",
+    "slide": 3,
+    "source": "/Users/devonly/Developer/QRReader/design/screenshots/2026-10-14-camera-ui/04-history.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/light/ja/03.png",
+    "sha256": "b49e52e1d1448dd1accdd347d70d2cadcb5153dbe77e89b7e1823a393c99ee35",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "iphone",
+    "appearance": "light",
+    "slide": 4,
+    "source": "/Users/devonly/Developer/QRReader/design/screenshots/2026-10-14-camera-ui/09-share.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/light/ja/04.png",
+    "sha256": "a7587641e77ebe6eb0d6891534c89780cb185d682d49bb6351a224ca0d65d9ed",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "ipad",
+    "appearance": "dark",
+    "slide": 1,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/screenshots/ipad-dark/camera-portrait.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/dark/ja/01.png",
+    "sha256": "a8a3c12badeb2fe9cb6f3228151b60f130874800209507663aedc5abfba5b1c7",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/ios-ipad-dark/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "ipad",
+    "appearance": "dark",
+    "slide": 2,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/screenshots/ipad-dark/result-url.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/dark/ja/02.png",
+    "sha256": "e2ed653533f69d7293407286db5bba4ebb0fbe458ce302ce406b6c6e81b93d30",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/ios-ipad-dark/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "ipad",
+    "appearance": "dark",
+    "slide": 3,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/screenshots/ipad-dark/history-portrait.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/dark/ja/03.png",
+    "sha256": "38fb13d4903a1b311f0f5cea95f899d6accf40ac612e01db593043a4b43c4e91",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/ios-ipad-dark/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "ipad",
+    "appearance": "dark",
+    "slide": 4,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/screenshots/ipad-dark/system-share.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/dark/ja/04.png",
+    "sha256": "6071f2fb7c0c7a66ec9dd10b43eb23a8e92959c7bf44a3c409b1a53d71dd36be",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/ios-ipad-dark/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "iphone",
+    "appearance": "dark",
+    "slide": 3,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-iphone-dark/attachments/E5EC26E5-A59E-438B-8EE4-257A2D87BA92.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/dark/ja/03.png",
+    "sha256": "bea7947163be4c6e9b80fcdc6d525cfd3eed75033f03a1bfa4c0be0a404164ac",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-iphone-dark/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "iphone",
+    "appearance": "dark",
+    "slide": 1,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-iphone-dark/attachments/B418B83F-F1CF-4399-9C05-5AAC398A9FA3.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/dark/ja/01.png",
+    "sha256": "58b122d9ea0f72c7a8b50c40c94d0b71e5c055b62fb0fbbeb94de0a10097d4b5",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-iphone-dark/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "iphone",
+    "appearance": "dark",
+    "slide": 4,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-iphone-dark/attachments/23F0CC9F-AB2F-4AED-B2D0-CD2D029D0D66.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/dark/ja/04.png",
+    "sha256": "a7587641e77ebe6eb0d6891534c89780cb185d682d49bb6351a224ca0d65d9ed",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-iphone-dark/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "iphone",
+    "appearance": "dark",
+    "slide": 2,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-iphone-dark/attachments/D3394A8D-F9A9-43F9-9A4E-D1235A319F79.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/dark/ja/02.png",
+    "sha256": "01b224926d335d6f31b30583cfb7dc931cf1bf52ead479e54cba9211dac14fe3",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-iphone-dark/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "ipad",
+    "appearance": "light",
+    "slide": 3,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-ipad-light/attachments/859D003F-DD3C-4E16-8003-50CA1D8D4B0E.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/light/ja/03.png",
+    "sha256": "31fb31aab93a54e4ac8671ef297708f45afd3ea0f2f90d0063fda1d5c567da44",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-ipad-light/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "ipad",
+    "appearance": "light",
+    "slide": 1,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-ipad-light/attachments/7C808A9C-96CE-42B1-9787-32E88E75D51B.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/light/ja/01.png",
+    "sha256": "a8a3c12badeb2fe9cb6f3228151b60f130874800209507663aedc5abfba5b1c7",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-ipad-light/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "ipad",
+    "appearance": "light",
+    "slide": 4,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-ipad-light/attachments/8262D11E-E695-42AB-8A57-573F4430C2D2.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/light/ja/04.png",
+    "sha256": "6071f2fb7c0c7a66ec9dd10b43eb23a8e92959c7bf44a3c409b1a53d71dd36be",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-ipad-light/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "ipad",
+    "appearance": "light",
+    "slide": 2,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-ipad-light/attachments/F7C1B4D7-81E6-4B1F-A223-BE8973E99708.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/light/ja/02.png",
+    "sha256": "1181272a7c16cf39d11bd6e306de9fd34fc1974b8ac9e8c4c8a30c2e9d4e5596",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-ipad-light/Tests.xcresult",
+    "locale": "ja"
+  },
+  {
+    "device": "iphone",
+    "appearance": "dark",
+    "locale": "en",
+    "slide": 3,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-dark-final/attachments/3CD4715F-2343-40C1-A596-84F46371E03A.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/dark/en/03.png",
+    "sha256": "d26245ee78c821e019d88990d5790d3ddbb9ab365b6c0f649f0fa52e06cfc841",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-dark-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1178,
+      2556
+    ]
+  },
+  {
+    "device": "iphone",
+    "appearance": "dark",
+    "locale": "en",
+    "slide": 1,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-dark-final/attachments/3F5FF379-558E-4F0E-AA8C-31E7D85F760E.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/dark/en/01.png",
+    "sha256": "efa43dc35848aa62b0f1a55f46ead926b756259cf97e38e8c84357a18812bc12",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-dark-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1178,
+      2556
+    ]
+  },
+  {
+    "device": "iphone",
+    "appearance": "dark",
+    "locale": "en",
+    "slide": 4,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-dark-final/attachments/B1906759-B27A-4A09-A70B-2A9F75443B3A.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/dark/en/04.png",
+    "sha256": "38c208e0407f2a1a8b5602647404bc048a5a198a1ad7fee63a30f1e28239eb32",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-dark-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1178,
+      2556
+    ]
+  },
+  {
+    "device": "iphone",
+    "appearance": "dark",
+    "locale": "en",
+    "slide": 2,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-dark-final/attachments/E9F8B426-7525-4C97-853C-77C0EA23AE57.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/dark/en/02.png",
+    "sha256": "6916f060b91a2c39a528b3a4e719472a2da4ccb214e7976f24edf470ef989c60",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-dark-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1178,
+      2556
+    ]
+  },
+  {
+    "device": "iphone",
+    "appearance": "light",
+    "locale": "en",
+    "slide": 3,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-light-final/attachments/4633C165-B8D4-44BB-87EB-47FF9BE1DF8E.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/light/en/03.png",
+    "sha256": "c184633cec5b494aacab52922398c6a64cb3badf7c899dea09233a7f84972b19",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-light-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1178,
+      2556
+    ]
+  },
+  {
+    "device": "iphone",
+    "appearance": "light",
+    "locale": "en",
+    "slide": 1,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-light-final/attachments/0098C66C-1BD1-41BE-AAE7-C07ED5465D83.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/light/en/01.png",
+    "sha256": "efa43dc35848aa62b0f1a55f46ead926b756259cf97e38e8c84357a18812bc12",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-light-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1178,
+      2556
+    ]
+  },
+  {
+    "device": "iphone",
+    "appearance": "light",
+    "locale": "en",
+    "slide": 4,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-light-final/attachments/E33710B2-E0B3-4289-97D2-6563FBF964DF.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/light/en/04.png",
+    "sha256": "20de25e948b6cc59f7dd87501afac650071b11411e933bcaacaea051179c4d8c",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-light-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1178,
+      2556
+    ]
+  },
+  {
+    "device": "iphone",
+    "appearance": "light",
+    "locale": "en",
+    "slide": 2,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-light-final/attachments/67639967-1696-421D-ADB5-D33EA38B316C.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/iphone/light/en/02.png",
+    "sha256": "b5777e7b42d4adaac78bea115eb67436b23e14e510000e8cd0902d0ac0b0626c",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-light-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1178,
+      2556
+    ]
+  },
+  {
+    "device": "ipad",
+    "appearance": "dark",
+    "locale": "en",
+    "slide": 3,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-dark-final/attachments/C291734C-53CC-48EB-AB37-049374896B6D.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/dark/en/03.png",
+    "sha256": "915cc567927d9cf26cc414bbfb75b28cd17d9b4d653b395a34078d6da89e7b94",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-dark-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1640,
+      2360
+    ]
+  },
+  {
+    "device": "ipad",
+    "appearance": "dark",
+    "locale": "en",
+    "slide": 1,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-dark-final/attachments/BE2B21CF-8286-4F41-AD4A-8EBE12F44F7E.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/dark/en/01.png",
+    "sha256": "27cdec578107ef693b3f0fdd288b8346587af7d92e3edfe61e829683660fa0e2",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-dark-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1640,
+      2360
+    ]
+  },
+  {
+    "device": "ipad",
+    "appearance": "dark",
+    "locale": "en",
+    "slide": 4,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-dark-final/attachments/6B5F0C46-C14A-42FC-9458-D33B44A33FD4.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/dark/en/04.png",
+    "sha256": "15825d928368ee249205a924a5d1cbd7598f31dd960b48baad981965803d1053",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-dark-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1640,
+      2360
+    ]
+  },
+  {
+    "device": "ipad",
+    "appearance": "dark",
+    "locale": "en",
+    "slide": 2,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-dark-final/attachments/397F0358-A80F-4C21-85C5-CAAD7BC0E2B6.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/dark/en/02.png",
+    "sha256": "3654029fbed913d3d4388a04be8e0690ca0710c333bb0934d75d777e73f89929",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-dark-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1640,
+      2360
+    ]
+  },
+  {
+    "device": "ipad",
+    "appearance": "light",
+    "locale": "en",
+    "slide": 3,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-light-final/attachments/5341EE36-0246-4B79-A1B8-3432EC5358E9.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/light/en/03.png",
+    "sha256": "3281cfa9259d7efc1dc7aa4a565f87fb04d3946fcae6179e5b11096b050c8dd2",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-light-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1640,
+      2360
+    ]
+  },
+  {
+    "device": "ipad",
+    "appearance": "light",
+    "locale": "en",
+    "slide": 1,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-light-final/attachments/D40EBD5E-9568-45AE-B4C5-EFC853E2DF3E.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/light/en/01.png",
+    "sha256": "27cdec578107ef693b3f0fdd288b8346587af7d92e3edfe61e829683660fa0e2",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-light-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1640,
+      2360
+    ]
+  },
+  {
+    "device": "ipad",
+    "appearance": "light",
+    "locale": "en",
+    "slide": 4,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-light-final/attachments/218306A0-2846-4B92-8EC2-25A0F2B5E878.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/light/en/04.png",
+    "sha256": "15825d928368ee249205a924a5d1cbd7598f31dd960b48baad981965803d1053",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-light-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1640,
+      2360
+    ]
+  },
+  {
+    "device": "ipad",
+    "appearance": "light",
+    "locale": "en",
+    "slide": 2,
+    "source": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-light-final/attachments/D648E5DC-C7E6-47A1-9450-6A29FC74A77A.png",
+    "copied": "/Users/devonly/Developer/QRReader/design/app-store/sources/ipad/light/en/02.png",
+    "sha256": "3fb3477172c3de302d9d30b5a37aa595bdb0791340c7c4240fb38d14a728d3c9",
+    "xcresult": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-light-final/Tests.xcresult",
+    "testLanguage": "en",
+    "testLocale": "en_US",
+    "dimensions": [
+      1640,
+      2360
+    ]
+  }
+]

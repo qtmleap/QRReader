@@ -7,9 +7,8 @@
 //
 
 import Foundation
-import SwiftUI
 
-struct HistoryItem: Codable, Identifiable {
+struct HistoryItem: Codable, Identifiable, Equatable, Sendable {
     var id: UUID = .init()
     let value: String
     let date: Date

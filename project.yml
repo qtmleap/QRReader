@@ -1,0 +1,93 @@
+name: QRReader
+options:
+  minimumXcodeGenVersion: 2.46.0
+  deploymentTarget:
+    iOS: "17.0"
+  developmentLanguage: ja
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: 5Q94QJ7G98
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "1.0.4"
+    CURRENT_PROJECT_VERSION: "7"
+packages:
+  CodeScanner:
+    url: https://github.com/twostraws/CodeScanner.git
+    exactVersion: 2.5.2
+  QuantumLeap:
+    url: https://github.com/qtmleap/QuantumLeap.git
+    exactVersion: 1.0.1
+  Firebase:
+    url: https://github.com/firebase/firebase-ios-sdk.git
+    exactVersion: 12.1.0
+targets:
+  QRReader:
+    type: application
+    platform: iOS
+    sources:
+      - path: QRReader
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: jp.qleap.qrreader
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        TARGETED_DEVICE_FAMILY: "1,2"
+        GENERATE_INFOPLIST_FILE: true
+    info:
+      path: QRReader/Info.plist
+      properties:
+        CFBundleDisplayName: QR Reader
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        ITSAppUsesNonExemptEncryption: false
+        LSApplicationCategoryType: public.app-category.lifestyle
+        NSCameraUsageDescription: QRコードを読み取るためにカメラを使います
+        UILaunchStoryboardName: LaunchScreen
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+    dependencies:
+      - package: CodeScanner
+      - package: QuantumLeap
+      - package: Firebase
+        product: FirebaseCore
+      - package: Firebase
+        product: FirebaseAppCheck
+  QRReaderTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - QRReaderTests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: jp.qleap.qrreader.tests
+        GENERATE_INFOPLIST_FILE: true
+    dependencies:
+      - target: QRReader
+  QRReaderUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - QRReaderUITests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: jp.qleap.qrreader.uitests
+        GENERATE_INFOPLIST_FILE: true
+    dependencies:
+      - target: QRReader
+schemes:
+  QRReader:
+    build:
+      targets:
+        QRReader: all
+    test:
+      targets:
+        - QRReaderTests
+        - QRReaderUITests

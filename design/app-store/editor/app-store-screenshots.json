@@ -1,0 +1,506 @@
+{
+  "schemaVersion": 3,
+  "appName": "QRReader",
+  "themeId": "qrreader-teal",
+  "fontId": "system-sans",
+  "connectedCanvas": true,
+  "locales": [
+    "ja",
+    "en"
+  ],
+  "locale": "en",
+  "device": "iphone",
+  "orientation": "portrait",
+  "appIcon": "/app-icon.png",
+  "slidesByDevice": {
+    "iphone": [
+      {
+        "id": "iphone-dark-1",
+        "layout": "hero",
+        "label": {
+          "ja": "QR READER",
+          "en": "QR READER"
+        },
+        "headline": {
+          "ja": "QRコードを",
+          "en": "Point. Scan."
+        },
+        "screenshot": "/screenshots/apple/iphone/dark/{locale}/01.png",
+        "backgroundColor": "#0B1013",
+        "typography": {
+          "labelScale": 1.1,
+          "headlineScale": 1.0540184453227932
+        },
+        "transforms": {
+          "caption": {
+            "x": 92.4,
+            "y": 150,
+            "width": 1135.2,
+            "height": 332.8,
+            "zIndex": 5
+          },
+          "device": {
+            "x": 149.66268011527387,
+            "y": 723.7000000000003,
+            "width": 1020.6746397694523,
+            "height": 2079.2999999999997,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        },
+        "textElements": [
+          {
+            "id": "accent-line",
+            "text": {
+              "ja": "かざすだけ",
+              "en": "Done."
+            },
+            "transform": {
+              "x": 92.4,
+              "y": 342.76,
+              "width": 1135.2,
+              "height": 160,
+              "zIndex": 5
+            },
+            "fontSize": 128,
+            "fontWeight": 700,
+            "color": "#4FD6BF",
+            "align": "center"
+          }
+        ]
+      },
+      {
+        "id": "iphone-dark-2",
+        "layout": "device-bottom",
+        "label": {
+          "ja": "CHECK FIRST",
+          "en": "CHECK FIRST"
+        },
+        "headline": {
+          "ja": "開く前に",
+          "en": "See the link."
+        },
+        "screenshot": "/screenshots/apple/iphone/dark/{locale}/02.png",
+        "backgroundColor": "#0B1013",
+        "typography": {
+          "labelScale": 1.1,
+          "headlineScale": 1.0540184453227932
+        },
+        "transforms": {
+          "caption": {
+            "x": 92.4,
+            "y": 150,
+            "width": 1135.2,
+            "height": 332.8,
+            "zIndex": 5
+          },
+          "device": {
+            "x": 149.66268011527387,
+            "y": 723.7000000000003,
+            "width": 1020.6746397694523,
+            "height": 2079.2999999999997,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        },
+        "textElements": [
+          {
+            "id": "accent-line",
+            "text": {
+              "ja": "内容を確認",
+              "en": "Then open it."
+            },
+            "transform": {
+              "x": 92.4,
+              "y": 342.76,
+              "width": 1135.2,
+              "height": 160,
+              "zIndex": 5
+            },
+            "fontSize": 128,
+            "fontWeight": 700,
+            "color": "#4FD6BF",
+            "align": "center"
+          }
+        ]
+      },
+      {
+        "id": "iphone-dark-3",
+        "layout": "device-top",
+        "label": {
+          "ja": "SCAN HISTORY",
+          "en": "SCAN HISTORY"
+        },
+        "headline": {
+          "ja": "読み取ったら",
+          "en": "Your scans,"
+        },
+        "screenshot": "/screenshots/apple/iphone/dark/{locale}/03.png",
+        "backgroundColor": "#0B1013",
+        "typography": {
+          "labelScale": 1.1,
+          "headlineScale": 1.0540184453227932
+        },
+        "transforms": {
+          "caption": {
+            "x": 92.4,
+            "y": 2274.324,
+            "width": 1135.2,
+            "height": 332.8,
+            "zIndex": 5
+          },
+          "device": {
+            "x": 149.66268011527387,
+            "y": 55,
+            "width": 1020.6746397694523,
+            "height": 2079.2999999999997,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        },
+        "textElements": [
+          {
+            "id": "accent-line",
+            "text": {
+              "ja": "履歴で見返す",
+              "en": "kept in history."
+            },
+            "transform": {
+              "x": 92.4,
+              "y": 2467.0840000000003,
+              "width": 1135.2,
+              "height": 160,
+              "zIndex": 5
+            },
+            "fontSize": 128,
+            "fontWeight": 700,
+            "color": "#4FD6BF",
+            "align": "center"
+          }
+        ]
+      },
+      {
+        "id": "iphone-dark-4",
+        "layout": "two-devices",
+        "label": {
+          "ja": "COPY & SHARE",
+          "en": "COPY & SHARE"
+        },
+        "headline": {
+          "ja": "コピーも",
+          "en": "Copy it."
+        },
+        "screenshot": "/screenshots/apple/iphone/dark/{locale}/04.png",
+        "backgroundColor": "#0B1013",
+        "typography": {
+          "labelScale": 1.1,
+          "headlineScale": 1.0540184453227932
+        },
+        "transforms": {
+          "caption": {
+            "x": 92.4,
+            "y": 150,
+            "width": 1135.2,
+            "height": 332.8,
+            "zIndex": 5
+          },
+          "device": {
+            "x": 55.440000000000005,
+            "y": 852.7599999999998,
+            "width": 957.3224207492797,
+            "height": 1950.2400000000002,
+            "rotation": 0,
+            "zIndex": 3
+          },
+          "deviceSecondary": {
+            "x": 463.4211527377522,
+            "y": 1090.22,
+            "width": 823.5788472622478,
+            "height": 1677.78,
+            "rotation": 0,
+            "zIndex": 2
+          }
+        },
+        "textElements": [
+          {
+            "id": "accent-line",
+            "text": {
+              "ja": "共有もすぐ",
+              "en": "Share it."
+            },
+            "transform": {
+              "x": 92.4,
+              "y": 342.76,
+              "width": 1135.2,
+              "height": 160,
+              "zIndex": 5
+            },
+            "fontSize": 128,
+            "fontWeight": 700,
+            "color": "#4FD6BF",
+            "align": "center"
+          }
+        ],
+        "screenshotSecondary": "/screenshots/apple/iphone/dark/{locale}/02.png"
+      }
+    ],
+    "android": [],
+    "ipad": [
+      {
+        "id": "ipad-dark-1",
+        "layout": "hero",
+        "label": {
+          "ja": "QR READER",
+          "en": "QR READER"
+        },
+        "headline": {
+          "ja": "QRコードを",
+          "en": "Point. Scan."
+        },
+        "screenshot": "/screenshots/apple/ipad/dark/{locale}/01.png",
+        "backgroundColor": "#0B1013",
+        "typography": {
+          "labelScale": 1.1,
+          "headlineScale": 0.9795247724974722
+        },
+        "transforms": {
+          "caption": {
+            "x": 144.48000000000002,
+            "y": 150,
+            "width": 1775.04,
+            "height": 483.6,
+            "zIndex": 5
+          },
+          "device": {
+            "x": 321.40951999999993,
+            "y": 691.8,
+            "width": 1421.1809600000001,
+            "height": 1995.2,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        },
+        "textElements": [
+          {
+            "id": "accent-line",
+            "text": {
+              "ja": "かざすだけ",
+              "en": "Done."
+            },
+            "transform": {
+              "x": 144.48000000000002,
+              "y": 437.544,
+              "width": 1775.04,
+              "height": 232.5,
+              "zIndex": 5
+            },
+            "fontSize": 186,
+            "fontWeight": 700,
+            "color": "#4FD6BF",
+            "align": "center"
+          }
+        ]
+      },
+      {
+        "id": "ipad-dark-2",
+        "layout": "device-bottom",
+        "label": {
+          "ja": "CHECK FIRST",
+          "en": "CHECK FIRST"
+        },
+        "headline": {
+          "ja": "開く前に",
+          "en": "See the link."
+        },
+        "screenshot": "/screenshots/apple/ipad/dark/{locale}/02.png",
+        "backgroundColor": "#0B1013",
+        "typography": {
+          "labelScale": 1.1,
+          "headlineScale": 0.9795247724974722
+        },
+        "transforms": {
+          "caption": {
+            "x": 144.48000000000002,
+            "y": 150,
+            "width": 1775.04,
+            "height": 483.6,
+            "zIndex": 5
+          },
+          "device": {
+            "x": 321.40951999999993,
+            "y": 691.8,
+            "width": 1421.1809600000001,
+            "height": 1995.2,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        },
+        "textElements": [
+          {
+            "id": "accent-line",
+            "text": {
+              "ja": "内容を確認",
+              "en": "Then open it."
+            },
+            "transform": {
+              "x": 144.48000000000002,
+              "y": 437.544,
+              "width": 1775.04,
+              "height": 232.5,
+              "zIndex": 5
+            },
+            "fontSize": 186,
+            "fontWeight": 700,
+            "color": "#4FD6BF",
+            "align": "center"
+          }
+        ]
+      },
+      {
+        "id": "ipad-dark-3",
+        "layout": "device-top",
+        "label": {
+          "ja": "SCAN HISTORY",
+          "en": "SCAN HISTORY"
+        },
+        "headline": {
+          "ja": "読み取ったら",
+          "en": "Your scans,"
+        },
+        "screenshot": "/screenshots/apple/ipad/dark/{locale}/03.png",
+        "backgroundColor": "#0B1013",
+        "typography": {
+          "labelScale": 1.1,
+          "headlineScale": 0.9795247724974722
+        },
+        "transforms": {
+          "caption": {
+            "x": 144.48000000000002,
+            "y": 2182.3360000000002,
+            "width": 1775.04,
+            "height": 483.6,
+            "zIndex": 5
+          },
+          "device": {
+            "x": 321.40951999999993,
+            "y": 55,
+            "width": 1421.1809600000001,
+            "height": 1995.2,
+            "rotation": 0,
+            "zIndex": 3
+          }
+        },
+        "textElements": [
+          {
+            "id": "accent-line",
+            "text": {
+              "ja": "履歴で見返す",
+              "en": "kept in history."
+            },
+            "transform": {
+              "x": 144.48000000000002,
+              "y": 2469.8800000000006,
+              "width": 1775.04,
+              "height": 232.5,
+              "zIndex": 5
+            },
+            "fontSize": 186,
+            "fontWeight": 700,
+            "color": "#4FD6BF",
+            "align": "center"
+          }
+        ]
+      },
+      {
+        "id": "ipad-dark-4",
+        "layout": "two-devices",
+        "label": {
+          "ja": "COPY & SHARE",
+          "en": "COPY & SHARE"
+        },
+        "headline": {
+          "ja": "コピーも",
+          "en": "Copy it."
+        },
+        "screenshot": "/screenshots/apple/ipad/dark/{locale}/04.png",
+        "backgroundColor": "#0B1013",
+        "typography": {
+          "labelScale": 1.1,
+          "headlineScale": 0.9795247724974722
+        },
+        "transforms": {
+          "caption": {
+            "x": 144.48000000000002,
+            "y": 150,
+            "width": 1775.04,
+            "height": 483.6,
+            "zIndex": 5
+          },
+          "device": {
+            "x": 86.688,
+            "y": 815.6399999999999,
+            "width": 1332.9697280000003,
+            "height": 1871.3600000000001,
+            "rotation": 0,
+            "zIndex": 3
+          },
+          "deviceSecondary": {
+            "x": 865.6539839999999,
+            "y": 1042.0800000000002,
+            "width": 1146.746016,
+            "height": 1609.9199999999998,
+            "rotation": 0,
+            "zIndex": 2
+          }
+        },
+        "textElements": [
+          {
+            "id": "accent-line",
+            "text": {
+              "ja": "共有もすぐ",
+              "en": "Share it."
+            },
+            "transform": {
+              "x": 144.48000000000002,
+              "y": 437.544,
+              "width": 1775.04,
+              "height": 232.5,
+              "zIndex": 5
+            },
+            "fontSize": 186,
+            "fontWeight": 700,
+            "color": "#4FD6BF",
+            "align": "center"
+          }
+        ],
+        "screenshotSecondary": "/screenshots/apple/ipad/dark/{locale}/02.png"
+      }
+    ],
+    "tvos": [],
+    "watchos": [],
+    "carplay": [],
+    "mac": [],
+    "android-7": [],
+    "android-10": [],
+    "feature-graphic": [],
+    "duo-outer": [],
+    "duo-outer-landscape": [],
+    "duo-inner": [],
+    "duo-inner-landscape": [],
+    "creative-universal": [],
+    "creative-header": [],
+    "creative-search": []
+  },
+  "scene": {
+    "backdrop": "spotlight",
+    "span": false,
+    "decoration": "rings",
+    "shadow": 40,
+    "glow": 14,
+    "tilt": 0,
+    "headlineWeight": 700,
+    "headlineScale": 1,
+    "headlineCase": "as-typed",
+    "captionAlign": "center"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "blockingFindingsRemaining": [],
+  "resolved": [
+    "Explicit empty arrays for other device decks",
+    "Matched iPad frame and transform ratio .7123",
+    "Removed unused ja/en source folders",
+    "Verified actual native OS light/dark source behavior",
+    "Documented camera placeholder and Japanese UI with English marketing copy"
+  ],
+  "evaluatedReviewError": "Resolution reviewer inspected root README.md instead of design/app-store/editor/README.md. Correct artifact README documents appearance behavior at line28. Native source and rendered screenshots confirm behavior.",
+  "nativeVerification": "16 source hashes match their public copies; all32 exported PNGs RGB and exact dimensions; ZIP integrity passed; all4 contact sheets visually checked; owned simulators deleted."
+}

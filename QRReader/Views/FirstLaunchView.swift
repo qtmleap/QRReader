@@ -6,115 +6,97 @@
 //  Copyright © 2025 QuantumLeap. All rights reserved.
 //
 
-import Foundation
 import SwiftUI
-import SwiftUIIntrospect
-import QuantumLeap
 
+/// One-page introduction. The camera permission is requested only by the primary button,
+/// and the intro completes whatever the answer is, so a denial leads to the permission-help panel.
 struct FirstLaunchView: View {
-    @Environment(\.dismiss) private var dismiss
-    @State private var selection: Int = 0
+    /// True while the system prompt can still be shown; changes only the button title.
+    let willRequestCamera: Bool
+    let requestCamera: () async -> Void
+    let onComplete: () -> Void
+
+    @State private var isWorking = false
+
+    private let steps: [(symbol: String, title: LocalizedStringKey, detail: LocalizedStringKey)] = [
+        ("qrcode.viewfinder", "intro.step1.title", "intro.step1.detail"),
+        ("doc.text.magnifyingglass", "intro.step2.title", "intro.step2.detail"),
+        ("square.and.arrow.up", "intro.step3.title", "intro.step3.detail"),
+    ]
 
     var body: some View {
-        TabView(selection: $selection, content: {
-            FirstLaunch(content: {
-                Image("Logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 140)
-                Text("アプリの使い方")
-                    .font(.title)
-                    .fontWeight(.bold)
-                Text("QRコードの情報を簡単に取得できます")
-                    .font(.body)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-            })
-                .tag(0)
-            FirstLaunch(content: {
-                Image("Scan")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 140)
-                Text("QRコードにかざすだけ")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                Text("ピントが合うと自動で読み取りが始まります")
-                    .font(.body)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-            })
-                .tag(1)
-            FirstLaunch(content: {
-                Image("Result")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 140)
-                Text("内容をその場で確認")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                Text("QRコードの情報がすぐに表示されます")
-                    .font(.body)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-            })
-                .tag(2)
-            FirstLaunch(content: {
-                Image("Share")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 180)
-                Text("家族や友人と情報を共有できます")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                Text("読み取った内容は簡単にシェアできます")
-                    .font(.body)
-                    .foregroundColor(.secondary)
-                    .multilineTextAlignment(.center)
-            })
-                .tag(3)
-        })
-        .disabled(true)
-        .tabViewStyle(.page(indexDisplayMode: .never))
-        .overlay(alignment: .bottom, content: {
-            HStack(content: {
-                Button(action: {
-                    withAnimation(.spring) {
-                        selection = max(0, selection - 1)
+        ZStack {
+            Color(red: 0.067, green: 0.075, blue: 0.09).ignoresSafeArea()
+            VStack(spacing: 0) {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 24) {
+                        Image(systemName: "qrcode.viewfinder")
+                            .font(.system(size: 56))
+                            .foregroundStyle(Color.appAccent)
+                            .accessibilityHidden(true)
+                        Text("intro.title")
+                            .font(.largeTitle.weight(.bold))
+                            .fixedSize(horizontal: false, vertical: true)
+                            .accessibilityAddTraits(.isHeader)
+                            .accessibilityIdentifier("intro.title")
+                        VStack(alignment: .leading, spacing: 16) {
+                            ForEach(steps.indices, id: \.self) { index in
+                                HStack(alignment: .top, spacing: 16) {
+                                    SymbolIcon(name: steps[index].symbol)
+                                        .foregroundStyle(Color.appAccent)
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text(steps[index].title).font(.headline)
+                                        Text(steps[index].detail)
+                                            .font(.subheadline)
+                                            .foregroundStyle(.white.opacity(0.74))
+                                    }
+                                    .fixedSize(horizontal: false, vertical: true)
+                                }
+                                .accessibilityElement(children: .combine)
+                            }
+                        }
+                        Text("intro.note")
+                            .font(.footnote)
+                            .foregroundStyle(.white.opacity(0.74))
+                            .fixedSize(horizontal: false, vertical: true)
                     }
-                }, label: {
-                    Text("BUTTON_BACK")
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 40)
-                })
-                .disabled(selection == 0)
-                Button(action: {
-                    withAnimation(.spring) {
-                        selection != 3 ? selection += 1 : dismiss()
+                    .padding(24)
+                    .frame(maxWidth: 520, alignment: .leading)
+                    .frame(maxWidth: .infinity)
+                }
+                VStack(spacing: 8) {
+                    Button(action: start, label: {
+                        ActionLabel(title: willRequestCamera ? "intro.start.camera" : "intro.start", symbol: "camera")
+                    })
+                    .buttonStyle(.primaryAction)
+                    .disabled(isWorking)
+                    .accessibilityIdentifier("intro.start")
+                    if willRequestCamera {
+                        Text("intro.fine")
+                            .font(.footnote)
+                            .foregroundStyle(.white.opacity(0.74))
+                            .multilineTextAlignment(.center)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
-                }, label: {
-                    Text(selection != 3 ? "BUTTON_NEXT" : "BUTTON_END")
-                        .fontWeight(.bold)
-                        .frame(height: 40)
-                        .frame(maxWidth: .infinity)
-                })
-            })
-            .buttonStyle(.borderedProminent)
-            .frame(maxWidth: 300)
-        })
-        .overlay(alignment: .topTrailing, content: {
-            Button(action: {
-                dismiss()
-            }, label: {
-                Image(systemName: "xmark.circle.fill")
-                    .font(.title)
-            })
-            .padding()
-        })
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 16)
+                .frame(maxWidth: 520)
+                .fixedSize(horizontal: false, vertical: true)
+            }
+            .foregroundStyle(.white)
+        }
+        .preferredColorScheme(.dark)
+        .accessibilityElement(children: .contain)
+        .accessibilityIdentifier("intro.root")
     }
-}
 
-#Preview {
-    FirstLaunchView()
+    private func start() {
+        isWorking = true
+        Task {
+            await requestCamera()
+            isWorking = false
+            onComplete()
+        }
+    }
 }

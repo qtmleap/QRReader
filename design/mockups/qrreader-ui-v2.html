@@ -1,0 +1,525 @@
+<!--
+QRReader UI/UX mock v2 (three patterns, fixed 390x844 canvas). Local state only, no persistence.
+Behavior changes below are PROPOSALS, not changes to the actual app:
+ - unify scan result and history result into one result screen/sheet
+ - history newest-first
+ - confirmation before clear-all / single delete (Edit mode)
+ - Settings gear in the same app-chrome position on both tabs
+ - collapse first run into one screen (Scan / Confirm / Share)
+-->
+<div id="qrreader-ui-v2">
+<style>
+#qrreader-ui-v2 { color-scheme: light dark; --k: 1; }
+#qrreader-ui-v2 .mock-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0 0 8px; font-size: 14px; }
+#qrreader-ui-v2 .mock-bar label { display: inline-flex; align-items: center; gap: 8px; }
+#qrreader-ui-v2 .mock-bar small { opacity: .7; }
+#qrreader-ui-v2 .stage { display: flex; justify-content: center; padding: 16px; box-sizing: border-box; }
+#qrreader-ui-v2 .stage[hidden] { display: none; }
+#qrreader-ui-v2 .device-viewport { position: relative; flex: none; width: calc(390px * var(--k)); height: calc(844px * var(--k)); }
+
+/* ---------- product ---------- */
+#qrreader-ui-v2 .phone {
+  position: absolute; left: 0; top: 0; width: 390px; height: 844px; box-sizing: border-box;
+  transform: scale(var(--k)); transform-origin: top left; overflow: hidden; border-radius: 44px;
+  background: var(--qr-bg); color: var(--qr-tx); box-shadow: inset 0 0 0 1px var(--qr-ln);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
+  font-size: 17px; font-weight: 400; line-height: 1.5; text-align: left; --qr-focus: var(--qr-accent); --qr-icon-size: 24px;
+}
+#qrreader-ui-v2 .phone.native { --qr-r: 12px; --qr-bg: light-dark(#f4f4f6, #000); --qr-surface: light-dark(#fff, #1c1c1e); --qr-tx: light-dark(#111114, #f5f5f7); --qr-sub: light-dark(#66666e, #9a9aa2); --qr-ln: light-dark(#dcdce0, #2c2c2e); --qr-accent: light-dark(#0a68d6, #4da3ff); --qr-on: light-dark(#fff, #00152e); --qr-fill: light-dark(#eceef2, #2a2a2d); --qr-dg: light-dark(#c4201a, #ff8a80); --qr-bar: light-dark(rgba(248,248,250,.94), rgba(24,24,26,.94)); --qr-pop: light-dark(#fff, #2c2c2e); }
+#qrreader-ui-v2 .phone.focus { --qr-r: 14px; }
+#qrreader-ui-v2 .phone.focus, #qrreader-ui-v2 .phone.focus .sheet { --qr-bg: light-dark(#fff, #0f1114); --qr-surface: light-dark(#f1f2f4, #1b1e23); --qr-tx: light-dark(#101216, #f3f4f6); --qr-sub: light-dark(#5b606a, #a4a9b3); --qr-ln: light-dark(#e3e5e9, #2a2d34); --qr-accent: light-dark(#00796b, #4fd6bf); --qr-on: light-dark(#fff, #00241e); --qr-fill: light-dark(#eceef1, #262a31); --qr-dg: light-dark(#c4201a, #ff8a80); --qr-bar: light-dark(rgba(255,255,255,.94), rgba(15,17,20,.94)); --qr-pop: light-dark(#fff, #1f2329); }
+#qrreader-ui-v2 .phone.focus .dark { --qr-tx: #fff; --qr-sub: rgba(255,255,255,.74); --qr-ln: rgba(255,255,255,.18); --qr-surface: rgba(255,255,255,.12); --qr-fill: rgba(255,255,255,.16); --qr-accent: #4fd6bf; --qr-on: #00241e; --qr-bar: rgba(14,16,19,.72); --qr-focus: #fff; --qr-dg: #ff9a90; color: #fff; }
+#qrreader-ui-v2 .phone.soft { --qr-r: 14px; --qr-bg: light-dark(#f3f5f9, #0d1322); --qr-surface: light-dark(#fff, #161f36); --qr-tx: light-dark(#16203a, #eef1f8); --qr-sub: light-dark(#5d6780, #9aa6c2); --qr-ln: light-dark(#dde2ec, #26314f); --qr-accent: light-dark(#23407a, #93b2ff); --qr-on: light-dark(#fff, #0c1a3a); --qr-fill: light-dark(#e8ecf4, #212c48); --qr-dg: light-dark(#c4201a, #ff8a80); --qr-bar: light-dark(rgba(243,245,249,.95), rgba(13,19,34,.95)); --qr-pop: light-dark(#fff, #1d2744); }
+#qrreader-ui-v2 .phone[data-dark] { --qr-sb: #fff; }
+#qrreader-ui-v2 .phone * { box-sizing: border-box; }
+#qrreader-ui-v2 .phone h1, #qrreader-ui-v2 .phone h2, #qrreader-ui-v2 .phone p, #qrreader-ui-v2 .phone ul, #qrreader-ui-v2 .phone dl { margin: 0; padding: 0; font-weight: 500; }
+#qrreader-ui-v2 .phone p { font-weight: 400; }
+#qrreader-ui-v2 .phone ul { list-style: none; }
+#qrreader-ui-v2 .phone svg, #qrreader-ui-v2 .phone i[data-lucide] { width: 24px; height: 24px; flex: none; display: inline-block; }
+#qrreader-ui-v2 .phone svg[data-lucide] { width: var(--qr-icon-size) !important; height: var(--qr-icon-size) !important; }
+#qrreader-ui-v2 .phone svg { stroke: currentColor; }
+#qrreader-ui-v2 .phone :where(button) { font: inherit; font-weight: 500; color: inherit; background: none; border: 0; margin: 0; padding: 0; display: inline-flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+#qrreader-ui-v2 .phone button:focus-visible { outline: 3px solid var(--qr-focus); outline-offset: 2px; }
+#qrreader-ui-v2 .phone .grow { flex: 1; min-height: 0; }
+
+/* device chrome */
+#qrreader-ui-v2 .statusbar { position: absolute; left: 0; right: 0; top: 0; height: 59px; z-index: 40; pointer-events: none; display: flex; justify-content: space-between; align-items: flex-start; padding: 19px 30px 0 34px; color: var(--qr-sb, var(--qr-tx)); font-size: 16px; font-weight: 600; line-height: 22px; }
+#qrreader-ui-v2 .statusbar .sb-r { display: flex; align-items: center; gap: 6px; }
+#qrreader-ui-v2 .statusbar { --qr-icon-size: 17px; }
+#qrreader-ui-v2 .statusbar svg, #qrreader-ui-v2 .statusbar i[data-lucide] { width: 17px; height: 17px; }
+#qrreader-ui-v2 .island { position: absolute; left: 50%; top: 11px; width: 96px; height: 28px; margin-left: -48px; border-radius: 14px; background: #000; }
+#qrreader-ui-v2 .island::after { content: ""; position: absolute; right: 14px; top: 9px; width: 10px; height: 10px; border-radius: 50%; background: #10131a; box-shadow: inset 0 0 0 2px #1b2030; }
+#qrreader-ui-v2 .homebar { position: absolute; left: 50%; bottom: 8px; width: 134px; height: 5px; margin-left: -67px; border-radius: 3px; background: var(--qr-sb, var(--qr-tx)); opacity: .85; z-index: 40; pointer-events: none; }
+#qrreader-ui-v2 .phone[data-sheet] .homebar { background: var(--qr-tx); }
+#qrreader-ui-v2 .screen { position: absolute; inset: 59px 0 34px 0; display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+#qrreader-ui-v2 .live { position: absolute; left: 16px; right: 16px; bottom: 96px; z-index: 50; margin: 0 auto; width: fit-content; max-width: 340px; padding: 10px 16px; border-radius: 22px; background: var(--qr-tx); color: var(--qr-bg); font-size: 15px; text-align: center; pointer-events: none; }
+#qrreader-ui-v2 .live:empty { display: none; }
+
+/* shared controls */
+#qrreader-ui-v2 .qr-button { flex: 1 1 0; min-width: 0; min-height: 50px; padding: 0 20px; border-radius: var(--qr-r); background: var(--qr-fill); color: var(--qr-accent); font-size: 17px; }
+#qrreader-ui-v2 .qr-button.primary { background: var(--qr-accent); color: var(--qr-on); }
+#qrreader-ui-v2 .qr-button.danger { background: var(--qr-fill); color: var(--qr-dg); }
+#qrreader-ui-v2 .empty .qr-button, #qrreader-ui-v2 .campanel .qr-button { flex: none; }
+#qrreader-ui-v2 .icobtn { width: 44px; height: 44px; border-radius: 22px; color: var(--qr-accent); }
+#qrreader-ui-v2 .txtbtn { min-height: 44px; padding: 0 8px; color: var(--qr-accent); font-size: 17px; font-weight: 400; gap: 2px; }
+#qrreader-ui-v2 .txtbtn.danger { color: var(--qr-dg); }
+#qrreader-ui-v2 .tabs { flex: none; height: 49px; display: flex; background: var(--qr-bar); border-top: 1px solid var(--qr-ln); position: relative; z-index: 3; }
+#qrreader-ui-v2 .tabs button { flex: 1; flex-direction: column; gap: 1px; color: var(--qr-sub); font-size: 11px; font-weight: 500; }
+#qrreader-ui-v2 .tabs button[aria-current] { color: var(--qr-accent); }
+#qrreader-ui-v2 .tabs svg, #qrreader-ui-v2 .tabs i[data-lucide] { width: 28px; height: 28px; }
+#qrreader-ui-v2 .tabs { --qr-icon-size: 28px; }
+#qrreader-ui-v2 .body { flex: 1; min-height: 0; overflow-y: auto; padding-bottom: 16px; }
+#qrreader-ui-v2 .acts { flex: none; display: flex; flex-direction: column; gap: 8px; padding: 12px 16px 16px; }
+#qrreader-ui-v2 .acts2 { display: flex; gap: 8px; }
+#qrreader-ui-v2 .payload { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; font-size: 17px; line-height: 1.55; }
+#qrreader-ui-v2 .payload.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 15px; }
+#qrreader-ui-v2 .rkind { font-size: 14px; color: var(--qr-sub); }
+#qrreader-ui-v2 .chip { display: inline-flex; align-items: center; padding: 0 10px; min-height: 24px; border-radius: 12px; background: var(--qr-fill); color: var(--qr-sub); font-size: 13px; font-weight: 500; }
+
+/* lists */
+#qrreader-ui-v2 .list { margin: 0 16px; border-radius: var(--qr-r); background: var(--qr-surface); overflow: hidden; }
+#qrreader-ui-v2 .list li { display: flex; align-items: center; }
+#qrreader-ui-v2 .list li + li { border-top: 1px solid var(--qr-ln); }
+#qrreader-ui-v2 .rowbtn { flex: 1; min-width: 0; min-height: 64px; padding: 8px 16px; gap: 12px; justify-content: flex-start; text-align: left; font-weight: 400; }
+#qrreader-ui-v2 .ricon { display: inline-flex; align-items: center; justify-content: center; width: 28px; flex: none; color: var(--qr-accent); }
+#qrreader-ui-v2 .rtxt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+#qrreader-ui-v2 .rval { font-size: 17px; line-height: 1.35; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+#qrreader-ui-v2 .rsub { font-size: 14px; color: var(--qr-sub); line-height: 1.4; }
+#qrreader-ui-v2 .chev { color: var(--qr-sub); display: inline-flex; }
+#qrreader-ui-v2 .del { width: 44px; height: 44px; margin-left: 4px; color: var(--qr-dg); }
+#qrreader-ui-v2 .grp { padding: 24px 32px 8px; font-size: 14px; color: var(--qr-sub); font-weight: 400; }
+#qrreader-ui-v2 .clearrow { display: flex; justify-content: center; padding: 16px; }
+#qrreader-ui-v2 .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 0 32px 40px; text-align: center; color: var(--qr-sub); }
+#qrreader-ui-v2 .empty svg, #qrreader-ui-v2 .empty i[data-lucide] { width: 32px; height: 32px; }
+#qrreader-ui-v2 .empty { --qr-icon-size: 32px; }
+#qrreader-ui-v2 .empty .et { font-size: 17px; font-weight: 500; color: var(--qr-tx); }
+#qrreader-ui-v2 .empty p { font-size: 15px; }
+#qrreader-ui-v2 .empty .qr-button { margin-top: 12px; }
+#qrreader-ui-v2 .steps li { display: flex; align-items: center; gap: 16px; padding: 12px 16px; }
+#qrreader-ui-v2 .steps .st { font-size: 17px; font-weight: 500; }
+#qrreader-ui-v2 .steps .sd { font-size: 15px; color: var(--qr-sub); }
+#qrreader-ui-v2 .fine { font-size: 14px; color: var(--qr-sub); text-align: center; padding-top: 12px; }
+#qrreader-ui-v2 .first h1 { font-size: 30px; line-height: 1.25; }
+#qrreader-ui-v2 .appicon { width: 72px; height: 72px; border-radius: 16px; display: block; }
+
+/* camera */
+#qrreader-ui-v2 .scene { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(120% 80% at 25% 15%, #747b87 0, transparent 60%), radial-gradient(110% 90% at 85% 95%, #353a43 0, transparent 60%), linear-gradient(160deg, #5a616c, #2b2f36); }
+#qrreader-ui-v2 .scene::before { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(35deg, rgba(255,255,255,.03) 0 2px, transparent 2px 6px); filter: blur(1px); }
+#qrreader-ui-v2 .scene.paused::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,.35); }
+#qrreader-ui-v2 .scene .paper { position: absolute; left: 50%; top: 46%; width: 148px; height: 148px; margin: -74px 0 0 -74px; padding: 12px; background: #fff; border-radius: 4px; }
+#qrreader-ui-v2 .scene .paper img { display: block; width: 100%; height: 100%; }
+#qrreader-ui-v2 .reticle { position: absolute; left: 50%; top: 46%; width: 224px; height: 224px; margin: -112px 0 0 -112px; }
+#qrreader-ui-v2 .reticle b { position: absolute; width: 32px; height: 32px; border: 0 solid #fff; }
+#qrreader-ui-v2 .reticle b:nth-child(1) { left: 0; top: 0; border-width: 3px 0 0 3px; border-top-left-radius: 10px; }
+#qrreader-ui-v2 .reticle b:nth-child(2) { right: 0; top: 0; border-width: 3px 3px 0 0; border-top-right-radius: 10px; }
+#qrreader-ui-v2 .reticle b:nth-child(3) { left: 0; bottom: 0; border-width: 0 0 3px 3px; border-bottom-left-radius: 10px; }
+#qrreader-ui-v2 .reticle b:nth-child(4) { right: 0; bottom: 0; border-width: 0 3px 3px 0; border-bottom-right-radius: 10px; }
+#qrreader-ui-v2 .campanel { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; padding: 24px 32px; text-align: center; }
+#qrreader-ui-v2 .campanel svg, #qrreader-ui-v2 .campanel i[data-lucide] { width: 32px; height: 32px; color: var(--qr-sub); }
+#qrreader-ui-v2 .campanel { --qr-icon-size: 32px; }
+#qrreader-ui-v2 .campanel h2 { font-size: 18px; line-height: 1.4; }
+#qrreader-ui-v2 .campanel p { font-size: 15px; color: var(--qr-sub); }
+#qrreader-ui-v2 .campanel .qr-button { margin-top: 8px; width: auto; }
+#qrreader-ui-v2 .campanel button svg, #qrreader-ui-v2 .campanel button i[data-lucide] { width: 24px; height: 24px; color: inherit; }
+#qrreader-ui-v2 .campanel button { --qr-icon-size: 24px; }
+#qrreader-ui-v2 .scanbody { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 8px 16px 16px; }
+#qrreader-ui-v2 .camframe { position: relative; flex: 1 1 auto; min-height: 0; border-radius: 20px; overflow: hidden; background: var(--qr-surface); box-shadow: inset 0 0 0 1px var(--qr-ln); }
+#qrreader-ui-v2 .camframe.fill { flex: 1; }
+#qrreader-ui-v2 .hint { font-size: 15px; color: var(--qr-sub); text-align: center; padding-top: 16px; }
+
+/* Clear (native) */
+#qrreader-ui-v2 .nvhead { flex: none; }
+#qrreader-ui-v2 .navrow { display: flex; justify-content: space-between; align-items: center; height: 44px; padding: 0 8px; }
+#qrreader-ui-v2 .navrow > div { display: flex; align-items: center; }
+#qrreader-ui-v2 .nvhead h1 { padding: 0 16px 8px; font-size: 32px; line-height: 44px; letter-spacing: 0; }
+#qrreader-ui-v2 .nvbody { flex: 1; min-height: 0; overflow-y: auto; }
+#qrreader-ui-v2 .phone.native .first { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 40px 24px 16px; }
+#qrreader-ui-v2 .phone.native .first h1 { text-align: center; margin: 16px 0 24px; }
+#qrreader-ui-v2 .phone.native .first .appicon { margin: 0 auto; }
+#qrreader-ui-v2 .group { border-radius: var(--qr-r); background: var(--qr-surface); overflow: hidden; }
+#qrreader-ui-v2 .phone.native .first .qr-button { flex: none; width: 100%; }
+#qrreader-ui-v2 .phone.native .rbody { flex: 1; min-height: 0; overflow-y: auto; padding: 4px 16px 16px; }
+#qrreader-ui-v2 .phone.native .rtitle { font-size: 32px; line-height: 40px; margin: 4px 0 16px; overflow-wrap: anywhere; }
+#qrreader-ui-v2 .phone.native .group .payload { padding: 16px; }
+
+/* Camera (focus) */
+#qrreader-ui-v2 .fscreen { flex: 1; min-height: 0; position: relative; display: flex; flex-direction: column; background: var(--qr-bg); }
+#qrreader-ui-v2 .fscreen.dark { background: #111317; }
+#qrreader-ui-v2 .phone.focus[data-dark], #qrreader-ui-v2 .phone.focus .layer.dark { background: #111317; }
+#qrreader-ui-v2 .fscreen > .scene { inset: -59px 0 -34px 0; }
+#qrreader-ui-v2 .ftop { position: relative; z-index: 2; flex: none; display: flex; align-items: center; gap: 4px; height: 52px; padding: 0 8px 0 16px; }
+#qrreader-ui-v2 .ftop .ftitle { font-size: 22px; line-height: 28px; }
+#qrreader-ui-v2 .ftop .icobtn:first-child { margin-left: -8px; }
+#qrreader-ui-v2 .ftools { display: flex; align-items: center; }
+#qrreader-ui-v2 .fmid { position: relative; z-index: 2; flex: 1; min-height: 0; }
+#qrreader-ui-v2 .fmid .hint { position: absolute; left: 0; right: 0; bottom: 40px; padding: 0; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.5); }
+#qrreader-ui-v2 .fmid .campanel { color: #fff; }
+#qrreader-ui-v2 .shade { position: absolute; inset: -59px 0 -34px 0; background: linear-gradient(180deg, rgba(0,0,0,.2), rgba(0,0,0,.78)); }
+#qrreader-ui-v2 .fcontent { position: relative; z-index: 2; flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: flex-end; gap: 20px; padding: 16px 24px 16px; }
+#qrreader-ui-v2 .fcontent h1 { font-size: 30px; line-height: 1.25; }
+#qrreader-ui-v2 .fcontent .steps li { padding: 8px 0; }
+#qrreader-ui-v2 .fcontent .appicon { width: 56px; height: 56px; border-radius: 13px; }
+#qrreader-ui-v2 .fcontent .qr-button { flex: none; width: 100%; }
+#qrreader-ui-v2 .phone.focus .list { background: none; border-radius: 0; margin: 0; }
+#qrreader-ui-v2 .phone.focus .rowbtn { padding: 8px 16px; }
+#qrreader-ui-v2 .phone.focus .grp { padding: 20px 16px 4px; }
+#qrreader-ui-v2 .dim { position: absolute; inset: -59px 0 -34px 0; background: rgba(0,0,0,.45); z-index: 4; }
+#qrreader-ui-v2 .sheet { position: absolute; left: 0; right: 0; bottom: -34px; z-index: 5; max-height: 460px; display: flex; flex-direction: column; padding: 8px 16px 34px; border-radius: 20px 20px 0 0; background: var(--qr-bg); color: var(--qr-tx); }
+#qrreader-ui-v2 .grab { align-self: center; width: 36px; height: 5px; border-radius: 3px; background: var(--qr-ln); margin-bottom: 4px; flex: none; }
+#qrreader-ui-v2 .sh-top { flex: none; display: flex; align-items: center; gap: 8px; min-height: 44px; }
+#qrreader-ui-v2 .sh-top .icobtn { margin: 0 -8px 0 auto; color: var(--qr-sub); }
+#qrreader-ui-v2 .sheet .rtitle { flex: none; font-size: 22px; line-height: 30px; margin: 0 0 8px; overflow-wrap: anywhere; }
+#qrreader-ui-v2 .sheet .payload { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 12px 16px; border-radius: var(--qr-r); background: var(--qr-surface); }
+#qrreader-ui-v2 .sheet .acts { padding: 12px 0 0; }
+#qrreader-ui-v2 .phone.focus .sheet { --qr-focus: var(--qr-accent); }
+
+/* Soft */
+#qrreader-ui-v2 .sf { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+#qrreader-ui-v2 .sfhead { flex: none; display: flex; align-items: center; justify-content: space-between; min-height: 64px; padding: 8px 12px 8px 20px; }
+#qrreader-ui-v2 .sfhead h1 { font-size: 30px; line-height: 38px; }
+#qrreader-ui-v2 .sfhead .hr { display: flex; align-items: center; }
+#qrreader-ui-v2 .sfnav { flex: none; height: 44px; padding: 0 12px; display: flex; align-items: center; }
+#qrreader-ui-v2 .sf .list { margin: 0 16px; background: none; border-radius: 0; overflow: visible; }
+#qrreader-ui-v2 .sf .list li { background: var(--qr-surface); border: 1px solid var(--qr-ln); border-radius: 16px; margin-bottom: 8px; }
+#qrreader-ui-v2 .sf .list li + li { border-top: 1px solid var(--qr-ln); }
+#qrreader-ui-v2 .sf .rowbtn { min-height: 72px; padding: 12px 16px; }
+#qrreader-ui-v2 .sf .grp { padding: 16px 20px 8px; }
+#qrreader-ui-v2 .sf .camframe { margin: 0; border-radius: 24px; flex-basis: 440px; }
+#qrreader-ui-v2 .sf .hint { text-align: left; padding: 16px 4px 0; font-size: 17px; color: var(--qr-tx); }
+#qrreader-ui-v2 .phone.soft .first { flex: 1; min-height: 0; display: flex; flex-direction: column; padding: 32px 20px 16px; gap: 24px; }
+#qrreader-ui-v2 .phone.soft .first .appicon { width: 56px; height: 56px; border-radius: 13px; }
+#qrreader-ui-v2 .phone.soft .first .steps { display: flex; flex-direction: column; gap: 8px; }
+#qrreader-ui-v2 .phone.soft .first .steps li { background: var(--qr-surface); border: 1px solid var(--qr-ln); border-radius: 16px; }
+#qrreader-ui-v2 .phone.soft .first .qr-button { flex: none; width: 100%; }
+#qrreader-ui-v2 .phone.soft .rbody { flex: 1; min-height: 0; overflow-y: auto; padding: 8px 16px 16px; }
+#qrreader-ui-v2 .rcard { display: flex; flex-direction: column; gap: 12px; padding: 20px; border-radius: 20px; background: var(--qr-surface); border: 1px solid var(--qr-ln); }
+#qrreader-ui-v2 .rcard .top { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--qr-sub); }
+#qrreader-ui-v2 .rcard .payload { font-size: 20px; line-height: 1.6; }
+#qrreader-ui-v2 .rcard .payload.mono { font-size: 16px; }
+
+/* dialogs */
+#qrreader-ui-v2 .scrim { position: absolute; inset: -59px 0 -34px 0; z-index: 30; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(0,0,0,.4); }
+#qrreader-ui-v2 .scrim.sh { align-items: flex-end; padding: 0; }
+#qrreader-ui-v2 .dlg { width: 100%; max-height: 600px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; padding: 20px; border-radius: 20px; background: var(--qr-pop); color: var(--qr-tx); }
+#qrreader-ui-v2 .scrim.sh .dlg { border-radius: 20px 20px 0 0; padding-bottom: 54px; }
+#qrreader-ui-v2 .dlg h2 { font-size: 20px; line-height: 1.35; }
+#qrreader-ui-v2 .dlg .db { font-size: 15px; color: var(--qr-sub); }
+#qrreader-ui-v2 .dlg .payload { flex: none; max-height: 180px; overflow-y: auto; padding: 12px; border-radius: 12px; background: var(--qr-fill); }
+#qrreader-ui-v2 .btns { display: flex; flex-direction: column; gap: 8px; }
+#qrreader-ui-v2 .btns.two { flex-direction: row; }
+#qrreader-ui-v2 .btns .qr-button { flex: none; }
+#qrreader-ui-v2 .btns.two .qr-button { flex: 1 1 0; }
+#qrreader-ui-v2 .osbadge { align-self: flex-start; }
+#qrreader-ui-v2 .dlg.os h2 { font-size: 18px; }
+#qrreader-ui-v2 .sw { width: 100%; min-height: 52px; justify-content: space-between; }
+#qrreader-ui-v2 .knob { position: relative; width: 51px; height: 31px; border-radius: 16px; background: var(--qr-fill); }
+#qrreader-ui-v2 .knob::after { content: ""; position: absolute; left: 2px; top: 2px; width: 27px; height: 27px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+#qrreader-ui-v2 .sw[aria-checked="true"] .knob { background: #34c759; }
+#qrreader-ui-v2 .sw[aria-checked="true"] .knob::after { left: 22px; }
+#qrreader-ui-v2 .layer { position: absolute; inset: 0; display: flex; flex-direction: column; min-height: 0; }
+#qrreader-ui-v2 .layer > .scene { inset: -59px 0 -34px 0; }
+#qrreader-ui-v2 .phone.focus .first, #qrreader-ui-v2 .phone.soft .first { }
+</style>
+
+<div class="mock-bar">
+  <label for="qrreader-ui-v2-state">画面</label>
+  <div style="flex:0 1 190px;min-width:0">
+    <select class="form-select" id="qrreader-ui-v2-state" aria-label="画面">
+      <option value="scan">スキャン</option>
+      <option value="url">URL結果</option>
+      <option value="text">テキスト結果</option>
+      <option value="long">長文結果</option>
+      <option value="history">履歴</option>
+      <option value="empty">空の履歴</option>
+      <option value="settings">設定</option>
+      <option value="first">初回案内</option>
+      <option value="denied">カメラ未許可</option>
+      <option value="rejected">カメラ拒否</option>
+      <option value="restricted">カメラ利用制限</option>
+      <option value="unavailable">カメラ利用不可</option>
+    </select>
+  </div>
+  <small>demo</small>
+</div>
+
+<div class="viz-carousel viz-dotted-background" aria-label="QRReader UI案の比較" data-previous-label="前の案" data-next-label="次の案">
+  <section class="stage" data-variant="クリア"><div class="device-viewport"><div class="phone native" data-pattern="native"><div class="statusbar"><span>9:41</span><span class="island"></span><span class="sb-r"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div><div class="screen"></div><div class="homebar"></div><div class="live" role="status" aria-live="polite"></div></div></div></section>
+  <section class="stage" data-variant="カメラ" hidden><div class="device-viewport"><div class="phone focus" data-pattern="focus"><div class="statusbar"><span>9:41</span><span class="island"></span><span class="sb-r"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div><div class="screen"></div><div class="homebar"></div><div class="live" role="status" aria-live="polite"></div></div></div></section>
+  <section class="stage" data-variant="ソフト" hidden><div class="device-viewport"><div class="phone soft" data-pattern="soft"><div class="statusbar"><span>9:41</span><span class="island"></span><span class="sb-r"><i data-lucide="signal"></i><i data-lucide="wifi"></i><i data-lucide="battery-full"></i></span></div><div class="screen"></div><div class="homebar"></div><div class="live" role="status" aria-live="polite"></div></div></div></section>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('qrreader-ui-v2');
+  if (!root) return;
+  var ICON = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABAAAAAQACAYAAAB/HSuDAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAACEdSURBVHgB7dvRbRvHooDh8YXeww5CVXDUQagKrFQQsQL7VCC7AssVSK4g6UBMB+pALIGpwDfr55t7aOAQHur/PmDfFzuzM7M/sG++/m0AAAAAr9r/DAAAAODVEwAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAi4GZ+9wOIzn5+cB8E+urq7GarUanLfdbjc43mazGRzHWQL4T5wlXoc3X/82OGvLgfD6+noA/JOnpycfQ6/AmzdvBsdZr9fj5eVlcBxnCeA/cZZ4HfwCAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQMDFgBNZrVbj6upqQMl+v/92cZzn5+dxOBwG522z2YzZrNfrwflzlqDI3sgpCQCczLJhPz09DSjZbrfj8fFxcJxff/1VMHkFrPWcys3NzXh4eBhQcn19PXa73YBT8AsAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAARcDYvb7/djtdoPzttlsxnq9HnAKNzc3Y7Vajdk8Pj6OGc14X8v4LeMIp+As8To4S1AkAJCzbNjb7XZw3pYPDps2p/Lp06cp59esAWDGNXUZPwGAU3GWeB2cJSjyCwAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABFwMAfpD379+Pw+EwZvPly5fBeVvm1cePH8dsVqvVePfu3QCAH0EAAOCHmfVD6PLycuz3+8H5WgLAhw8fxmzW67UAAMAP4xcAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAi4GAPwgnz9/HofDYcxmxnua2YcPHwbHWa1WAwB+FAEAgB/m/v5+7Pf7wXm7u7sbAMD8/AIAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAwMWAmM1mMx4eHgbn7ZdffhlwKvf39+Onn34as9lut2NGM97XarUanz59GnAKzhKvg7MERQIAOev1etze3g6Af/L27dtva8VsZg0Aj4+PYzbL+AkAnIqzBHCu/AIAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAwMWAE3l+fh7b7XZAyW63G1Dz8PAwZjTjHrRarcanT58Gx1nWVGcJavb7/YBTEQA4mcPhMB4fHwcAr9vt7e2YzXKAnvHDcb1eCwDfYRlHZwmA/x6/AAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABBwMTh7V1dX4+npaQD8k2Wd4Hjb7XZwvOvr6zGbw+EwOJ6zBPCfOEu8Dm++/m0AwA9weXk59vv9gIr1ej1eXl4GAPwIfgEAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAg4GJw9na73dhut4Pj3NzcjE+fPo3ZfP78edzf34/ZvH//frx7925wnH//+9/jjz/+GBzn4eFhrNfrwXEuLy/HjF5eXgbnzVnidZh1z571jDOr33//fVxdXQ04BQHgldjv94PjHA6HMaPlvmYcx1mf16xmHcdZLR//AsD5M4avg7Xr/DnjvA7OXpySXwAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIuBjAFN69ezd+++23MZvVajU43qdPn8bd3d2Yza+//jqen5/HbK6vr8eMnp6exnq9HrN5eXkZM7q8vBwcZ5lXy/yCklnPOLPabrffrtn8/vvv4+rqanDeBACYxPKh7WP7/M06jrPOrf1+PzjejFFiYRyB/48zzvebcV09HA6D8+cXAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAE5ms9mMr1+/Tnc9PDwMjvfx48fx5s2b6a4vX76MGW232ymf1263GzN6eXmZcp1Yr9eD4804hsvc4niz7tmu77vu7u7GjJwlYB4CAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAJzMbrcbb968me7abrdjRh8/fpzyeS2+fv063TXr/NpsNlM+r+W+ON7l5eWU82vWa0br9XrKd/Hl5WXMyJ79fR4fH6d8XrNeixnfx1nn/XJfcCoCAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAEXA05ktVp9u2bz008/DTiVw+Ew9vv9mM16vf52cd6M4feZ8V2c2azza9ZxnPF5LXvQcnGc5UxoXaVGAOBkrq6uxtPT04CS9+/ff7tms7yLDw8Pg/P28vIyOM7y0Xh5eTk4zmazmXJ+PT4+TjmOt7e3Uz6vjx8/jg8fPgyOc39//+2CEr8AAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAEHAxOHur1Wqs1+sxm+W+ON5PP/005Tgu9zWjWZ8X32e/3w+ON+vz8i5+H3s2p+Is8TpY6zmlN1//NgDgB7i8vBQBXoEZjxLLvFrm12yWA/TLy8vgOI+Pj2O73Y7Z3N7ejoeHhwGncH19PXa73ZjN09PT2Gw2g/PmFwAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACLgZn73A4jOfn5wHwT66ursZqtRqct81mMzh/u91uzGZZH5Z1YjbLfc0479fr9ZTjyOuwzK8Z571zxOvw5uvfBmdt2YCur68HwD95enqa8jBxeXk59vv94Di27OMt82qZXxxnWR+WdYLjPD4+ju12O+AUZt2zeR38AgAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAEDAxYATWa/XY7PZDCjZ7XZjv98PjvP27dvx119/DfhvW61W4/b2dnCcZc+e0bKeLuvqbP78888xo6urq28X521Zv+BUBABOZjlMPDw8DCjZbrfj8fFxcJz7+/sBp7AcoO1B52/5+F/WVY5zc3Mz7u7uBsA/8QsAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAARcDYvb7/djtdoPzttlsxnq9HgD/l8PhMP7444/BcZb1dFlXZ7Pc1+3t7ZjNrGeJ5+fn8fj4OGZzdXX17ZrNMobLWHKcm5ubsVqtBudNACBnWey32+3gvC0HHAEA+CdLALDWH2/5+J8xAMx6X8seNGMAWKLXjOHrw4cPUwaAL1++TBlMZjVrKOT7+AUAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAIABr58AAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAARcDAD4QT5//jwOh8PgvN3d3Q2Os1qtxvv378dsfv7558H522w2367Z/PLLL2NGb9++Hev1eszm8fFx7Pf7AacgAADww9zf3zvkvAICwPGWAOB5cSrLx7/5dbybm5tv12x2u529kZPxCwAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABFwMAfpD379+Pw+EwZnN/fz/lfc3q48ePYzbG7/vs9/vx5cuXMZt//etf4+bmZnDedrvd+PPPP8ds3r59O66urgaUCAAA/DDv3r0bM3p8fPQB+R0+fPgwOG9LAJhxHG9vbwWAV2D5+J9xfq3XawGAHL8AAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAEHAxIGaz2YyHh4fBefvll18G5+/9+/fjr7/+GrO5u7sbcCrb7XbMZr1eT7k3Lvc1o1nPEldXV2NGb9++HT///POYzaxniWUP+u2338ZsZn0f+T5vvv5tcNZ2u924vr4es1k2x6enpwEly8H+8fFxzGZ5F5d3cjaXl5djv9+P2by8vDjocBLLfF/m/Wzs2QANfgEAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAg4GLAiTw/P4/r6+sBJcu85/xtt9sxo6enp8FxDofD+PXXX8eMZhzH/X4/5Z692WzG3d3dmM2ff/45Pnz4MGZze3s7fvvtt8FxPn/+PP74448xm0+fPo2rq6sBpyAAcDLL4Wu32w2Ac2PtOn+z7kHr9frbR+1slmc16/Oa0cvLy5TPa8a5NbMl2s84jsv6BafiFwAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAACBAAAAAAIEAAAAAAgQAAAAACAAAEAAAAAAgQAAAAACBAAAAAAIEAAAAAAgAABAAAAAAIEAAAAAAgQAAAAACBAAAAAAIAAAQAAAAAC3nz92+CsHQ6H8fz8PAD+ydXV1VitVmM2u91ucLzNZjM4zqx74/IeLu/jbGZ9Xuv1+ts1m/1+/+2azazPa1bLnF/m/mxm3bN5HQQAAAAACPALAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAAB/wtEL52tqU+q4QAAAABJRU5ErkJggg==';
+  var HEX = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08';
+  var LONG = 'イベント参加のご案内\n\n開催日：2026年10月20日\n受付時間：13:30〜14:00\n会場：サンプルホール 2階\n\n当日は受付でこの内容をご提示ください。受付後、スタッフが会場までご案内します。席は自由席です。開始の10分前までにお越しいただくと、余裕を持ってご入場いただけます。\n\n持ち物：参加案内、筆記用具、飲み物。会場内は空調のため肌寒く感じられる場合がありますので、上着をご用意ください。\n\n内容の変更や追加のご案内がある場合は、受付にてお知らせします。途中参加・途中退出の際は、スタッフまでお声がけください。\n\nこの文章は表示確認用のサンプルです。長い文章でも改行と内容を保って表示し、コピーや共有に進めることを確認するために用意しています。';
+  var SEED = [
+    { id: 'h1', value: 'https://qleap.jp', date: '2026/10/14' },
+    { id: 'h2', value: 'ご来店ありがとうございます。\n次回のご予約は10月20日 14:00です。\n担当: 山田', date: '2026/10/14' },
+    { id: 'h3', value: 'https://bsky.app', date: '2026/10/13' },
+    { id: 'h4', value: HEX, date: '2026/10/13' }
+  ];
+  var CAM = {
+    unrequested: ['camera', 'カメラを使って読み取る', 'QRコードを読み取るために、カメラへのアクセスを許可してください。'],
+    denied: ['camera-off', 'カメラへのアクセスが許可されていません', 'QRコードを読み取るには、設定でQRReaderのカメラを許可してください。'],
+    restricted: ['ban', 'カメラの利用が制限されています', 'スクリーンタイムや管理者のプロファイルなど、この端末の制限によりカメラを利用できません。アプリからは変更できません。'],
+    unavailable: ['camera-off', 'カメラを利用できません', 'この端末にカメラがないか、ほかのアプリが使用中のため利用できません。']
+  };
+  var STEPS = [['scan-line', '読み取る', 'カメラをQRコードに向けるだけ'], ['check', '確認する', '内容をそのまま表示します'], ['share', '共有する', '必要なときに共有できます']];
+
+  function esc(t) { return String(t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function ic(n) { return '<i data-lucide="' + n + '" aria-hidden="true"></i>'; }
+  function isUrl(v) { return /^https?:\/\/\S+$/.test(v); }
+  function kind(v) { return isUrl(v) ? 'URL' : 'テキスト'; }
+  function first(v) { return v.split('\n')[0]; }
+  function mono(v) { return /^[0-9a-f]{40,}$/i.test(v) ? ' mono' : ''; }
+  var gear = function () { return B('settings', '', { cls: 'icobtn', icon: 'settings', aria: '設定' }); };
+  function B(act, label, o) {
+    o = o || {};
+    var a = ' data-act="' + act + '"' + (o.id ? ' data-id="' + o.id + '"' : '') + (o.n ? ' data-n="' + esc(o.n) + '"' : '');
+    return '<button class="' + (o.cls || 'qr-button') + ' cursor-interaction"' + a + (o.aria ? ' aria-label="' + esc(o.aria) + '"' : '') + (o.extra || '') + '>' + (o.icon ? ic(o.icon) : '') + (label ? '<span>' + label + '</span>' : '') + '</button>';
+  }
+
+  function domain(v) { var m = /^https?:\/\/([^\/?#]+)/.exec(v); return m ? m[1] : 'テキスト'; }
+  function titleOf(it) { return isUrl(it.value) ? domain(it.value) : (/^[0-9a-f]{40,}$/i.test(it.value) ? 'ハッシュ値' : 'テキスト'); }
+
+  /* ---------- shared pieces ---------- */
+  function scene(paused) {
+    return '<div class="scene' + (paused ? ' paused' : '') + '" role="img" aria-label="カメラ映像のイメージ"><div class="paper"><img src="' + ICON + '" alt=""></div>' + (paused ? '' : '<div class="reticle"><b></b><b></b><b></b><b></b></div>') + '</div>';
+  }
+  function camPanel(s) {
+    var c = CAM[s.cam];
+    return '<div class="campanel" role="group" aria-label="カメラの状態">' + ic(c[0]) + '<h2>' + c[1] + '</h2><p>' + c[2] + '</p>' + (s.cam === 'denied' ? B('opensettings', '設定を開く', { cls: 'qr-button primary', icon: 'settings' }) : s.cam === 'unrequested' ? B('start', 'カメラを許可する', { cls: 'qr-button primary', icon: 'camera' }) : '') + '</div>';
+  }
+  function camFrame(s) { return '<div class="camframe' + (s.cam === 'ok' ? '' : ' fill') + '">' + (s.cam === 'ok' ? scene(false) : camPanel(s)) + '</div>'; }
+  function hint(s) { return s.cam === 'ok' ? '<p class="hint">QRコードを枠に合わせてください</p>' : ''; }
+  function tabs(s) {
+    var t = [['scan', 'スキャン', 'scan-line'], ['history', '履歴', 'history']];
+    return '<nav class="tabs" aria-label="メインメニュー">' + t.map(function (x) {
+      return '<button class="cursor-interaction" data-act="tab" data-n="' + x[0] + '"' + (s.tab === x[0] ? ' aria-current="page"' : '') + '>' + ic(x[2]) + '<span>' + x[1] + '</span></button>';
+    }).join('') + '</nav>';
+  }
+  function payload(it) { return '<div class="payload' + mono(it.value) + '">' + esc(it.value) + '</div>'; }
+  function acts(it) {
+    if (isUrl(it.value)) return '<div class="acts">' + B('openurl', 'リンクを開く', { cls: 'qr-button primary', icon: 'external-link' }) + '<div class="acts2">' + B('copy', 'コピー', { icon: 'copy' }) + B('share', '共有', { icon: 'share' }) + '</div></div>';
+    return '<div class="acts"><div class="acts2">' + B('copy', 'コピー', { cls: 'qr-button primary', icon: 'copy' }) + B('share', '共有', { icon: 'share' }) + '</div></div>';
+  }
+  function editBtn(s) { return B('edit', s.edit ? '完了' : '編集', { cls: 'txtbtn', extra: ' aria-pressed="' + s.edit + '"' }); }
+  function clearBtn() { return B('clearask', 'すべて消去', { cls: 'txtbtn danger' }); }
+  function row(s, it) {
+    var sh = esc(first(it.value));
+    var inner = '<span class="ricon">' + ic(isUrl(it.value) ? 'link' : 'file-text') + '</span><span class="rtxt"><span class="rval">' + sh + '</span><span class="rsub">' + kind(it.value) + '・' + it.date + '</span></span>';
+    if (s.edit) return '<li>' + B('delask', '', { cls: 'del', icon: 'trash-2', id: it.id, aria: '削除: ' + first(it.value) }) + '<div class="rowbtn">' + inner + '</div></li>';
+    return '<li>' + B('open', '', { cls: 'rowbtn', id: it.id, aria: kind(it.value) + ' ' + first(it.value) + ' ' + it.date }).replace('></button>', '>' + inner + '<span class="chev">' + ic('chevron-right') + '</span></button>') + '</li>';
+  }
+  function emptyHist() {
+    return '<div class="empty">' + ic('history') + '<p class="et">履歴はありません</p><p>読み取ったQRコードがここに表示されます</p>' + B('toscan', 'スキャンへ移動', { cls: 'qr-button primary' }) + '</div>';
+  }
+  function settingsList() {
+    var rows = [['サポート', 'life-buoy'], ['プライバシーポリシー', 'lock']];
+    return rows.map(function (r) {
+      return '<li>' + B('row', '', { cls: 'rowbtn', n: r[0] }).replace('></button>', '><span class="ricon">' + ic(r[1]) + '</span><span class="rtxt"><span class="rval">' + r[0] + '</span></span><span class="chev">' + ic('chevron-right') + '</span></button>') + '</li>';
+    }).join('') + '<li><div class="rowbtn"><span class="ricon">' + ic('info') + '</span><span class="rtxt"><span class="rval">バージョン</span></span><span class="rsub">1.0.0</span></div></li>';
+  }
+  function steps() {
+    return '<ul class="steps">' + STEPS.map(function (x) { return '<li><span class="ricon">' + ic(x[0]) + '</span><span><span class="st">' + x[1] + '</span><br><span class="sd">' + x[2] + '</span></span></li>'; }).join('') + '</ul>';
+  }
+  function startBtn() { return B('start', 'はじめる', { cls: 'qr-button primary' }) + '<p class="fine">次の画面でiOSがカメラの使用許可を確認します</p>'; }
+  function histGroups(s) {
+    var g = [], map = {};
+    s.items.forEach(function (it) { if (!map[it.date]) { map[it.date] = []; g.push(it.date); } map[it.date].push(it); });
+    return g.map(function (d) { return '<h2 class="grp">' + d + '</h2><ul class="list">' + map[d].map(function (it) { return row(s, it); }).join('') + '</ul>'; }).join('');
+  }
+  function dlg(s) {
+    var d = s.dlg; if (!d) return '';
+    var h = '', cls = 'dlg', wrap = 'scrim';
+    if (d.t === 'clear') h = '<h2 id="dlgt">履歴をすべて消去しますか？</h2><p class="db">' + s.items.length + '件の履歴を消去します。元に戻せません。</p><div class="btns two">' + B('canceldlg', 'キャンセル') + B('confirmclear', '消去', { cls: 'qr-button danger' }) + '</div>';
+    if (d.t === 'del') { var it = s.items.filter(function (x) { return x.id === d.id; })[0]; h = '<h2 id="dlgt">この履歴を削除しますか？</h2>' + (it ? '<div class="payload' + mono(it.value) + '">' + esc(it.value) + '</div><p class="db">' + kind(it.value) + '・' + it.date + '</p>' : '') + '<div class="btns two">' + B('canceldlg', 'キャンセル') + B('confirmdel', '削除', { cls: 'qr-button danger', id: d.id }) + '</div>'; }
+    if (d.t === 'share') { wrap += ' sh'; h = '<h2 id="dlgt">共有（デモ）</h2><div class="payload' + mono(s.res.value) + '">' + esc(s.res.value) + '</div><div class="btns">' + B('sharetarget', 'メッセージ', { icon: 'message-circle', n: 'メッセージ' }) + B('sharetarget', 'メール', { icon: 'mail', n: 'メール' }) + B('canceldlg', '閉じる', { cls: 'qr-button primary' }) + '</div>'; }
+    if (d.t === 'os') { cls += ' os'; h = '<span class="chip osbadge">iOSのシステム確認（デモ）</span><h2 id="dlgt">“QRReader”がカメラへのアクセスを求めています</h2><p class="db">QRコードを読み取るために使用します。</p><div class="btns two">' + B('osdeny', '許可しない') + B('osallow', '許可', { cls: 'qr-button primary' }) + '</div>'; }
+    if (d.t === 'osettings') { cls += ' set'; h = '<span class="chip osbadge">iOSの設定アプリ（デモ）</span><h2 id="dlgt">QRReader</h2><button class="sw cursor-interaction" role="switch" aria-checked="' + !!s.camTmp + '" data-act="ostoggle"><span>カメラ</span><span class="knob"></span></button><div class="btns">' + B('osback', 'QRReaderに戻る', { cls: 'qr-button primary' }) + '</div>'; }
+    return '<div class="' + wrap + '"><div class="' + cls + '" role="dialog" aria-modal="true" aria-labelledby="dlgt">' + h + '</div></div>';
+  }
+
+  /* ---------- Clear (native) ---------- */
+  function nvNav(left, right, title) { return '<header class="nvhead"><div class="navrow"><div>' + left + '</div><div>' + right + '</div></div>' + (title ? '<h1>' + title + '</h1>' : '') + '</header>'; }
+  function nvBack(label) { return B('back', label, { cls: 'txtbtn', icon: 'chevron-left' }); }
+  function native(s) {
+    if (s.screen === 'first') return '<div class="first"><img class="appicon" src="' + ICON + '" alt=""><h1>QRReaderへようこそ</h1><div class="group">' + steps() + '</div><div class="grow"></div>' + startBtn() + '</div>';
+    if (s.screen === 'settings') return nvNav(nvBack(s.tab === 'history' ? '履歴' : 'スキャン'), '', '設定') + '<div class="nvbody"><ul class="list">' + settingsList() + '</ul></div>';
+    if (s.screen === 'result') {
+      var it = s.res, hist = s.from === 'history';
+      return nvNav(hist ? nvBack('履歴') : B('done', '完了', { cls: 'txtbtn' }), '', '') + '<div class="rbody"><p class="rkind">' + kind(it.value) + '・' + it.date + '</p><h1 class="rtitle">' + esc(titleOf(it)) + '</h1><div class="group">' + payload(it) + '</div></div>' + acts(it);
+    }
+    if (s.tab === 'scan') return nvNav('', gear(), 'スキャン') + '<div class="scanbody">' + camFrame(s) + hint(s) + '</div>' + tabs(s);
+    return nvNav(s.items.length ? editBtn(s) : '', gear(), '履歴') + (s.items.length ? '<div class="nvbody">' + histGroups(s) + '<div class="clearrow">' + clearBtn() + '</div></div>' : emptyHist()) + tabs(s);
+  }
+
+  /* ---------- Camera (focus) ---------- */
+  function fTop(left, title, right) { return '<header class="ftop">' + (left || '') + (title ? '<h1 class="ftitle">' + title + '</h1>' : '') + '<span class="grow"></span>' + (right || '') + '</header>'; }
+  function fSheet(s) {
+    var it = s.res, hist = s.from === 'history';
+    return '<div class="dim"></div><section class="sheet" aria-label="読み取り結果"><span class="grab"></span><div class="sh-top"><span class="chip">' + kind(it.value) + '</span><span class="rsub">' + it.date + '</span>' + B('back_or_done', '', { cls: 'icobtn', icon: 'x', aria: hist ? '閉じて履歴に戻る' : '閉じてスキャンに戻る' }) + '</div><h1 class="rtitle">' + esc(titleOf(it)) + '</h1>' + payload(it) + acts(it) + '</section>';
+  }
+  function focus(s) {
+    if (s.screen === 'first') return '<div class="fscreen"><div class="layer dark"><div class="scene paused"></div><div class="shade"></div><div class="fcontent"><img class="appicon" src="' + ICON + '" alt=""><h1>QRReaderへようこそ</h1>' + steps() + startBtn() + '</div></div></div>';
+    if (s.screen === 'settings') return '<div class="fscreen">' + fTop(B('back', '', { cls: 'icobtn', icon: 'chevron-left', aria: '戻る' }), '設定', '') + '<div class="body"><ul class="list">' + settingsList() + '</ul></div></div>';
+    if (s.screen === 'result' && s.from === 'scan') return '<div class="fscreen"><div class="layer dark">' + scene(true) + fTop('', 'スキャン', gear()) + '<div class="fmid"></div></div>' + fSheet(s) + '</div>';
+    if (s.tab === 'scan') return '<div class="fscreen"><div class="layer dark">' + (s.cam === 'ok' ? scene(false) : '') + fTop('', 'スキャン', gear()) + '<div class="fmid">' + (s.cam === 'ok' ? hint(s) : camPanel(s)) + '</div>' + tabs(s) + '</div></div>';
+    var body = s.items.length ? '<div class="body"><ul class="list">' + s.items.map(function (it) { return row(s, it); }).join('') + '</ul></div>' : emptyHist();
+    var right = (s.items.length ? '<span class="ftools">' + editBtn(s) + clearBtn() + '</span>' : '') + gear();
+    return '<div class="fscreen"><div class="layer">' + fTop('', '履歴', right) + body + (s.screen === 'result' ? '' : tabs(s)) + '</div>' + (s.screen === 'result' ? fSheet(s) : '') + '</div>';
+  }
+
+  /* ---------- Soft ---------- */
+  function sfHead(title, right) { return '<header class="sfhead"><h1>' + title + '</h1><div class="hr">' + (right || '') + '</div></header>'; }
+  function soft(s) {
+    if (s.screen === 'first') return '<div class="first"><img class="appicon" src="' + ICON + '" alt=""><h1>はじめましょう</h1>' + steps() + '<div class="grow"></div>' + startBtn() + '</div>';
+    if (s.screen === 'settings') return '<div class="sf"><div class="sfnav">' + B('back', s.tab === 'history' ? '履歴' : 'スキャン', { cls: 'txtbtn', icon: 'chevron-left' }) + '</div>' + sfHead('設定', '') + '<div class="body"><ul class="list">' + settingsList() + '</ul></div></div>';
+    if (s.screen === 'result') {
+      var it = s.res, hist = s.from === 'history';
+      return '<div class="sf"><div class="sfnav">' + (hist ? B('back', '履歴', { cls: 'txtbtn', icon: 'chevron-left' }) : B('done', '閉じる', { cls: 'txtbtn', icon: 'x' })) + '</div><div class="rbody"><article class="rcard"><div class="top"><span class="chip">' + kind(it.value) + '</span><span>' + titleOf(it) + '・' + it.date + '</span></div>' + payload(it) + '</article></div>' + acts(it) + '</div>';
+    }
+    if (s.tab === 'scan') return '<div class="sf">' + sfHead('スキャン', gear()) + '<div class="scanbody">' + camFrame(s) + hint(s) + '</div>' + tabs(s) + '</div>';
+    return '<div class="sf">' + sfHead('履歴', (s.items.length ? editBtn(s) : '') + gear()) + (s.items.length ? '<div class="body">' + histGroups(s) + '<div class="clearrow">' + clearBtn() + '</div></div>' : emptyHist()) + tabs(s) + '</div>';
+  }
+
+  var RENDER = { native: native, focus: focus, soft: soft };
+  function fresh() { return { screen: 'main', tab: 'scan', cam: 'ok', res: null, from: null, edit: false, dlg: null, camTmp: false, items: SEED.map(function (i) { return { id: i.id, value: i.value, date: i.date }; }) }; }
+  function preset(key) {
+    var s = fresh();
+    var res = function (id, from) { s.res = SEED.filter(function (x) { return x.id === id; })[0]; s.from = from || 'scan'; s.screen = 'result'; };
+    if (key === 'url') res('h1'); else if (key === 'text') res('h2'); else if (key === 'long') { s.res = { id: 'long', value: LONG, date: '2026/10/14' }; s.from = 'scan'; s.screen = 'result'; }
+    else if (key === 'history') s.tab = 'history';
+    else if (key === 'empty') { s.tab = 'history'; s.items = []; }
+    else if (key === 'settings') s.screen = 'settings';
+    else if (key === 'first') s.screen = 'first';
+    else if (key === 'denied') s.cam = 'unrequested';
+    else if (key === 'rejected') s.cam = 'denied';
+    else if (key === 'restricted' || key === 'unavailable') s.cam = key;
+    return s;
+  }
+  var apps = [].map.call(root.querySelectorAll('.phone'), function (el) {
+    return { el: el, v: el.getAttribute('data-pattern'), screen: el.querySelector('.screen'), live: el.querySelector('.live'), s: fresh(), timer: 0 };
+  });
+
+  function render(app, fk) {
+    app.screen.innerHTML = RENDER[app.v](app.s) + dlg(app.s);
+    app.el.setAttribute('data-state', sel.value);
+    if (app.screen.querySelector('.layer.dark')) app.el.setAttribute('data-dark', ''); else app.el.removeAttribute('data-dark');
+    var dialog = app.screen.querySelector('.scrim [role="dialog"]');
+    var resultSheet = app.v === 'focus' ? app.screen.querySelector('.sheet') : null;
+    app.el.toggleAttribute('data-sheet', !!resultSheet);
+    if (resultSheet) {
+      resultSheet.setAttribute('role', 'dialog');
+      resultSheet.setAttribute('aria-modal', 'true');
+      [].forEach.call(resultSheet.parentElement.children, function (child) { if (child !== resultSheet) child.inert = true; });
+    }
+    if (dialog) {
+      var dialogTitle = dialog.querySelector('h2');
+      dialogTitle.id = 'qr-dialog-' + app.v;
+      dialog.setAttribute('aria-labelledby', dialogTitle.id);
+      [].forEach.call(app.screen.children, function (child) { if (!child.classList.contains('scrim')) child.inert = true; });
+    }
+    if (globalThis.lucide && typeof globalThis.lucide.createIcons === 'function') { try { globalThis.lucide.createIcons({ attrs: { width: 24, height: 24 } }); } catch (e) {} }
+    var target = null;
+    if (app.s.dlg) target = app.screen.querySelector('.dlg button');
+    else if (fk) {
+      [].forEach.call(app.screen.querySelectorAll('[data-act]'), function (b) { if (!target && keyOf(b) === fk) target = b; });
+    }
+    if (!target && fk) target = [].filter.call(app.screen.querySelectorAll('button'), function (b) { return !b.closest('[inert]'); })[0];
+    if (target) target.focus({ preventScroll: true });
+  }
+  function keyOf(b) { return b.dataset.act + '|' + (b.dataset.id || '') + '|' + (b.dataset.n || ''); }
+  function say(app, msg) {
+    app.live.textContent = ''; clearTimeout(app.timer);
+    requestAnimationFrame(function () { app.live.textContent = msg; });
+    app.timer = setTimeout(function () { app.live.textContent = ''; }, 2600);
+  }
+  function act(app, b) {
+    var s = app.s, a = b.dataset.act, id = b.dataset.id, n = b.dataset.n;
+    var hadDialog = !!s.dlg;
+    if (!hadDialog) app.returnFocusKey = keyOf(b);
+    function main(tab) { s.screen = 'main'; s.res = null; s.from = null; if (tab) s.tab = tab; }
+    switch (a) {
+      case 'tab': main(n); s.edit = false; break;
+      case 'settings': s.screen = 'settings'; s.edit = false; break;
+      case 'back': main(); break;
+      case 'back_or_done': if (s.from === 'history') main('history'); else main('scan'); break;
+      case 'done': case 'again': main('scan'); break;
+      case 'toscan': main('scan'); break;
+      case 'open': if (s.edit) return; s.res = s.items.filter(function (x) { return x.id === id; })[0]; s.from = 'history'; s.screen = 'result'; break;
+      case 'copy': say(app, 'コピーのデモ'); break;
+      case 'openurl': say(app, 'リンクを開くデモ'); break;
+      case 'share': s.dlg = { t: 'share' }; break;
+      case 'sharetarget': s.dlg = null; say(app, n + 'へ共有のデモ'); break;
+      case 'row': say(app, n + 'のデモ'); break;
+      case 'edit': s.edit = !s.edit; break;
+      case 'clearask': s.dlg = { t: 'clear' }; break;
+      case 'delask': s.dlg = { t: 'del', id: id }; break;
+      case 'canceldlg': s.dlg = null; break;
+      case 'confirmclear': s.items = []; s.edit = false; s.dlg = null; say(app, '履歴を消去しました（デモ）'); break;
+      case 'confirmdel': s.items = s.items.filter(function (x) { return x.id !== id; }); if (!s.items.length) s.edit = false; s.dlg = null; say(app, '履歴を削除しました（デモ）'); break;
+      case 'start': s.dlg = { t: 'os' }; break;
+      case 'osallow': s.cam = 'ok'; s.dlg = null; main('scan'); break;
+      case 'osdeny': s.cam = 'denied'; s.dlg = null; main('scan'); break;
+      case 'opensettings': s.camTmp = false; s.dlg = { t: 'osettings' }; break;
+      case 'ostoggle': s.camTmp = !s.camTmp; break;
+      case 'osback': s.cam = s.camTmp ? 'ok' : 'denied'; s.dlg = null; break;
+    }
+    render(app, hadDialog && !s.dlg ? app.returnFocusKey : keyOf(b));
+  }
+  apps.forEach(function (app) {
+    app.el.setAttribute('role', 'group');
+    app.el.setAttribute('aria-label', { native: 'クリア案', focus: 'カメラ案', soft: 'ソフト案' }[app.v]);
+    app.el.addEventListener('pointerdown', function (e) {
+      if (e.target.classList.contains('scrim')) { e.preventDefault(); app.screen.querySelector('.scrim button').focus(); }
+    });
+    app.el.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]');
+      if (b && app.el.contains(b)) act(app, b);
+    });
+    app.el.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && app.s.dlg && app.s.dlg.t !== 'os') { app.s.dlg = null; render(app, app.returnFocusKey); return; }
+      if (e.key === 'Escape' && !app.s.dlg && app.v === 'focus' && app.s.screen === 'result') {
+        app.s.screen = 'main'; app.s.tab = app.s.from === 'history' ? 'history' : 'scan'; app.s.res = null; render(app, 'back');
+      }
+      if (e.key === 'Tab' && (app.s.dlg || app.v === 'focus' && app.s.screen === 'result')) {
+        var buttons = app.screen.querySelectorAll(app.s.dlg ? '.scrim [role="dialog"] button' : '.sheet button');
+        var firstButton = buttons[0], lastButton = buttons[buttons.length - 1];
+        if (e.shiftKey && document.activeElement === firstButton) { e.preventDefault(); lastButton.focus(); }
+        else if (!e.shiftKey && document.activeElement === lastButton) { e.preventDefault(); firstButton.focus(); }
+      }
+    });
+  });
+
+  var sel = document.getElementById('qrreader-ui-v2-state');
+  function applyPreview() { apps.forEach(function (app) { app.s = preset(sel.value); render(app); }); }
+  sel.addEventListener('change', applyPreview);
+  applyPreview();
+
+  /* fixed 390x844 canvas, uniformly scaled; all variants reserve the same size */
+  function fit() {
+    var w = root.getBoundingClientRect().width - 32;
+    if (w > 0) root.style.setProperty('--k', String(Math.min(1, w / 390)));
+  }
+  fit();
+  if (typeof ResizeObserver === 'function') new ResizeObserver(fit).observe(root);
+  else window.addEventListener('resize', fit);
+
+  var LABEL = { native: 'クリア案', focus: 'カメラ案', soft: 'ソフト案' };
+  apps.forEach(function (app) { app.el.setAttribute('aria-label', LABEL[app.v]); });
+  if (typeof globalThis.Tweak === 'function') {
+    apps.forEach(function (app) {
+      var options = { appearance: 'light dark' };
+      var tweak = new globalThis.Tweak({ container: app.el, onChange: function () {
+        app.el.style.colorScheme = options.appearance;
+      } });
+      tweak.addSelect(options, 'appearance', { label: '外観', options: [{ label: '自動', value: 'light dark' }, { label: 'ライト', value: 'light' }, { label: 'ダーク', value: 'dark' }] });
+    });
+  }
+})();
+</script>
+</div>

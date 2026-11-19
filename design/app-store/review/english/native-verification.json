@@ -1,0 +1,46 @@
+{
+  "captureRuns": [
+    {
+      "deviceAppearance": "iphone-dark",
+      "language": "en",
+      "locale": "en_US",
+      "testsPassed": 2,
+      "resultBundle": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-dark-final/Tests.xcresult",
+      "ownedDevice": "A9923302-B59D-48DC-A72D-79DC6BC57977",
+      "ownedDeviceDeleted": true
+    },
+    {
+      "deviceAppearance": "iphone-light",
+      "language": "en",
+      "locale": "en_US",
+      "testsPassed": 2,
+      "resultBundle": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-iphone-light-final/Tests.xcresult",
+      "ownedDevice": "4CA3BFF2-5E92-4B60-8A90-A7174D2934EB",
+      "ownedDeviceDeleted": true
+    },
+    {
+      "deviceAppearance": "ipad-dark",
+      "language": "en",
+      "locale": "en_US",
+      "testsPassed": 2,
+      "resultBundle": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-dark-final/Tests.xcresult",
+      "ownedDevice": "A8D8C169-9C89-42A9-92D1-336B2E93BA84",
+      "ownedDeviceDeleted": true
+    },
+    {
+      "deviceAppearance": "ipad-light",
+      "language": "en",
+      "locale": "en_US",
+      "testsPassed": 2,
+      "resultBundle": "/Users/devonly/Developer/QRReader/.build/validation/appstore-en-ipad-light-final/Tests.xcresult",
+      "ownedDevice": "4B3C93B1-6B81-4019-806D-62E73DC12119",
+      "ownedDeviceDeleted": true
+    }
+  ],
+  "englishMarketingImages": 16,
+  "japaneseMarketingImages": 16,
+  "japanesePNGsByteIdentical": true,
+  "allPNGs": "RGB, 1320x2868 iPhone or2064x2752 iPad",
+  "sourcesByteIdentical": 32,
+  "visualQA": "EN UI checked in both device types and appearances, including dates andsystemCopy/Save toFiles; allEnglishcontactsheet images checked."
+}

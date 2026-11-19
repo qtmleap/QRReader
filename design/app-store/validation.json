@@ -1,0 +1,625 @@
+{
+  "sources": [
+    {
+      "path": "sources/iphone/light/ja/01.png",
+      "locale": "ja",
+      "sha256": "58b122d9ea0f72c7a8b50c40c94d0b71e5c055b62fb0fbbeb94de0a10097d4b5",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/light/ja/02.png",
+      "locale": "ja",
+      "sha256": "ff7cb0460066d4cd7ba5be61e3b75b898c90f87a5aa37b991e2f5b60168fde6c",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/light/ja/03.png",
+      "locale": "ja",
+      "sha256": "b49e52e1d1448dd1accdd347d70d2cadcb5153dbe77e89b7e1823a393c99ee35",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/light/ja/04.png",
+      "locale": "ja",
+      "sha256": "a7587641e77ebe6eb0d6891534c89780cb185d682d49bb6351a224ca0d65d9ed",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/dark/ja/01.png",
+      "locale": "ja",
+      "sha256": "a8a3c12badeb2fe9cb6f3228151b60f130874800209507663aedc5abfba5b1c7",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/dark/ja/02.png",
+      "locale": "ja",
+      "sha256": "e2ed653533f69d7293407286db5bba4ebb0fbe458ce302ce406b6c6e81b93d30",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/dark/ja/03.png",
+      "locale": "ja",
+      "sha256": "38fb13d4903a1b311f0f5cea95f899d6accf40ac612e01db593043a4b43c4e91",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/dark/ja/04.png",
+      "locale": "ja",
+      "sha256": "6071f2fb7c0c7a66ec9dd10b43eb23a8e92959c7bf44a3c409b1a53d71dd36be",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/dark/ja/03.png",
+      "locale": "ja",
+      "sha256": "bea7947163be4c6e9b80fcdc6d525cfd3eed75033f03a1bfa4c0be0a404164ac",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/dark/ja/01.png",
+      "locale": "ja",
+      "sha256": "58b122d9ea0f72c7a8b50c40c94d0b71e5c055b62fb0fbbeb94de0a10097d4b5",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/dark/ja/04.png",
+      "locale": "ja",
+      "sha256": "a7587641e77ebe6eb0d6891534c89780cb185d682d49bb6351a224ca0d65d9ed",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/dark/ja/02.png",
+      "locale": "ja",
+      "sha256": "01b224926d335d6f31b30583cfb7dc931cf1bf52ead479e54cba9211dac14fe3",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/light/ja/03.png",
+      "locale": "ja",
+      "sha256": "31fb31aab93a54e4ac8671ef297708f45afd3ea0f2f90d0063fda1d5c567da44",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/light/ja/01.png",
+      "locale": "ja",
+      "sha256": "a8a3c12badeb2fe9cb6f3228151b60f130874800209507663aedc5abfba5b1c7",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/light/ja/04.png",
+      "locale": "ja",
+      "sha256": "6071f2fb7c0c7a66ec9dd10b43eb23a8e92959c7bf44a3c409b1a53d71dd36be",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/light/ja/02.png",
+      "locale": "ja",
+      "sha256": "1181272a7c16cf39d11bd6e306de9fd34fc1974b8ac9e8c4c8a30c2e9d4e5596",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/dark/en/03.png",
+      "locale": "en",
+      "sha256": "d26245ee78c821e019d88990d5790d3ddbb9ab365b6c0f649f0fa52e06cfc841",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/dark/en/01.png",
+      "locale": "en",
+      "sha256": "efa43dc35848aa62b0f1a55f46ead926b756259cf97e38e8c84357a18812bc12",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/dark/en/04.png",
+      "locale": "en",
+      "sha256": "38c208e0407f2a1a8b5602647404bc048a5a198a1ad7fee63a30f1e28239eb32",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/dark/en/02.png",
+      "locale": "en",
+      "sha256": "6916f060b91a2c39a528b3a4e719472a2da4ccb214e7976f24edf470ef989c60",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/light/en/03.png",
+      "locale": "en",
+      "sha256": "c184633cec5b494aacab52922398c6a64cb3badf7c899dea09233a7f84972b19",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/light/en/01.png",
+      "locale": "en",
+      "sha256": "efa43dc35848aa62b0f1a55f46ead926b756259cf97e38e8c84357a18812bc12",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/light/en/04.png",
+      "locale": "en",
+      "sha256": "20de25e948b6cc59f7dd87501afac650071b11411e933bcaacaea051179c4d8c",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/iphone/light/en/02.png",
+      "locale": "en",
+      "sha256": "b5777e7b42d4adaac78bea115eb67436b23e14e510000e8cd0902d0ac0b0626c",
+      "dimensions": [
+        1178,
+        2556
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/dark/en/03.png",
+      "locale": "en",
+      "sha256": "915cc567927d9cf26cc414bbfb75b28cd17d9b4d653b395a34078d6da89e7b94",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/dark/en/01.png",
+      "locale": "en",
+      "sha256": "27cdec578107ef693b3f0fdd288b8346587af7d92e3edfe61e829683660fa0e2",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/dark/en/04.png",
+      "locale": "en",
+      "sha256": "15825d928368ee249205a924a5d1cbd7598f31dd960b48baad981965803d1053",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/dark/en/02.png",
+      "locale": "en",
+      "sha256": "3654029fbed913d3d4388a04be8e0690ca0710c333bb0934d75d777e73f89929",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/light/en/03.png",
+      "locale": "en",
+      "sha256": "3281cfa9259d7efc1dc7aa4a565f87fb04d3946fcae6179e5b11096b050c8dd2",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/light/en/01.png",
+      "locale": "en",
+      "sha256": "27cdec578107ef693b3f0fdd288b8346587af7d92e3edfe61e829683660fa0e2",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/light/en/04.png",
+      "locale": "en",
+      "sha256": "15825d928368ee249205a924a5d1cbd7598f31dd960b48baad981965803d1053",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    },
+    {
+      "path": "sources/ipad/light/en/02.png",
+      "locale": "en",
+      "sha256": "3fb3477172c3de302d9d30b5a37aa595bdb0791340c7c4240fb38d14a728d3c9",
+      "dimensions": [
+        1640,
+        2360
+      ],
+      "byteIdentical": true
+    }
+  ],
+  "exports": [
+    {
+      "path": "exports/dark/ios/iphone/1320x2868/ja/01-hero.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "24d45afc2bdd7ab9ff68f9ee6ef4236789beea2c18c7188b22d94cc5b2759004"
+    },
+    {
+      "path": "exports/dark/ios/iphone/1320x2868/ja/02-device-bottom.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "17df244c36548c889b0cf4fde6edc13238564416fc5227efb76e8e55c79d9411"
+    },
+    {
+      "path": "exports/dark/ios/iphone/1320x2868/ja/03-device-top.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "7410271297b7dafe329cb60aa75bac75de841b107dbbbb2c6ffb72b5b04b5ba7"
+    },
+    {
+      "path": "exports/dark/ios/iphone/1320x2868/ja/04-two-devices.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "0cbba173be44da0b45c4dde5af117ed7bf156f95cfedb6dcc14e1c1b68058193"
+    },
+    {
+      "path": "exports/dark/ios/iphone/1320x2868/en/01-hero.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "cd526c5fc591d73bd547cd1d772bf08f457d140adaf4bb4e4167f9a607c03fd1"
+    },
+    {
+      "path": "exports/dark/ios/iphone/1320x2868/en/02-device-bottom.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "b4fddf1d4c0462387ee8d015fa24c0cc8e618f49d487e4d5a119b63b2b5c9c33"
+    },
+    {
+      "path": "exports/dark/ios/iphone/1320x2868/en/03-device-top.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "3e383048659bb12aaf157e1755e2e45658b3550e9c606545be63a051a47f155b"
+    },
+    {
+      "path": "exports/dark/ios/iphone/1320x2868/en/04-two-devices.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "4ba9873d03d259de2af77f78acc526e50ebed59027d4c8aa8fb00e3a7864916f"
+    },
+    {
+      "path": "exports/dark/ios/ipad/2064x2752/ja/01-hero.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "6799396181e5453559c62e3dc1218daea9d19acab455c351ce7dfe9298dfae99"
+    },
+    {
+      "path": "exports/dark/ios/ipad/2064x2752/ja/02-device-bottom.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "8ef246371e301702ff4f84c4bccc80f904b77c239f27bd3cc353441f374a644b"
+    },
+    {
+      "path": "exports/dark/ios/ipad/2064x2752/ja/03-device-top.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "44cea216a0857a3beb2a84ea6d0fe83c304e26209521aae849d1812a68c398c2"
+    },
+    {
+      "path": "exports/dark/ios/ipad/2064x2752/ja/04-two-devices.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "e096ddf2dc58f8482dc407f0ea36f0ee44b940720459d9487bccfa2f5df80ecf"
+    },
+    {
+      "path": "exports/dark/ios/ipad/2064x2752/en/01-hero.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "89408c22b5eb500389907cbc820bfe9da97e9f0c4c039fad225628ea77eb4b4c"
+    },
+    {
+      "path": "exports/dark/ios/ipad/2064x2752/en/02-device-bottom.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "abfc2111ee009c7e6f11a7e0ed0abd7ea6e04f21e148c1336fe00e9b04471a61"
+    },
+    {
+      "path": "exports/dark/ios/ipad/2064x2752/en/03-device-top.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "202ab82e237caaf2a8522c4576156971c521f4a6ef9c34312c97a3272b593496"
+    },
+    {
+      "path": "exports/dark/ios/ipad/2064x2752/en/04-two-devices.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "38e309def44bbee96b6724db5588ec96b684fbda3ce91357da1c7d57317a0018"
+    },
+    {
+      "path": "exports/light/ios/iphone/1320x2868/ja/01-hero.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "348d4506227f9ee8d37fd5eb549e77790e4cc210ad5bac81c6e0bd47f641cece"
+    },
+    {
+      "path": "exports/light/ios/iphone/1320x2868/ja/02-device-bottom.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "a74176d9b8a5ff509974eedad90299ef8924f740e6fe81e96d8f45e346cd2b51"
+    },
+    {
+      "path": "exports/light/ios/iphone/1320x2868/ja/03-device-top.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "6c12992c99eda3f970eb21838e08f090573eb711f91065cb7593b1029558f89a"
+    },
+    {
+      "path": "exports/light/ios/iphone/1320x2868/ja/04-two-devices.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "44d600225560b80e45b8fe1921ca380cb6ab35bec0ffef793525456e6a09b70f"
+    },
+    {
+      "path": "exports/light/ios/iphone/1320x2868/en/01-hero.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "ef04d7f045682c3e85bf36707cc9858390546038d44e19505fecf33d1b513e97"
+    },
+    {
+      "path": "exports/light/ios/iphone/1320x2868/en/02-device-bottom.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "6920ad83534f60127d3839e787c691908b59ab32b6c20fe99796168d18e24004"
+    },
+    {
+      "path": "exports/light/ios/iphone/1320x2868/en/03-device-top.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "fa8698c76de3b736e7ac8c581bd2e530d59bc632919b9f5623a6f7a1adc78497"
+    },
+    {
+      "path": "exports/light/ios/iphone/1320x2868/en/04-two-devices.png",
+      "dimensions": [
+        1320,
+        2868
+      ],
+      "mode": "RGB",
+      "sha256": "d71117288dd77fc8a5f83e903ebabac86a42211c5475e46cf8b76715c16c9db2"
+    },
+    {
+      "path": "exports/light/ios/ipad/2064x2752/ja/01-hero.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "b6b2923138b8966f6daf297eefd6e380aeed49c6602556cb140ed741f031fa87"
+    },
+    {
+      "path": "exports/light/ios/ipad/2064x2752/ja/02-device-bottom.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "76f7221c9a8b6fb27595b796c977a9252d1f3cfa37fb5e874a79d781b055a389"
+    },
+    {
+      "path": "exports/light/ios/ipad/2064x2752/ja/03-device-top.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "7ed3f7619fe30aeb1b4bed504dbf99739e8f9108343c972ffb82b5dc8cfef097"
+    },
+    {
+      "path": "exports/light/ios/ipad/2064x2752/ja/04-two-devices.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "1c889117c4136ffac6fbec4d4ac903cdf58dd28cb518157660d0eb0a644bc5a6"
+    },
+    {
+      "path": "exports/light/ios/ipad/2064x2752/en/01-hero.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "a05d8fb97cdbb90e0c3832f0f094739302f3b641d05bd6ef6ab6ed7db1b231f1"
+    },
+    {
+      "path": "exports/light/ios/ipad/2064x2752/en/02-device-bottom.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "5dd45ec91f185ad4565c2e065af15841278e330e3866a60e253fa8e7971d215c"
+    },
+    {
+      "path": "exports/light/ios/ipad/2064x2752/en/03-device-top.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "fbdca059bce0f442bfd957f8fa5d8af34b3f34c8ce2a305e96ffcbb96804fa1b"
+    },
+    {
+      "path": "exports/light/ios/ipad/2064x2752/en/04-two-devices.png",
+      "dimensions": [
+        2064,
+        2752
+      ],
+      "mode": "RGB",
+      "sha256": "420a437cafbbdd6beea5988b399342f2aae7611e4af4bd3bc86ad052a618e0f1"
+    }
+  ],
+  "expected": {
+    "iphone": [
+      1320,
+      2868
+    ],
+    "ipad": [
+      2064,
+      2752
+    ]
+  },
+  "localeUI": "Japanese and English headlines use corresponding native Japanese and English app UI captures."
+}

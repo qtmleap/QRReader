@@ -1,0 +1,516 @@
+<!--
+QRReader UI/UX refactor mock (first pass, three patterns). Local state only, no persistence.
+Behavior changes below are PROPOSALS, not changes to the actual app:
+ - unify scan result and history result into one result screen/sheet
+ - history newest-first
+ - confirmation before clear-all / single delete (Edit mode)
+ - Settings gear in the same app-chrome position on both tabs
+ - collapse first run into one screen (Scan / Confirm / Share)
+-->
+<div id="qrreader-ui-mock">
+<style>
+#qrreader-ui-mock { color-scheme: light dark; }
+#qrreader-ui-mock .mock-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0 0 8px; font-size: 14px; }
+#qrreader-ui-mock .mock-bar label { display: inline-flex; align-items: center; gap: 8px; }
+#qrreader-ui-mock .mock-bar small { opacity: .7; }
+#qrreader-ui-mock .stage { min-height: 800px; display: flex; justify-content: center; align-items: flex-start; padding: 16px 8px; box-sizing: border-box; }
+#qrreader-ui-mock .stage[hidden] { display: none; }
+
+/* ---------- product ---------- */
+#qrreader-ui-mock .phone {
+  --fs: 1; --r: 12px;
+  --t-xs: calc(12px * var(--fs)); --t-s: calc(14px * var(--fs)); --t-b: calc(16px * var(--fs));
+  --t-m: calc(18px * var(--fs)); --t-l: calc(24px * var(--fs)); --t-xl: calc(32px * var(--fs));
+  position: relative; width: min(100%, 390px); min-height: 720px; box-sizing: border-box;
+  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--bg); color: var(--tx); border: 1px solid var(--ln); border-radius: 40px;
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", system-ui, sans-serif;
+  font-size: var(--t-b); font-weight: 400; line-height: 1.5; text-align: left;
+  --focus: var(--ac); --dg: light-dark(#c4201a, #ff8a80);
+}
+#qrreader-ui-mock .phone.native { --r: 10px; --bg: light-dark(#f2f2f7, #000); --qr-card: light-dark(#fff, #1c1c1e); --tx: light-dark(#000, #fff); --sub: light-dark(#5f5f66, #a0a0a8); --ln: light-dark(#d1d1d6, #38383a); --ac: light-dark(#0062cc, #4da3ff); --acx: light-dark(#fff, #001a33); }
+#qrreader-ui-mock .phone.focus,
+#qrreader-ui-mock .phone.focus .sheet { --bg: light-dark(#fff, #0c0d10); --qr-card: light-dark(#f1f2f4, #1a1c21); --tx: light-dark(#0c0d10, #f4f5f7); --sub: light-dark(#585d66, #a6abb5); --ln: light-dark(#e1e3e7, #2a2d34); --ac: light-dark(#00695c, #4fd6bf); --acx: light-dark(#fff, #00241e); }
+#qrreader-ui-mock .phone.focus { --r: 14px; }
+#qrreader-ui-mock .phone.focus .dark { --tx: #fff; --sub: #cdd2da; --ln: rgba(255,255,255,.28); --qr-card: rgba(255,255,255,.16); --ac: #4fd6bf; --acx: #00241e; --focus: #fff; --dg: #ff9a90; color: #fff; }
+#qrreader-ui-mock .phone.soft { --r: 20px; --bg: light-dark(#eaeef5, #0f1830); --qr-card: light-dark(#fff, #1a2644); --tx: light-dark(#14213d, #e8edf8); --sub: light-dark(#505c78, #a9b6d4); --ln: light-dark(#d8deea, #2c3a5c); --ac: light-dark(#243b7a, #a8bcff); --acx: light-dark(#fff, #0f1830); }
+#qrreader-ui-mock .phone * { box-sizing: border-box; }
+#qrreader-ui-mock .phone h1, #qrreader-ui-mock .phone h2, #qrreader-ui-mock .phone p, #qrreader-ui-mock .phone ul, #qrreader-ui-mock .phone dl, #qrreader-ui-mock .phone dd { margin: 0; padding: 0; font-weight: 500; }
+#qrreader-ui-mock .phone ul { list-style: none; }
+#qrreader-ui-mock .phone svg { width: 20px; height: 20px; flex: none; stroke: currentColor; display: inline-block; vertical-align: middle; }
+#qrreader-ui-mock .phone i[data-lucide] { display: inline-block; width: 20px; height: 20px; flex: none; }
+#qrreader-ui-mock .phone button { font: inherit; font-weight: 500; color: inherit; background: none; border: 0; margin: 0; padding: 0; text-align: inherit; }
+#qrreader-ui-mock .phone button:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+#qrreader-ui-mock .screen { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+#qrreader-ui-mock .live { position: absolute; left: 16px; right: 16px; bottom: 96px; z-index: 50; margin: 0 auto; width: fit-content; max-width: calc(100% - 32px); padding: 8px 16px; border-radius: 999px; background: #1c1c1e; color: #fff; font-size: var(--t-s); font-weight: 500; text-align: center; pointer-events: none; }
+#qrreader-ui-mock .live:empty { display: none; }
+
+#qrreader-ui-mock .qr-button { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; padding: 8px 20px; border-radius: var(--r); background: var(--qr-card); color: var(--tx); width: 100%; text-align: center; }
+#qrreader-ui-mock .qr-button.primary { background: var(--ac); color: var(--acx); }
+#qrreader-ui-mock .qr-button.danger { color: var(--dg); }
+#qrreader-ui-mock .icobtn { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; color: var(--ac); flex: none; }
+#qrreader-ui-mock .txtbtn { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--ac); font-size: var(--t-b); }
+#qrreader-ui-mock .txtbtn.danger { color: var(--dg); }
+#qrreader-ui-mock .hint { text-align: center; color: var(--sub); font-size: var(--t-s); padding: 12px 16px; }
+#qrreader-ui-mock .chip { display: inline-flex; align-items: center; min-height: 24px; padding: 0 10px; border-radius: 999px; background: var(--qr-card); color: var(--sub); font-size: var(--t-xs); font-weight: 500; border: 1px solid var(--ln); }
+#qrreader-ui-mock .payload { white-space: pre-wrap; overflow-wrap: anywhere; word-break: break-word; font-size: var(--t-b); line-height: 1.6; user-select: text; }
+#qrreader-ui-mock .payload.mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: var(--t-s); }
+#qrreader-ui-mock .rowbtn { display: flex; align-items: center; gap: 12px; width: 100%; min-height: 56px; padding: 8px 12px; }
+#qrreader-ui-mock .ricon { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 8px; background: var(--bg); color: var(--ac); flex: none; }
+#qrreader-ui-mock .rtxt { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+#qrreader-ui-mock .rval { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; font-weight: 500; }
+#qrreader-ui-mock .rsub { font-size: var(--t-xs); color: var(--sub); }
+#qrreader-ui-mock .chev { color: var(--sub); display: inline-flex; }
+#qrreader-ui-mock .del { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex: none; color: var(--dg); }
+#qrreader-ui-mock .list li { display: flex; align-items: center; }
+#qrreader-ui-mock .grp { font-size: var(--t-xs); color: var(--sub); padding: 16px 20px 6px; font-weight: 500; }
+#qrreader-ui-mock .empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; padding: 32px 24px; color: var(--sub); }
+#qrreader-ui-mock .empty svg, #qrreader-ui-mock .empty i { width: 40px; height: 40px; }
+#qrreader-ui-mock .empty .et { font-size: var(--t-m); color: var(--tx); }
+#qrreader-ui-mock .empty .qr-button { width: auto; min-width: 200px; }
+#qrreader-ui-mock .tabs button { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; color: var(--sub); }
+#qrreader-ui-mock .tabs button[aria-current="page"] { color: var(--ac); }
+#qrreader-ui-mock .meta { display: flex; justify-content: space-between; gap: 12px; padding: 12px 16px; font-size: var(--t-s); }
+#qrreader-ui-mock .meta dt { color: var(--sub); }
+#qrreader-ui-mock .steps li { display: flex; gap: 14px; align-items: flex-start; }
+#qrreader-ui-mock .steps .ricon { background: var(--qr-card); }
+#qrreader-ui-mock .steps .st { font-weight: 500; }
+#qrreader-ui-mock .steps .sd { color: var(--sub); font-size: var(--t-s); }
+#qrreader-ui-mock .fine { color: var(--sub); font-size: var(--t-xs); text-align: center; padding-top: 8px; }
+
+/* camera scene (fixed dark) */
+#qrreader-ui-mock .scene { position: absolute; inset: 0; overflow: hidden; background: linear-gradient(165deg, #2a2f36 0%, #12151a 55%, #0a0c0f 100%); }
+#qrreader-ui-mock .scene.paused { filter: brightness(.5) saturate(.7); }
+#qrreader-ui-mock .scene .tabletop { position: absolute; left: -25%; right: -25%; top: 28%; bottom: -15%; background: repeating-linear-gradient(92deg, #6a513d 0 14px, #5d4634 14px 17px, #70563f 17px 34px); transform: perspective(520px) rotateX(38deg); transform-origin: bottom; box-shadow: inset 0 40px 60px rgba(0,0,0,.45); }
+#qrreader-ui-mock .scene .obj { position: absolute; }
+#qrreader-ui-mock .scene .o1 { left: 8%; top: 22%; width: 22%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #d9d4cb, #8c867c 60%, #4d4a44); box-shadow: 0 14px 18px rgba(0,0,0,.5); }
+#qrreader-ui-mock .scene .o2 { right: 6%; top: 68%; width: 30%; aspect-ratio: 3/4; background: linear-gradient(135deg, #2b4c7e, #1b2f52); transform: rotate(12deg); border-radius: 4px; box-shadow: 0 10px 16px rgba(0,0,0,.5); }
+#qrreader-ui-mock .scene .o3 { left: 12%; top: 78%; width: 34%; height: 7px; background: linear-gradient(90deg, #d7b25a, #8d6f2a); transform: rotate(-9deg); border-radius: 4px; box-shadow: 0 6px 8px rgba(0,0,0,.5); }
+#qrreader-ui-mock .scene .paper { position: absolute; left: 50%; top: 52%; width: 44%; aspect-ratio: 1; transform: translate(-50%, -50%) rotate(-4deg); background: #f6f5f1; padding: 5%; border-radius: 3px; box-shadow: 0 16px 26px rgba(0,0,0,.55); }
+#qrreader-ui-mock .scene .paper img { width: 100%; height: 100%; display: block; border-radius: 6px; }
+#qrreader-ui-mock .reticle { position: absolute; left: 50%; top: 52%; width: 58%; aspect-ratio: 1; transform: translate(-50%, -50%); }
+#qrreader-ui-mock .reticle b { position: absolute; width: 22%; height: 22%; border: 0 solid #fff; }
+#qrreader-ui-mock .reticle b:nth-child(1) { top: 0; left: 0; border-top-width: 4px; border-left-width: 4px; border-top-left-radius: 12px; }
+#qrreader-ui-mock .reticle b:nth-child(2) { top: 0; right: 0; border-top-width: 4px; border-right-width: 4px; border-top-right-radius: 12px; }
+#qrreader-ui-mock .reticle b:nth-child(3) { bottom: 0; left: 0; border-bottom-width: 4px; border-left-width: 4px; border-bottom-left-radius: 12px; }
+#qrreader-ui-mock .reticle b:nth-child(4) { bottom: 0; right: 0; border-bottom-width: 4px; border-right-width: 4px; border-bottom-right-radius: 12px; }
+#qrreader-ui-mock .campanel { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; padding: 28px 20px; min-height: 100%; color: var(--tx); }
+#qrreader-ui-mock .campanel i, #qrreader-ui-mock .campanel svg { width: 40px; height: 40px; color: var(--sub); }
+#qrreader-ui-mock .campanel h2 { font-size: var(--t-m); }
+#qrreader-ui-mock .campanel p { color: var(--sub); font-size: var(--t-s); }
+#qrreader-ui-mock .campanel .qr-button { width: auto; min-width: 200px; }
+
+/* dialogs */
+#qrreader-ui-mock .scrim { position: absolute; inset: 0; z-index: 40; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; padding: 20px; }
+#qrreader-ui-mock .phone.focus .scrim.sh, #qrreader-ui-mock .phone.soft .scrim.sh { align-items: flex-end; }
+#qrreader-ui-mock .dlg { width: 100%; background: var(--qr-card); color: var(--tx); border-radius: var(--r); padding: 20px 16px 12px; display: flex; flex-direction: column; gap: 10px; }
+#qrreader-ui-mock .phone.native .dlg { border-radius: 14px; }
+#qrreader-ui-mock .dlg h2 { font-size: var(--t-m); text-align: center; }
+#qrreader-ui-mock .dlg .db { color: var(--sub); font-size: var(--t-s); text-align: center; }
+#qrreader-ui-mock .dlg .payload { background: var(--bg); border-radius: 8px; padding: 8px 12px; font-size: var(--t-s); text-align: left; max-height: none; }
+#qrreader-ui-mock .dlg .btns { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+#qrreader-ui-mock .dlg .btns.two { flex-direction: row; }
+#qrreader-ui-mock .dlg .qr-button { background: var(--bg); }
+#qrreader-ui-mock .dlg .qr-button.primary { background: var(--ac); }
+#qrreader-ui-mock .dlg .qr-button.danger { background: var(--bg); color: var(--dg); }
+#qrreader-ui-mock .dlg .osbadge { align-self: center; }
+#qrreader-ui-mock .dlg.os { --qr-card: light-dark(#f4f4f6, #2c2c2e); --bg: light-dark(#e2e2e6, #3c3c3e); --tx: light-dark(#000, #fff); --sub: light-dark(#4a4a50, #c4c4cc); --ac: light-dark(#0062cc, #4da3ff); --acx: light-dark(#fff, #001a33); --focus: var(--ac); border-radius: 18px; }
+#qrreader-ui-mock .dlg.set { --qr-card: light-dark(#f2f2f7, #1c1c1e); --bg: light-dark(#fff, #2c2c2e); --tx: light-dark(#000, #fff); --sub: light-dark(#4a4a50, #c4c4cc); --ac: light-dark(#0062cc, #4da3ff); --acx: light-dark(#fff, #001a33); --focus: var(--ac); }
+#qrreader-ui-mock .sw { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 48px; padding: 4px 14px; background: var(--bg); border-radius: 10px; }
+#qrreader-ui-mock .sw .knob { width: 52px; height: 32px; border-radius: 999px; background: light-dark(#767680, #727278); position: relative; transition: background .15s; }
+#qrreader-ui-mock .sw .knob::after { content: ""; position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; border-radius: 50%; background: #fff; transition: left .15s; }
+#qrreader-ui-mock .sw[aria-checked="true"] .knob { background: #2e9b4f; }
+#qrreader-ui-mock .sw[aria-checked="true"] .knob::after { left: 23px; }
+
+/* ===== Native ===== */
+#qrreader-ui-mock .native .nvhead { padding: 12px 16px 8px; }
+#qrreader-ui-mock .native .navrow { display: flex; justify-content: space-between; align-items: center; min-height: 44px; }
+#qrreader-ui-mock .native h1 { font-size: var(--t-xl); letter-spacing: -.01em; padding: 4px 4px 0; }
+#qrreader-ui-mock .native .nvbody { flex: 1; padding: 8px 16px 16px; display: flex; flex-direction: column; gap: 12px; }
+#qrreader-ui-mock .native .camcard { position: relative; aspect-ratio: 3/4; border-radius: var(--r); overflow: hidden; background: var(--qr-card); }
+#qrreader-ui-mock .native .camcard.grow { aspect-ratio: auto; min-height: 320px; }
+#qrreader-ui-mock .native .list, #qrreader-ui-mock .native .gcard { background: var(--qr-card); border-radius: var(--r); overflow: hidden; }
+#qrreader-ui-mock .native .list { margin: 0 16px; }
+#qrreader-ui-mock .native .list li + li { border-top: 1px solid var(--ln); }
+#qrreader-ui-mock .native .tabbar { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--ln); background: var(--qr-card); padding: 4px 0 12px; }
+#qrreader-ui-mock .native .tabbar button { flex-direction: column; gap: 0; min-height: 49px; font-size: var(--t-xs); }
+#qrreader-ui-mock .native .gcard { padding: 14px 16px; }
+#qrreader-ui-mock .native .acts { background: var(--qr-card); border-radius: var(--r); overflow: hidden; }
+#qrreader-ui-mock .native .acts .qr-button { border-radius: 0; justify-content: flex-start; background: none; color: var(--ac); }
+#qrreader-ui-mock .native .acts .qr-button + .qr-button { border-top: 1px solid var(--ln); }
+#qrreader-ui-mock .native .clearrow { margin: 16px 16px 0; background: var(--qr-card); border-radius: var(--r); }
+#qrreader-ui-mock .native .clearrow .qr-button { background: none; color: var(--dg); }
+#qrreader-ui-mock .native .meta + .meta { border-top: 1px solid var(--ln); }
+#qrreader-ui-mock .native .first { flex: 1; padding: 48px 20px 20px; display: flex; flex-direction: column; align-items: center; gap: 20px; text-align: center; }
+#qrreader-ui-mock .native .first img { width: 84px; height: 84px; border-radius: 19px; }
+#qrreader-ui-mock .native .first h1 { text-align: center; }
+#qrreader-ui-mock .native .first .gcard { width: 100%; text-align: left; }
+#qrreader-ui-mock .native .steps { display: flex; flex-direction: column; gap: 16px; }
+
+/* ===== Focus ===== */
+#qrreader-ui-mock .focus .fscreen { position: relative; flex: 1; display: flex; flex-direction: column; min-height: 718px; overflow: hidden; background: var(--bg); }
+#qrreader-ui-mock .focus .fscreen.dark { background: #0a0c0f; }
+#qrreader-ui-mock .focus .ftop { position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 14px 14px 6px; }
+#qrreader-ui-mock .focus .ftitle { font-size: var(--t-m); padding: 6px 14px; border-radius: 999px; min-height: 36px; display: inline-flex; align-items: center; background: var(--qr-card); }
+#qrreader-ui-mock .focus .dark .icobtn { background: rgba(14,15,18,.62); color: #fff; }
+#qrreader-ui-mock .focus .icobtn { background: var(--qr-card); color: var(--tx); }
+#qrreader-ui-mock .focus .ftools { display: flex; justify-content: space-between; padding: 0 8px; position: relative; z-index: 2; }
+#qrreader-ui-mock .focus .fmid { position: relative; z-index: 1; flex: 1; min-height: 260px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding: 0 16px 12px; }
+#qrreader-ui-mock .focus .fmid .hint { background: rgba(14,15,18,.62); color: #fff; border-radius: 999px; padding: 8px 16px; }
+#qrreader-ui-mock .focus .fmid.centered { justify-content: center; }
+#qrreader-ui-mock .focus .tabs { position: relative; z-index: 2; margin: 0 auto 18px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; width: min(260px, calc(100% - 32px)); padding: 4px; border-radius: 999px; background: rgba(14,15,18,.78); }
+#qrreader-ui-mock .focus .tabs button { color: #d5d9e0; border-radius: 999px; }
+#qrreader-ui-mock .focus .tabs button[aria-current="page"] { background: #fff; color: #0c0d10; }
+#qrreader-ui-mock .focus .fscreen:not(.dark) .tabs { background: var(--qr-card); }
+#qrreader-ui-mock .focus .fscreen:not(.dark) .tabs button { color: var(--sub); }
+#qrreader-ui-mock .focus .fscreen:not(.dark) .tabs button[aria-current="page"] { background: var(--ac); color: var(--acx); }
+#qrreader-ui-mock .focus .list { position: relative; z-index: 1; flex: 1; padding: 4px 8px; }
+#qrreader-ui-mock .focus .list li { border-bottom: 1px solid var(--ln); }
+#qrreader-ui-mock .focus .ricon { background: none; width: 28px; }
+#qrreader-ui-mock .focus .rsub { order: -1; }
+#qrreader-ui-mock .focus .dim { position: absolute; inset: 0; z-index: 3; background: rgba(0,0,0,.5); }
+#qrreader-ui-mock .focus .sheet { position: relative; z-index: 4; background: var(--bg); color: var(--tx); border-radius: 24px 24px 0 0; padding: 10px 16px 20px; display: flex; flex-direction: column; gap: 12px; box-shadow: 0 -8px 30px rgba(0,0,0,.35); }
+#qrreader-ui-mock .focus .sheet .grab { width: 40px; height: 4px; border-radius: 4px; background: var(--ln); align-self: center; }
+#qrreader-ui-mock .phone.focus .sheet { --focus: var(--ac); }
+#qrreader-ui-mock .focus .sheet .sh-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+#qrreader-ui-mock .focus .acts { display: grid; grid-template-columns: repeat(auto-fit, minmax(96px, 1fr)); gap: 8px; }
+#qrreader-ui-mock .focus .acts .qr-button { flex-direction: column; gap: 2px; font-size: var(--t-s); min-height: 64px; }
+#qrreader-ui-mock .focus .campanel { color: #fff; }
+#qrreader-ui-mock .focus .campanel i, #qrreader-ui-mock .focus .campanel svg { color: #cdd2da; }
+#qrreader-ui-mock .focus .campanel p { color: #cdd2da; }
+#qrreader-ui-mock .focus .fscreen .sheet .meta { padding: 0; }
+#qrreader-ui-mock .focus .first { position: relative; z-index: 1; flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 18px; padding: 24px 20px 24px; }
+#qrreader-ui-mock .focus .first h1 { font-size: var(--t-xl); }
+#qrreader-ui-mock .focus .first .steps { display: flex; flex-direction: column; gap: 12px; }
+#qrreader-ui-mock .focus .first .shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(10,12,15,.2), rgba(10,12,15,.92) 55%); z-index: 0; }
+
+/* ===== Soft ===== */
+#qrreader-ui-mock .soft .sf { flex: 1; display: flex; flex-direction: column; padding: 24px 20px 24px; gap: 16px; }
+#qrreader-ui-mock .soft .sfhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+#qrreader-ui-mock .soft .eyebrow { font-size: var(--t-xs); letter-spacing: .16em; color: var(--sub); text-transform: uppercase; }
+#qrreader-ui-mock .soft h1 { font-size: var(--t-xl); line-height: 1.25; }
+#qrreader-ui-mock .soft .icobtn { background: var(--qr-card); box-shadow: 0 1px 2px rgba(20,33,61,.12); }
+#qrreader-ui-mock .soft .tabs { display: grid; grid-template-columns: 1fr 1fr; background: light-dark(#dbe1ee, #1a2644); border-radius: 999px; padding: 4px; }
+#qrreader-ui-mock .soft .tabs button { border-radius: 999px; }
+#qrreader-ui-mock .soft .tabs button[aria-current="page"] { background: var(--qr-card); color: var(--ac); box-shadow: 0 1px 3px rgba(20,33,61,.18); }
+#qrreader-ui-mock .soft .inset { position: relative; aspect-ratio: 1; border-radius: calc(var(--r) + 8px); overflow: hidden; background: var(--qr-card); box-shadow: 0 6px 24px rgba(20,33,61,.18); border: 6px solid var(--qr-card); }
+#qrreader-ui-mock .soft .inset .scene { border-radius: calc(var(--r) + 2px); }
+#qrreader-ui-mock .soft .inset .campanel { min-height: 100%; }
+#qrreader-ui-mock .soft .inset.grow { aspect-ratio: auto; }
+#qrreader-ui-mock .soft .cards { display: flex; flex-direction: column; gap: 12px; }
+#qrreader-ui-mock .soft .cards li { background: var(--qr-card); border-radius: var(--r); padding: 4px; box-shadow: 0 1px 3px rgba(20,33,61,.1); }
+#qrreader-ui-mock .soft .cards .rowbtn { padding: 12px; align-items: flex-start; }
+#qrreader-ui-mock .soft .ricon { border-radius: 50%; background: light-dark(#e8edf8, #2c3a5c); }
+#qrreader-ui-mock .soft .tools { display: flex; justify-content: space-between; }
+#qrreader-ui-mock .soft .pill { align-self: flex-start; display: inline-flex; align-items: center; gap: 4px; min-height: 44px; padding: 0 16px 0 10px; border-radius: 999px; background: var(--qr-card); color: var(--ac); box-shadow: 0 1px 2px rgba(20,33,61,.12); }
+#qrreader-ui-mock .soft .rcard { background: var(--qr-card); border-radius: calc(var(--r) + 4px); padding: 20px; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 6px 24px rgba(20,33,61,.12); }
+#qrreader-ui-mock .soft .rcard .payload { font-size: var(--t-m); line-height: 1.7; }
+#qrreader-ui-mock .soft .rcard .payload.mono { font-size: var(--t-b); }
+#qrreader-ui-mock .soft .rcard .top { display: flex; justify-content: space-between; align-items: center; gap: 8px; color: var(--sub); font-size: var(--t-s); }
+#qrreader-ui-mock .soft .acts { display: flex; flex-direction: column; gap: 10px; }
+#qrreader-ui-mock .soft .acts .qr-button { border-radius: 999px; background: var(--qr-card); color: var(--ac); box-shadow: 0 1px 3px rgba(20,33,61,.12); }
+#qrreader-ui-mock .soft .qr-button.primary { border-radius: 999px; }
+#qrreader-ui-mock .soft .scard { background: var(--qr-card); border-radius: var(--r); box-shadow: 0 1px 3px rgba(20,33,61,.1); }
+#qrreader-ui-mock .soft .scard li + li { border-top: 1px solid var(--ln); }
+#qrreader-ui-mock .soft .clearrow .qr-button { background: none; color: var(--dg); box-shadow: none; }
+#qrreader-ui-mock .soft .steps { display: flex; flex-direction: column; gap: 12px; }
+#qrreader-ui-mock .soft .steps li { background: var(--qr-card); border-radius: var(--r); padding: 14px; box-shadow: 0 1px 3px rgba(20,33,61,.1); }
+#qrreader-ui-mock .soft .first img { width: 64px; height: 64px; border-radius: 16px; }
+#qrreader-ui-mock .soft .spacer { flex: 1; }
+</style>
+
+<div class="mock-bar">
+  <label for="qrreader-ui-state">プレビュー状態</label>
+  <div style="flex:0 1 190px;min-width:0">
+    <select class="form-select" id="qrreader-ui-state" aria-label="プレビュー状態">
+      <option value="scan">スキャン</option>
+      <option value="url">URL結果</option>
+      <option value="text">テキスト結果</option>
+      <option value="long">長文結果</option>
+      <option value="history">履歴</option>
+      <option value="empty">空の履歴</option>
+      <option value="settings">設定</option>
+      <option value="first">初回案内</option>
+      <option value="denied">カメラ未許可</option>
+      <option value="rejected">カメラ拒否</option>
+      <option value="restricted">カメラ利用制限</option>
+      <option value="unavailable">カメラ利用不可</option>
+    </select>
+  </div>
+  <small>操作はデモ</small>
+</div>
+
+<div class="viz-carousel viz-dotted-background" aria-label="QRReader UI案の比較" data-previous-label="前の案" data-next-label="次の案">
+  <section class="stage" data-variant="ネイティブ"><div class="phone native" data-pattern="native"><div class="screen"></div><div class="live" role="status" aria-live="polite"></div></div></section>
+  <section class="stage" data-variant="フォーカス" hidden><div class="phone focus" data-pattern="focus"><div class="screen"></div><div class="live" role="status" aria-live="polite"></div></div></section>
+  <section class="stage" data-variant="ソフト" hidden><div class="phone soft" data-pattern="soft"><div class="screen"></div><div class="live" role="status" aria-live="polite"></div></div></section>
+</div>
+
+<script>
+(function () {
+  var root = document.getElementById('qrreader-ui-mock');
+  if (!root) return;
+  var ICON = 'data:image/png;base64,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AAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAABAgAAAAAECAAAAAAQIAAAAABAgAAAAAAAAQIAAAAABAgAAAAAECAAAAAAQIAAAAAAAAECAAAAAAQIAAAAABAgAAAAAECAAAAAAAAB/wtEL52tqU+q4QAAAABJRU5ErkJggg==';
+  var HEX = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08';
+  var LONG = 'イベント参加のご案内\n\n開催日：2026年10月20日\n受付時間：13:30〜14:00\n会場：サンプルホール 2階\n\n当日は受付でこの内容をご提示ください。受付後、スタッフが会場までご案内します。席は自由席です。開始の10分前までにお越しいただくと、余裕を持ってご入場いただけます。\n\n持ち物：参加案内、筆記用具、飲み物。会場内は空調のため肌寒く感じられる場合がありますので、上着をご用意ください。\n\n内容の変更や追加のご案内がある場合は、受付にてお知らせします。途中参加・途中退出の際は、スタッフまでお声がけください。\n\nこの文章は表示確認用のサンプルです。長い文章でも改行と内容を保って表示し、コピーや共有に進めることを確認するために用意しています。';
+  var SEED = [
+    { id: 'h1', value: 'https://qleap.jp', date: '2026/10/14' },
+    { id: 'h2', value: 'ご来店ありがとうございます。\n次回のご予約は10月20日 14:00です。\n担当: 山田', date: '2026/10/14' },
+    { id: 'h3', value: 'https://bsky.app', date: '2026/10/13' },
+    { id: 'h4', value: HEX, date: '2026/10/13' }
+  ];
+  var CAM = {
+    unrequested: ['camera', 'カメラを使って読み取る', 'QRコードを読み取るために、カメラへのアクセスを許可してください。'],
+    denied: ['camera-off', 'カメラへのアクセスが許可されていません', 'QRコードを読み取るには、設定でQRReaderのカメラを許可してください。'],
+    restricted: ['ban', 'カメラの利用が制限されています', 'スクリーンタイムや管理者のプロファイルなど、この端末の制限によりカメラを利用できません。アプリからは変更できません。'],
+    unavailable: ['camera-off', 'カメラを利用できません', 'この端末にカメラがないか、ほかのアプリが使用中のため利用できません。']
+  };
+  var STEPS = [['scan-line', '読み取る', 'カメラをQRコードに向けるだけ'], ['check', '確認する', '内容をそのまま表示します'], ['share', '共有する', '必要なときに共有できます']];
+
+  function esc(t) { return String(t).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function ic(n) { return '<i data-lucide="' + n + '" aria-hidden="true"></i>'; }
+  function isUrl(v) { return /^https?:\/\/\S+$/.test(v); }
+  function kind(v) { return isUrl(v) ? 'URL' : 'テキスト'; }
+  function first(v) { return v.split('\n')[0]; }
+  function mono(v) { return /^[0-9a-f]{40,}$/i.test(v) ? ' mono' : ''; }
+  function B(act, label, o) {
+    o = o || {};
+    var a = ' data-act="' + act + '"' + (o.id ? ' data-id="' + o.id + '"' : '') + (o.n ? ' data-n="' + esc(o.n) + '"' : '');
+    return '<button class="' + (o.cls || 'qr-button') + ' cursor-interaction"' + a + (o.aria ? ' aria-label="' + esc(o.aria) + '"' : '') + (o.extra || '') + '>' + (o.icon ? ic(o.icon) : '') + (label ? '<span>' + label + '</span>' : '') + '</button>';
+  }
+  var gear = function () { return B('settings', '', { cls: 'icobtn', icon: 'settings', aria: '設定' }); };
+  var backIco = function (label) { return B('back', '', { cls: 'icobtn', icon: 'chevron-left', aria: label }); };
+
+  /* ---------- shared pieces ---------- */
+  function scene(paused) {
+    return '<div class="scene' + (paused ? ' paused' : '') + '" role="img" aria-label="カメラ映像のイメージ"><div class="tabletop"></div><div class="obj o1"></div><div class="obj o2"></div><div class="obj o3"></div><div class="paper"><img src="' + ICON + '" alt=""></div>' + (paused ? '' : '<div class="reticle"><b></b><b></b><b></b><b></b></div>') + '</div>';
+  }
+  function camPanel(s) {
+    var c = CAM[s.cam];
+    return '<div class="campanel" role="group" aria-label="カメラの状態">' + ic(c[0]) + '<h2>' + c[1] + '</h2><p>' + c[2] + '</p>' + (s.cam === 'denied' ? B('opensettings', '設定を開く', { cls: 'qr-button primary', icon: 'settings' }) : s.cam === 'unrequested' ? B('start', 'カメラを許可する', { cls: 'qr-button primary', icon: 'camera' }) : '') + '</div>';
+  }
+  function camArea(s, paused) { return s.cam === 'ok' ? scene(paused) : camPanel(s); }
+  function hint(s) { return s.cam === 'ok' ? '<p class="hint">QRコードを枠に合わせてください</p>' : ''; }
+  function tabs(s, cls) {
+    var t = [['scan', 'スキャン', 'scan-line'], ['history', '履歴', 'history']];
+    return '<nav class="tabs ' + (cls || '') + '" aria-label="メインメニュー">' + t.map(function (x) {
+      return '<button class="cursor-interaction" data-act="tab" data-n="' + x[0] + '"' + (s.tab === x[0] ? ' aria-current="page"' : '') + '>' + ic(x[2]) + '<span>' + x[1] + '</span></button>';
+    }).join('') + '</nav>';
+  }
+  function payload(it) { return '<div class="payload' + mono(it.value) + '">' + esc(it.value) + '</div>'; }
+  function acts(it) {
+    return '<div class="acts">' + B('copy', 'コピー', { icon: 'copy' }) + B('share', '共有', { icon: 'share' }) + (isUrl(it.value) ? B('openurl', 'リンクを開く', { icon: 'external-link' }) : '') + '</div>';
+  }
+  function editBtn(s) { return B('edit', s.edit ? '完了' : '編集', { cls: 'txtbtn', extra: ' aria-pressed="' + s.edit + '"' }); }
+  function clearBtn() { return B('clearask', '履歴をすべて消去', { cls: 'txtbtn danger' }); }
+  function row(s, it) {
+    var sh = esc(first(it.value));
+    var inner = '<span class="ricon">' + ic(isUrl(it.value) ? 'link' : 'file-text') + '</span><span class="rtxt"><span class="rval">' + sh + '</span><span class="rsub">' + kind(it.value) + '・' + it.date + '</span></span>';
+    if (s.edit) return '<li>' + B('delask', '', { cls: 'del', icon: 'trash-2', id: it.id, aria: '削除: ' + first(it.value) }) + '<div class="rowbtn">' + inner + '</div></li>';
+    return '<li>' + B('open', '', { cls: 'rowbtn', id: it.id, aria: kind(it.value) + ' ' + first(it.value) + ' ' + it.date }).replace('></button>', '>' + inner + '<span class="chev">' + ic('chevron-right') + '</span></button>') + '</li>';
+  }
+  function emptyHist() {
+    return '<div class="empty">' + ic('history') + '<p class="et">履歴はありません</p><p>読み取ったQRコードがここに表示されます</p>' + B('toscan', 'スキャンへ移動', { cls: 'qr-button primary' }) + '</div>';
+  }
+  function settingsList() {
+    var rows = [['サポート', 'life-buoy'], ['プライバシーポリシー', 'lock']];
+    return rows.map(function (r) {
+      return '<li>' + B('row', '', { cls: 'rowbtn', n: r[0] }).replace('></button>', '><span class="ricon">' + ic(r[1]) + '</span><span class="rtxt"><span class="rval">' + r[0] + '</span></span><span class="chev">' + ic('chevron-right') + '</span></button>') + '</li>';
+    }).join('') + '<li><div class="rowbtn"><span class="ricon">' + ic('info') + '</span><span class="rtxt"><span class="rval">バージョン</span></span><span class="rsub">1.0.0</span></div></li>';
+  }
+  function resultMeta(it) { return '<dl><div class="meta"><dt>種類</dt><dd>' + kind(it.value) + '</dd></div><div class="meta"><dt>日付</dt><dd>' + it.date + '</dd></div></dl>'; }
+  function steps() {
+    return '<ul class="steps">' + STEPS.map(function (x) { return '<li><span class="ricon">' + ic(x[0]) + '</span><span><span class="st">' + x[1] + '</span><br><span class="sd">' + x[2] + '</span></span></li>'; }).join('') + '</ul>';
+  }
+  function startBtn() { return B('start', 'はじめる', { cls: 'qr-button primary' }) + '<p class="fine">次の画面でiOSがカメラの使用許可を確認します</p>'; }
+  function dlg(s) {
+    var d = s.dlg; if (!d) return '';
+    var h = '', cls = 'dlg', wrap = 'scrim';
+    if (d.t === 'clear') h = '<h2 id="dlgt">履歴をすべて消去しますか？</h2><p class="db">' + s.items.length + '件の履歴を消去します。元に戻せません。</p><div class="btns two">' + B('canceldlg', 'キャンセル') + B('confirmclear', '消去', { cls: 'qr-button danger' }) + '</div>';
+    if (d.t === 'del') { var it = s.items.filter(function (x) { return x.id === d.id; })[0]; h = '<h2 id="dlgt">この履歴を削除しますか？</h2>' + (it ? '<div class="payload' + mono(it.value) + '">' + esc(it.value) + '</div><p class="db">' + kind(it.value) + '・' + it.date + '</p>' : '') + '<div class="btns two">' + B('canceldlg', 'キャンセル') + B('confirmdel', '削除', { cls: 'qr-button danger', id: d.id }) + '</div>'; }
+    if (d.t === 'share') { wrap += ' sh'; h = '<h2 id="dlgt">共有（デモ）</h2><div class="payload' + mono(s.res.value) + '">' + esc(s.res.value) + '</div><div class="btns">' + B('sharetarget', 'メッセージ', { icon: 'message-circle', n: 'メッセージ' }) + B('sharetarget', 'メール', { icon: 'mail', n: 'メール' }) + B('canceldlg', '閉じる', { cls: 'qr-button primary' }) + '</div>'; }
+    if (d.t === 'os') { cls += ' os'; h = '<span class="chip osbadge">iOSのシステム確認（デモ）</span><h2 id="dlgt">“QRReader”がカメラへのアクセスを求めています</h2><p class="db">QRコードを読み取るために使用します。</p><div class="btns two">' + B('osdeny', '許可しない') + B('osallow', '許可', { cls: 'qr-button primary' }) + '</div>'; }
+    if (d.t === 'osettings') { cls += ' set'; h = '<span class="chip osbadge">iOSの設定アプリ（デモ）</span><h2 id="dlgt">QRReader</h2><button class="sw cursor-interaction" role="switch" aria-checked="' + !!s.camTmp + '" data-act="ostoggle"><span>カメラ</span><span class="knob"></span></button><div class="btns">' + B('osback', 'QRReaderに戻る', { cls: 'qr-button primary' }) + '</div>'; }
+    return '<div class="' + wrap + '"><div class="' + cls + '" role="dialog" aria-modal="true" aria-labelledby="dlgt">' + h + '</div></div>';
+  }
+
+  /* ---------- Native ---------- */
+  function nvNav(left, right, title) { return '<header class="nvhead"><div class="navrow"><div>' + left + '</div><div>' + right + '</div></div><h1>' + title + '</h1></header>'; }
+  function nvHist(s) {
+    var g = [], map = {};
+    s.items.forEach(function (it) { if (!map[it.date]) { map[it.date] = []; g.push(it.date); } map[it.date].push(it); });
+    return g.map(function (d) { return '<h2 class="grp">' + d + '</h2><ul class="list">' + map[d].map(function (it) { return row(s, it); }).join('') + '</ul>'; }).join('') +
+      '<div class="clearrow">' + B('clearask', '履歴をすべて消去', { cls: 'qr-button danger' }) + '</div>';
+  }
+  function native(s) {
+    if (s.screen === 'first') return '<div class="first"><img src="' + ICON + '" alt=""><h1>QRReaderへようこそ</h1><div class="gcard">' + steps() + '</div><div style="flex:1"></div>' + startBtn() + '</div>';
+    if (s.screen === 'settings') return nvNav(B('back', '', { cls: 'txtbtn', icon: 'chevron-left', extra: '' }).replace('</button>', '<span>' + (s.tab === 'history' ? '履歴' : 'スキャン') + '</span></button>'), '', '設定') + '<ul class="list" style="margin-top:8px">' + settingsList() + '</ul>';
+    if (s.screen === 'result') {
+      var it = s.res, hist = s.from === 'history';
+      var left = hist ? B('back', '', { cls: 'txtbtn', icon: 'chevron-left' }).replace('</button>', '<span>履歴</span></button>') : B('done', '完了', { cls: 'txtbtn' });
+      return nvNav(left, '', '結果') + '<div class="nvbody"><div class="gcard">' + payload(it) + '</div><div class="gcard" style="padding:0">' + resultMeta(it) + '</div>' + acts(it) + (hist ? '' : B('again', 'もう一度スキャン', { cls: 'qr-button primary', icon: 'scan-line' })) + '</div>' + (hist ? tabs(s, 'tabbar') : '');
+    }
+    if (s.tab === 'scan') return nvNav('', gear(), 'スキャン') + '<main class="nvbody"><div class="camcard' + (s.cam === 'ok' ? '' : ' grow') + '">' + camArea(s) + '</div>' + hint(s) + '</main>' + tabs(s, 'tabbar');
+    return nvNav(s.items.length ? editBtn(s) : '', gear(), '履歴') + '<main style="flex:1;display:flex;flex-direction:column">' + (s.items.length ? nvHist(s) : emptyHist()) + '</main>' + tabs(s, 'tabbar');
+  }
+
+  /* ---------- Focus ---------- */
+  function fTop(left, title, right) { return '<header class="ftop">' + (left || '') + (title ? '<h1 class="ftitle">' + title + '</h1>' : '') + '<span style="flex:1"></span>' + (right || '') + '</header>'; }
+  function fSheet(s) {
+    var it = s.res, hist = s.from === 'history';
+    return '<div class="dim"></div><section class="sheet" aria-label="読み取り結果"><span class="grab"></span><div class="sh-top"><span class="chip">' + kind(it.value) + '</span><span class="rsub">' + it.date + '</span>' + B('back_or_done', '', { cls: 'icobtn', icon: 'x', aria: hist ? '閉じて履歴に戻る' : '閉じてスキャンに戻る' }) + '</div>' + payload(it) + acts(it) + (hist ? '' : B('again', 'もう一度スキャン', { cls: 'qr-button primary', icon: 'scan-line' })) + '</section>';
+  }
+  function focus(s) {
+    if (s.screen === 'first') return '<div class="fscreen dark">' + scene(true) + '<div class="first"><div class="shade"></div><div style="position:relative;display:flex;flex-direction:column;gap:18px"><img src="' + ICON + '" alt="" width="64" height="64" style="border-radius:15px"><h1>QRReaderへようこそ</h1>' + steps() + startBtn() + '</div></div></div>';
+    if (s.screen === 'settings') return '<div class="fscreen">' + fTop(backIco('戻る'), '設定', '') + '<ul class="list">' + settingsList() + '</ul></div>';
+    if (s.screen === 'result' && s.from === 'scan') return '<div class="fscreen dark">' + scene(true) + fTop('', 'スキャン', gear()) + '<div class="fmid"></div>' + fSheet(s) + '</div>';
+    var body;
+    if (s.tab === 'scan') return '<div class="fscreen dark">' + (s.cam === 'ok' ? scene(false) : '') + fTop('', 'スキャン', gear()) + '<div class="fmid' + (s.cam === 'ok' ? '' : ' centered') + '">' + (s.cam === 'ok' ? hint(s) : camPanel(s)) + '</div>' + tabs(s) + '</div>';
+    body = s.items.length ? '<div class="ftools">' + editBtn(s) + clearBtn() + '</div><ul class="list">' + s.items.map(function (it) { return row(s, it); }).join('') + '</ul>' : emptyHist();
+    return '<div class="fscreen">' + fTop('', '履歴', gear()) + body + (s.screen === 'result' ? fSheet(s) : tabs(s)) + '</div>';
+  }
+
+  /* ---------- Soft ---------- */
+  function sfHead(eyebrow, title, right) { return '<header class="sfhead"><div><p class="eyebrow">' + eyebrow + '</p><h1>' + title + '</h1></div>' + (right || '') + '</header>'; }
+  function soft(s) {
+    if (s.screen === 'first') return '<div class="sf first"><img src="' + ICON + '" alt="">' + sfHead('QR READER', 'はじめましょう', '') + steps() + '<div class="spacer"></div>' + startBtn() + '</div>';
+    if (s.screen === 'settings') return '<div class="sf">' + B('back', s.tab === 'history' ? '履歴' : 'スキャン', { cls: 'pill', icon: 'chevron-left' }) + sfHead('QR READER', '設定', '') + '<ul class="scard">' + settingsList() + '</ul></div>';
+    if (s.screen === 'result') {
+      var it = s.res, hist = s.from === 'history';
+      return '<div class="sf">' + (hist ? B('back', '履歴', { cls: 'pill', icon: 'chevron-left' }) : B('done', '閉じる', { cls: 'pill', icon: 'x' })) + sfHead('RESULT', '読み取り結果', '') + '<article class="rcard"><div class="top"><span class="chip">' + kind(it.value) + '</span><span>' + it.date + '</span></div>' + payload(it) + '</article>' + acts(it) + (hist ? '' : B('again', 'もう一度スキャン', { cls: 'qr-button primary', icon: 'scan-line' })) + '</div>';
+    }
+    var head = sfHead('QR READER', s.tab === 'scan' ? 'スキャン' : '履歴', gear()) + tabs(s);
+    if (s.tab === 'scan') return '<div class="sf">' + head + '<div class="inset' + (s.cam === 'ok' ? '' : ' grow') + '">' + camArea(s) + '</div>' + hint(s) + '</div>';
+    return '<div class="sf">' + head + (s.items.length ? '<div class="tools">' + editBtn(s) + clearBtn() + '</div><ul class="cards list">' + s.items.map(function (it) { return row(s, it); }).join('') + '</ul>' : emptyHist()) + '</div>';
+  }
+
+  /* ---------- app ---------- */
+  var RENDER = { native: native, focus: focus, soft: soft };
+  function fresh() { return { screen: 'main', tab: 'scan', cam: 'ok', res: null, from: null, edit: false, dlg: null, camTmp: false, items: SEED.map(function (i) { return { id: i.id, value: i.value, date: i.date }; }) }; }
+  function preset(key) {
+    var s = fresh();
+    var res = function (id, from) { s.res = SEED.filter(function (x) { return x.id === id; })[0]; s.from = from || 'scan'; s.screen = 'result'; };
+    if (key === 'url') res('h1'); else if (key === 'text') res('h2'); else if (key === 'long') { s.res = { id: 'long', value: LONG, date: '2026/10/14' }; s.from = 'scan'; s.screen = 'result'; }
+    else if (key === 'history') s.tab = 'history';
+    else if (key === 'empty') { s.tab = 'history'; s.items = []; }
+    else if (key === 'settings') s.screen = 'settings';
+    else if (key === 'first') s.screen = 'first';
+    else if (key === 'denied') s.cam = 'unrequested';
+    else if (key === 'rejected') s.cam = 'denied';
+    else if (key === 'restricted' || key === 'unavailable') s.cam = key;
+    return s;
+  }
+  var apps = [].map.call(root.querySelectorAll('.phone'), function (el) {
+    return { el: el, v: el.getAttribute('data-pattern'), screen: el.querySelector('.screen'), live: el.querySelector('.live'), s: fresh(), timer: 0 };
+  });
+
+  function render(app, fk) {
+    app.screen.innerHTML = RENDER[app.v](app.s) + dlg(app.s);
+    var dialog = app.screen.querySelector('.scrim [role="dialog"]');
+    var resultSheet = app.v === 'focus' ? app.screen.querySelector('.sheet') : null;
+    if (resultSheet) {
+      resultSheet.setAttribute('role', 'dialog');
+      resultSheet.setAttribute('aria-modal', 'true');
+      [].forEach.call(resultSheet.parentElement.children, function (child) { if (child !== resultSheet) child.inert = true; });
+    }
+    if (dialog) {
+      var dialogTitle = dialog.querySelector('h2');
+      dialogTitle.id = 'qr-dialog-' + app.v;
+      dialog.setAttribute('aria-labelledby', dialogTitle.id);
+      [].forEach.call(app.screen.children, function (child) { if (!child.classList.contains('scrim')) child.inert = true; });
+    }
+    if (globalThis.lucide && typeof globalThis.lucide.createIcons === 'function') { try { globalThis.lucide.createIcons(); } catch (e) {} }
+    var target = null;
+    if (app.s.dlg) target = app.screen.querySelector('.dlg button');
+    else if (fk) {
+      [].forEach.call(app.screen.querySelectorAll('[data-act]'), function (b) { if (!target && keyOf(b) === fk) target = b; });
+    }
+    if (!target && fk) target = [].filter.call(app.screen.querySelectorAll('button'), function (b) { return !b.closest('[inert]'); })[0];
+    if (target) target.focus({ preventScroll: true });
+  }
+  function keyOf(b) { return b.dataset.act + '|' + (b.dataset.id || '') + '|' + (b.dataset.n || ''); }
+  function say(app, msg) {
+    app.live.textContent = ''; clearTimeout(app.timer);
+    requestAnimationFrame(function () { app.live.textContent = msg; });
+    app.timer = setTimeout(function () { app.live.textContent = ''; }, 2600);
+  }
+  function act(app, b) {
+    var s = app.s, a = b.dataset.act, id = b.dataset.id, n = b.dataset.n;
+    var hadDialog = !!s.dlg;
+    if (!hadDialog) app.returnFocusKey = keyOf(b);
+    function main(tab) { s.screen = 'main'; s.res = null; s.from = null; if (tab) s.tab = tab; }
+    switch (a) {
+      case 'tab': main(n); s.edit = false; break;
+      case 'settings': s.screen = 'settings'; s.edit = false; break;
+      case 'back': main(); break;
+      case 'back_or_done': if (s.from === 'history') main('history'); else main('scan'); break;
+      case 'done': case 'again': main('scan'); break;
+      case 'toscan': main('scan'); break;
+      case 'open': if (s.edit) return; s.res = s.items.filter(function (x) { return x.id === id; })[0]; s.from = 'history'; s.screen = 'result'; break;
+      case 'copy': say(app, 'コピーのデモ'); break;
+      case 'openurl': say(app, 'リンクを開くデモ'); break;
+      case 'share': s.dlg = { t: 'share' }; break;
+      case 'sharetarget': s.dlg = null; say(app, n + 'へ共有のデモ'); break;
+      case 'row': say(app, n + 'のデモ'); break;
+      case 'edit': s.edit = !s.edit; break;
+      case 'clearask': s.dlg = { t: 'clear' }; break;
+      case 'delask': s.dlg = { t: 'del', id: id }; break;
+      case 'canceldlg': s.dlg = null; break;
+      case 'confirmclear': s.items = []; s.edit = false; s.dlg = null; say(app, '履歴を消去しました（デモ）'); break;
+      case 'confirmdel': s.items = s.items.filter(function (x) { return x.id !== id; }); if (!s.items.length) s.edit = false; s.dlg = null; say(app, '履歴を削除しました（デモ）'); break;
+      case 'start': s.dlg = { t: 'os' }; break;
+      case 'osallow': s.cam = 'ok'; s.dlg = null; main('scan'); break;
+      case 'osdeny': s.cam = 'denied'; s.dlg = null; main('scan'); break;
+      case 'opensettings': s.camTmp = false; s.dlg = { t: 'osettings' }; break;
+      case 'ostoggle': s.camTmp = !s.camTmp; break;
+      case 'osback': s.cam = s.camTmp ? 'ok' : 'denied'; s.dlg = null; break;
+    }
+    render(app, hadDialog && !s.dlg ? app.returnFocusKey : keyOf(b));
+  }
+  apps.forEach(function (app) {
+    app.el.setAttribute('role', 'group');
+    app.el.setAttribute('aria-label', { native: 'ネイティブ案', focus: 'フォーカス案', soft: 'ソフト案' }[app.v]);
+    app.el.addEventListener('pointerdown', function (e) {
+      if (e.target.classList.contains('scrim')) { e.preventDefault(); app.screen.querySelector('.scrim button').focus(); }
+    });
+    app.el.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-act]');
+      if (b && app.el.contains(b)) act(app, b);
+    });
+    app.el.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && app.s.dlg && app.s.dlg.t !== 'os') { app.s.dlg = null; render(app, app.returnFocusKey); return; }
+      if (e.key === 'Escape' && !app.s.dlg && app.v === 'focus' && app.s.screen === 'result') {
+        app.s.screen = 'main'; app.s.tab = app.s.from === 'history' ? 'history' : 'scan'; app.s.res = null; render(app, 'back');
+      }
+      if (e.key === 'Tab' && (app.s.dlg || app.v === 'focus' && app.s.screen === 'result')) {
+        var buttons = app.screen.querySelectorAll(app.s.dlg ? '.scrim [role="dialog"] button' : '.sheet button');
+        var firstButton = buttons[0], lastButton = buttons[buttons.length - 1];
+        if (e.shiftKey && document.activeElement === firstButton) { e.preventDefault(); lastButton.focus(); }
+        else if (!e.shiftKey && document.activeElement === lastButton) { e.preventDefault(); firstButton.focus(); }
+      }
+    });
+  });
+
+  var sel = document.getElementById('qrreader-ui-state');
+  function applyPreview() { apps.forEach(function (app) { app.s = preset(sel.value); render(app); }); }
+  sel.addEventListener('change', applyPreview);
+  applyPreview();
+
+  /* optional host helper: font scale + card radius per persistent phone */
+  var LABEL = { native: 'ネイティブ案', focus: 'フォーカス案', soft: 'ソフト案' };
+  var RAD = { native: 10, focus: 14, soft: 20 };
+  if (typeof globalThis.Tweak === 'function') {
+    apps.forEach(function (app) {
+      var options = { fontScale: 1, radius: RAD[app.v] };
+      app.el.setAttribute('aria-label', LABEL[app.v]);
+      var tweak = new globalThis.Tweak({ container: app.el, onChange: function () {
+        app.el.style.setProperty('--fs', String(options.fontScale));
+        app.el.style.setProperty('--r', options.radius + 'px');
+      }});
+      tweak.addSlider(options, 'fontScale', { label: '文字サイズ', min: 1, max: 1.3, step: 0.1 });
+      tweak.addSlider(options, 'radius', { label: 'カードの角丸', min: 8, max: 24, unit: 'px' });
+    });
+  }
+})();
+</script>
+</div>

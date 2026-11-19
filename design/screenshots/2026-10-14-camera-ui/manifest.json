@@ -1,0 +1,126 @@
+{
+  "date": "2026-10-14",
+  "host": "studio",
+  "device": "iPhone 16",
+  "runtime": "iOS 26.5",
+  "locale": "ja_JP",
+  "screenshots": [
+    {
+      "file": "01-scan.png",
+      "title": "スキャン",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "58b122d9ea0f72c7a8b50c40c94d0b71e5c055b62fb0fbbeb94de0a10097d4b5",
+      "attachment": "904E3B55-F8E7-4FFC-B99D-6D1D97F418E8.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult"
+    },
+    {
+      "file": "02-result-url.png",
+      "title": "読み取り結果：URL",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "ff7cb0460066d4cd7ba5be61e3b75b898c90f87a5aa37b991e2f5b60168fde6c",
+      "attachment": "ACCE9871-2EE2-4709-B090-9651908CBB97.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult"
+    },
+    {
+      "file": "03-result-text.png",
+      "title": "読み取り結果：テキスト",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "b15c5d321b1d95f9631d5d19c95fd810ca464b1207fced4d62afe04288177513",
+      "attachment": "0E4DE982-1868-4EB3-9C67-7ECDC80710F5.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult"
+    },
+    {
+      "file": "04-history.png",
+      "title": "履歴",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "b49e52e1d1448dd1accdd347d70d2cadcb5153dbe77e89b7e1823a393c99ee35",
+      "attachment": "E086E8B7-E4B0-41AF-838C-2333D4E8F2EE.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult"
+    },
+    {
+      "file": "05-settings.png",
+      "title": "設定",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "7e4a21fb860332025a30584928996f11865b83e6fc5593af1a1f9ded7b32dbe7",
+      "attachment": "35BBA3B1-711C-4236-9935-500644F8A074.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult"
+    },
+    {
+      "file": "06-welcome.png",
+      "title": "初回案内・使い方",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "5cd44ab2d384d2e3f5b8f50e69ce175f8f75d48dbe6dd0630fe87e3ae273d5d2",
+      "attachment": "12CA69F8-E319-4AF1-8AF8-4F3AE0BB1775.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult"
+    },
+    {
+      "file": "07-history-empty.png",
+      "title": "履歴が空の状態",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "61018db181ce825c57ca8f548adab7826fe09dc134f6a69eea17366d9da060b4",
+      "attachment": "1C38B676-271C-4E28-A229-3C977AA11A08.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult"
+    },
+    {
+      "file": "08-camera-denied.png",
+      "title": "カメラ権限の案内",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "dec7f14a37f4292d9a6afb22ee6414f6eae7de09c2ed0463a937472d0287d727",
+      "attachment": "20E90085-108D-41BF-A358-2DB89BA16B0B.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult"
+    },
+    {
+      "file": "09-share.png",
+      "title": "共有シート",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "a7587641e77ebe6eb0d6891534c89780cb185d682d49bb6351a224ca0d65d9ed",
+      "attachment": "401825AA-CB81-4CE0-A72A-F33D6CFD4738.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult"
+    },
+    {
+      "file": "10-result-long-url.png",
+      "title": "長いURLの読み取り結果",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "0f5ee88a4731af8e60c990bd1938d6b606e8f0a123421918f6f5daf6864d1adb",
+      "attachment": "9C82F21D-BCC5-4E22-A7B4-686D43451D21.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-all-main/Tests.xcresult"
+    },
+    {
+      "file": "11-contact.png",
+      "title": "お問い合わせ",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "2ab41a8001917413fbe095eecf810cc94f04c74aea1709e82b976ac27e186554",
+      "attachment": "D21DC920-5058-4270-AD9F-B8FDB2472BC7.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-settings-pages/Tests.xcresult"
+    },
+    {
+      "file": "12-developer.png",
+      "title": "開発者",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "02ea650a85b4b2cdc7d6357854be4fe05033121d9259d6c2fe4f781561ccbd70",
+      "attachment": "2BACA999-04EE-4485-8471-F31CA0C58C88.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-settings-pages/Tests.xcresult"
+    },
+    {
+      "file": "13-licenses.png",
+      "title": "ライセンス",
+      "width": 1178,
+      "height": 2556,
+      "sha256": "0e7df005042251033b560d246591d75d8d0ac965f7ba844a631627e72bd9f39f",
+      "attachment": "CC92AAF5-C066-4730-A610-43364940080B.png",
+      "result_bundle": "/Users/devonly/Developer/QRReader/.build/validation/screenshots-settings-pages/Tests.xcresult"
+    }
+  ]
+}
